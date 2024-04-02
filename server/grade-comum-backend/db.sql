@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS disciplina(
 );
 
 CREATE TABLE IF NOT EXISTS aluno (
-    id INT NOT NULL,
+    id SERIAL,
     nome TEXT NOT NULL,
     matricula VARCHAR(10) NOT NULL UNIQUE,
     senha TEXT NOT NULL,
