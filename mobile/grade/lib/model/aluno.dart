@@ -1,12 +1,13 @@
 class Aluno {
   late int id;
-  final String nome;
-  final String matricula;
+  late String nome;
+  late String matricula;
   late String senha;
 
-  Aluno(this.matricula, {required this.id, required this.nome});
+  Aluno.login({required this.matricula, required this.senha});
 
-  Aluno.semId(this.nome, this.matricula);
+  Aluno.cadastro(
+      {required this.nome, required this.matricula, required this.senha});
 
   Aluno.fromJson(dynamic json)
       : id = json['id'],
@@ -23,6 +24,10 @@ class Aluno {
 
   Map<String, dynamic> toMapSemId() {
     return {"nome": nome, "matricula": matricula};
+  }
+
+  Map<String, dynamic> toMapLogin() {
+    return {"matricula": matricula, "senha": senha};
   }
 
   set setSenha(String senha) {

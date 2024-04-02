@@ -1,9 +1,14 @@
+import 'package:grade/model/disciplina.dart';
+import 'package:grade/model/professor.dart';
+
 class Turma {
   late int id;
   final int codigo;
   final int numero;
   final int idDisciplina;
   final int idProfessor;
+  late Disciplina disciplina;
+  late Professor professor;
 
   Turma(
       {required this.id,
@@ -30,6 +35,15 @@ class Turma {
         numero = json['numero'],
         idDisciplina = json['idDisciplina'],
         idProfessor = json['idProfessor'];
+
+  Turma.fromJsonComDisciplinaProfessor(dynamic json)
+      : id = json['id'],
+        codigo = json['codigo'],
+        numero = json['numero'],
+        idDisciplina = json['idDisciplina'],
+        idProfessor = json['idProfessor'],
+        disciplina = Disciplina.fromJson(json['disciplina']),
+        professor = Professor.fromJson(json['professor']);
 
   Map<String, dynamic> toMap() {
     return {
