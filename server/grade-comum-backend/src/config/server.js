@@ -6,9 +6,11 @@ const cors = require('cors')
 const CampoInvalidoException = require('../exception/CampoInvalidoException')
 const NaoEncontradoException = require('../exception/NaoEncontradoException')
 const RequisicaoInvalidaException = require('../exception/RequisicaoInvalidaException')
+const AlunoInvalidoException = require('../exception/AlunoInvalidoException')
 
 // Importa arquivos responsáveis por cada rota
 const disciplinaController = require('../controller/disciplinaController')
+const alunoController = require('../controller/alunoController')
 
 // Cria instância do servidor
 const app = express()
@@ -20,6 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 
 // Denomina as rotas
 app.use('/disciplina', disciplinaController)
+app.use('/aluno', alunoController)
 
 // Trata os erros que ocorrerem durante o processamento
 app.use((error, req, res, next) => {
@@ -27,13 +30,14 @@ app.use((error, req, res, next) => {
   if (error instanceof NaoEncontradoException) {
     status = 404
   }
-  if (error instanceof CampoInvalidoException || error instanceof RequisicaoInvalidaException) {
+  if (error instanceof CampoInvalidoException || error instanceof RequisicaoInvalidaException || error instanceof AlunoInvalidoException) {
     status = 400
   }
   res.status(status)
   res.send({
     id: error.idError,
-    message: error.message
+    message: error.message,
+    error
   }
   )
 })

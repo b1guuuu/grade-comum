@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize')
-const { conexao } = require('../dao/conexao')
+const { conexao } = require('../util/conexao')
 
 module.exports = conexao.define('aluno', {
   id: {
@@ -22,6 +22,7 @@ module.exports = conexao.define('aluno', {
   },
   senhaSalt: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    field: 'senhasalt'
   }
 }, { tableName: 'aluno', timestamps: false })
