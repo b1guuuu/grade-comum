@@ -11,6 +11,9 @@ const AlunoInvalidoException = require('../exception/AlunoInvalidoException')
 // Importa arquivos responsáveis por cada rota
 const disciplinaController = require('../controller/disciplinaController')
 const alunoController = require('../controller/alunoController')
+const professorController = require('../controller/professorController')
+const turmaController = require('../controller/turmaController')
+const inscricaoController = require('../controller/inscricaoController')
 
 // Cria instância do servidor
 const app = express()
@@ -23,6 +26,9 @@ app.use(express.urlencoded({ extended: true }))
 // Denomina as rotas
 app.use('/disciplina', disciplinaController)
 app.use('/aluno', alunoController)
+app.use('/professor', professorController)
+app.use('/turma', turmaController)
+app.use('/inscricao', inscricaoController)
 
 // Trata os erros que ocorrerem durante o processamento
 app.use((error, req, res, next) => {
