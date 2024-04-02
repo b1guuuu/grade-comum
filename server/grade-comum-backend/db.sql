@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS presenca(
 );
 
 CREATE TABLE IF NOT EXISTS turma (
-    id INT NOT NULL,
+    id SERIAL,
     codigo INT NOT NULL,
     numero INT NOT NULL,
     idDisciplina INT NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS turma (
 );
 
 CREATE TABLE IF NOT EXISTS horario (
-    id INT NOT NULL,
+    id SERIAL,
     diaSemana VARCHAR(30) NOT NULL,
     inicio VARCHAR(5) NOT NULL,
     fim VARCHAR(5) NOT NULL,
