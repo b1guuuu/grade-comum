@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const { conexao } = require('../util/conexao')
 
-module.exports = conexao.define('disciplina', {
+const Disciplina = conexao.define('disciplina', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,3 +13,5 @@ module.exports = conexao.define('disciplina', {
     allowNull: false
   }
 }, { tableName: 'disciplina', timestamps: false })
+
+module.exports = Disciplina

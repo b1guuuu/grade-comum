@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize')
 const { conexao } = require('../util/conexao')
+const Professor = require('./professor')
 
-module.exports = conexao.define('presenca', {
+const Presenca = conexao.define('presenca', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -23,6 +24,12 @@ module.exports = conexao.define('presenca', {
     references: {
       model: 'professor',
       key: 'id'
-    }
+    },
+    field: 'idprofessor'
   }
 }, { tableName: 'presenca', timestamps: false })
+
+Professor.hasOne(Presenca, { foreignKey: 'id' })
+Presenca.belongsTo(Professor, { foreignKey: { name: 'idProfessor', field: 'idprofessor' }, targetKey: 'id' })
+
+module.exports = Presenca
