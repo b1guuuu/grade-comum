@@ -3,14 +3,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AlunoController {
-  final String _urlBase = 'http://localhost:3000/aluno';
+  final String _urlBase = 'http://192.168.0.10:3000/aluno';
 
   Future<Aluno> login(Aluno aluno) async {
     final resposta = await http.post(Uri.parse('$_urlBase/login'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: jsonEncode(aluno.toMap()));
+        body: jsonEncode(aluno.toMapLogin()));
 
     if (resposta.statusCode == 200) {
       return Aluno.fromJson(jsonDecode(resposta.body));
@@ -25,7 +25,7 @@ class AlunoController {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: jsonEncode(aluno.toMap()));
+        body: jsonEncode(aluno.toMapSemId()));
 
     if (resposta.statusCode == 201) {
       return Aluno.fromJson(jsonDecode(resposta.body));
