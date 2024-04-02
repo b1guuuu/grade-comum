@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS presenca(
     presente BOOLEAN NOT NULL,
     observacao TEXT DEFAULT '',
     idProfessor INT NOT NULL,
+    ultimaAtualizacao DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (idProfessor) REFERENCES professor(id)
 );
