@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS disciplina(
-    id INT NOT NULL AUTO_INCREMENT,
+    id SERIAL,
     nome TEXT NOT NULL,
     PRIMARY KEY (id)
 );
@@ -14,17 +14,17 @@ CREATE TABLE IF NOT EXISTS aluno (
 );
 
 CREATE TABLE IF NOT EXISTS professor(
-    id INT NOT NULL AUTO_INCREMENT,
+    id SERIAL,
     nome TEXT NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS presenca(
-    id INT NOT NULL AUTO_INCREMENT,
+    id SERIAL,
     presente BOOLEAN NOT NULL,
     observacao TEXT DEFAULT '',
     idProfessor INT NOT NULL,
-    ultimaAtualizacao DATETIME NOT NULL,
+    ultimaAtualizacao DATE NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (idProfessor) REFERENCES professor(id)
 );
