@@ -42,10 +42,11 @@ CREATE TABLE IF NOT EXISTS turma (
 
 CREATE TABLE IF NOT EXISTS horario (
     id SERIAL,
-    diaSemana VARCHAR(30) NOT NULL,
+    diaSemana INT NOT NULL,
     inicio VARCHAR(5) NOT NULL,
     fim VARCHAR(5) NOT NULL,
     sala VARCHAR(5) NOT NULL,
+    ordem INT NOT NULL,
     idTurma INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (idTurma) REFERENCES turma(id)
