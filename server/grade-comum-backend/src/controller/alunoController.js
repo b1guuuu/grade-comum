@@ -14,13 +14,14 @@ router.post('/login', async (req, res, next) => {
       }
     })
 
-    if (alunoRecuperadoDoBanco) {
+    if (alunoRecuperadoDoBanco && alunoRecuperadoDoBanco !== null) {
       const senhasIguais = await encriptador.compararSenhas(alunoComDadosInformados.senha, alunoRecuperadoDoBanco.senha)
+      console.log({ senhasIguais })
       if (senhasIguais) {
         alunoRecuperadoDoBanco.senha = ''
         alunoRecuperadoDoBanco.senhaSalt = ''
         res.status(200)
-        res.json(alunoRecuperadoDoBanco)
+        res.json(alunoRecuperadoDoBanco.toJSON())
       } else {
         throw new AlunoInvalidoException()
       }
@@ -44,7 +45,29 @@ router.post('/cadastro', async (req, res, next) => {
     aluno.senha = ''
     aluno.senhaSalt = ''
     res.status(201)
-    res.json(aluno)
+    res.json(aluno.toJSON())
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const { id, nome, matricula, senha } = req.body
+    const aluno = await Aluno.findOne({ where: { id } })
+    aluno.set('nome', nome)
+    aluno.set('matricula', matricula)
+    if (senha && senha !== null) {
+      const senhaSalt = await encriptador.criarSalt()
+      aluno.set('senhaSalt', senhaSalt)
+      const senhaEncriptada = await encriptador.encriptarSenha(senha, senhaSalt)
+      aluno.set('senha', senhaEncriptada)
+    }
+
+    await aluno.save()
+    res.status(204)
+    res.json()
   } catch (error) {
     console.error(error)
     next(error)

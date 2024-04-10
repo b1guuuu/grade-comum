@@ -25,4 +25,17 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.delete('/', async (req, res, next) => {
+  try {
+    const dataRequisicao = req.body
+    const inscricao = Inscricao.build(dataRequisicao)
+    await inscricao.destroy()
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 module.exports = router
