@@ -16,7 +16,7 @@ class AlunoController {
       return Aluno.fromJson(jsonDecode(resposta.body));
     } else {
       throw Exception(
-          'Ocorreu um erro ao tentar fazer login: ${resposta.toString()}');
+          'Ocorreu um erro ao tentar fazer login: ${jsonDecode(resposta.body).toString()}');
     }
   }
 
@@ -31,7 +31,19 @@ class AlunoController {
       return Aluno.fromJson(jsonDecode(resposta.body));
     } else {
       throw Exception(
-          'Ocorreu um erro ao tentar realizar o cadastro: ${resposta.toString()}');
+          'Ocorreu um erro ao tentar realizar o cadastro: ${jsonDecode(resposta.body).toString()}');
+    }
+  }
+
+  Future<void> atualiza(Aluno aluno) async {
+    final resposta = await http.put(Uri.parse(_urlBase),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(aluno.toMap()));
+    if (resposta.statusCode != 204) {
+      throw Exception(
+          'Ocorreu um erro ao atualizar o cadastro: ${jsonDecode(resposta.body).toString()}');
     }
   }
 }
