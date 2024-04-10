@@ -4,6 +4,12 @@ class Aluno {
   late String matricula;
   late String senha;
 
+  Aluno(
+      {required this.id,
+      required this.nome,
+      required this.matricula,
+      required this.senha});
+
   Aluno.login({required this.matricula, required this.senha});
 
   Aluno.cadastro(
@@ -28,10 +34,6 @@ class Aluno {
 
   Map<String, dynamic> toMapLogin() {
     return {"matricula": matricula, "senha": senha};
-  }
-
-  set setSenha(String senha) {
-    this.senha = senha;
   }
 
   @override

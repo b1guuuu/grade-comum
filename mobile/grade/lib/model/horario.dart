@@ -1,10 +1,14 @@
+import 'package:grade/model/turma.dart';
+
 class Horario {
   late int id;
-  final String diaSemana;
+  final int diaSemana;
   final String inicio;
   final String fim;
-  final String sala;
+  late String sala;
+  late int ordem;
   final int idTurma;
+  late Turma turma;
 
   Horario(
       {required this.id,
@@ -27,6 +31,7 @@ class Horario {
         inicio = json['inicio'],
         fim = json['fim'],
         sala = json['sala'],
+        ordem = json['ordem'],
         idTurma = json['idTurma'];
 
   Horario.fromJsonSemId(dynamic json)
@@ -34,7 +39,18 @@ class Horario {
         inicio = json['inicio'],
         fim = json['fim'],
         sala = json['sala'],
+        ordem = json['ordem'],
         idTurma = json['idTurma'];
+
+  Horario.fromJsonComTurma(dynamic json)
+      : id = json['id'],
+        diaSemana = json['diaSemana'],
+        inicio = json['inicio'],
+        fim = json['fim'],
+        sala = json['sala'],
+        ordem = json['ordem'],
+        idTurma = json['idTurma'],
+        turma = Turma.fromJsonComDisciplina(json['turma']);
 
   Map<String, dynamic> toMap() {
     return {
@@ -43,6 +59,7 @@ class Horario {
       "inicio": inicio,
       "fim": fim,
       "sala": sala,
+      "ordem": ordem,
       "idTurma": idTurma
     };
   }
@@ -53,6 +70,7 @@ class Horario {
       "inicio": inicio,
       "fim": fim,
       "sala": sala,
+      "ordem": ordem,
       "idTurma": idTurma
     };
   }

@@ -36,6 +36,14 @@ class Turma {
         idDisciplina = json['idDisciplina'],
         idProfessor = json['idProfessor'];
 
+  Turma.fromJsonComDisciplina(dynamic json)
+      : id = json['id'],
+        codigo = json['codigo'],
+        numero = json['numero'],
+        idDisciplina = json['idDisciplina'],
+        idProfessor = json['idProfessor'],
+        disciplina = Disciplina.fromJson(json['disciplina']);
+
   Turma.fromJsonComDisciplinaProfessor(dynamic json)
       : id = json['id'],
         codigo = json['codigo'],
