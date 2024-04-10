@@ -1,5 +1,10 @@
 const server = require('./src/config/server')
+const { conexao } = require('./src/util/conexao')
+require('./src/util/definirRelacoes')
+require('./src/util/renomeiaPropriedade')
 
 const PORT = process.env.PORT
 
-server.listen(PORT, () => { console.log(`Servidor executando na porta ${PORT}`) })
+conexao.sync().then(() => {
+  server.listen(PORT, () => { console.log(`Servidor executando na porta ${PORT}`) })
+}).catch((e) => console.log(e))

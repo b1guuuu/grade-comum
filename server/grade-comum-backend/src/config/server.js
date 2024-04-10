@@ -14,6 +14,7 @@ const alunoController = require('../controller/alunoController')
 const professorController = require('../controller/professorController')
 const turmaController = require('../controller/turmaController')
 const inscricaoController = require('../controller/inscricaoController')
+const horarioController = require('../controller/horarioController')
 
 // Cria instância do servidor
 const app = express()
@@ -29,6 +30,7 @@ app.use('/aluno', alunoController)
 app.use('/professor', professorController)
 app.use('/turma', turmaController)
 app.use('/inscricao', inscricaoController)
+app.use('/horario', horarioController)
 
 // Trata os erros que ocorrerem durante o processamento
 app.use((error, req, res, next) => {
