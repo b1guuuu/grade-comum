@@ -12,6 +12,6 @@ const Disciplina = conexao.define('disciplina', {
     type: DataTypes.STRING,
     allowNull: false
   }
-}, { tableName: 'disciplina', timestamps: false })
+}, { tableName: 'disciplina', timestamps: false, freezeTableName: true })
 
 module.exports = Disciplina

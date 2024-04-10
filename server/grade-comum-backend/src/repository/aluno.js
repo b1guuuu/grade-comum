@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize')
 const { conexao } = require('../util/conexao')
-const Turma = require('./turma')
-const Inscricao = require('./inscricao')
 
 const Aluno = conexao.define('aluno', {
   id: {
@@ -27,9 +25,6 @@ const Aluno = conexao.define('aluno', {
     allowNull: false,
     field: 'senhasalt'
   }
-}, { tableName: 'aluno', timestamps: false })
-
-Turma.belongsToMany(Aluno, { through: Inscricao, foreignKey: { name: 'idTurma', field: 'idturma' } })
-Aluno.belongsToMany(Turma, { through: Inscricao, foreignKey: { name: 'idAluno', field: 'idaluno' } })
+}, { tableName: 'aluno', timestamps: false, freezeTableName: true })
 
 module.exports = Aluno

@@ -12,6 +12,6 @@ const Professor = conexao.define('professor', {
     type: DataTypes.STRING,
     allowNull: false
   }
-}, { tableName: 'professor', timestamps: false })
+}, { tableName: 'professor', timestamps: false, freezeTableName: true })
 
 module.exports = Professor

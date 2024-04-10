@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize')
 const { conexao } = require('../util/conexao')
-const Turma = require('./turma')
 
 const Horario = conexao.define('horario', {
   id: {
@@ -10,8 +9,9 @@ const Horario = conexao.define('horario', {
     allowNull: false
   },
   diaSemana: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    field: 'diasemana'
   },
   inicio: {
     type: DataTypes.STRING,
@@ -25,6 +25,10 @@ const Horario = conexao.define('horario', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  ordem: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   idTurma: {
     type: DataTypes.INTEGER,
     references: {
@@ -33,11 +37,6 @@ const Horario = conexao.define('horario', {
     },
     field: 'idturma'
   }
-}, { tableName: 'horario', timestamps: false })
-
-Turma.hasMany(Horario, {
-  foreignKey: 'id'
-})
-Horario.belongsTo(Turma, { foreignKey: { name: 'idTurma', field: 'idturma' }, targetKey: 'id' })
+}, { tableName: 'horario', timestamps: false, freezeTableName: true })
 
 module.exports = Horario
