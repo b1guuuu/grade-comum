@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grade/model/turma.dart';
 import 'package:grade/view/page/cadastro.dart';
+import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/login.dart';
+import 'package:grade/view/page/perfil.dart';
 import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
@@ -25,34 +28,19 @@ class App extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)))),
       home: const SaudacaoPage(),
+      routes: {
+        LoginPage.rota: (context) => const LoginPage(),
+        CadastroPage.rota: (context) => const CadastroPage(),
+        InicioPage.rota: (context) => const InicioPage(),
+        TurmaPage.rota: (context) => const TurmaPage(),
+        PerfilPage.rota: (context) => const PerfilPage(),
+        GradePage.rota: (context) => const GradePage()
+      },
       onGenerateRoute: (configuracoes) {
-        if (configuracoes.name == LoginPage.rota) {
-          return MaterialPageRoute(builder: (context) {
-            return const LoginPage();
-          });
-        }
-
-        if (configuracoes.name == CadastroPage.rota) {
-          return MaterialPageRoute(builder: (context) {
-            return const CadastroPage();
-          });
-        }
-
-        if (configuracoes.name == InicioPage.rota) {
-          return MaterialPageRoute(builder: (context) {
-            return const InicioPage();
-          });
-        }
-
-        if (configuracoes.name == TurmaPage.rota) {
-          return MaterialPageRoute(builder: (context) {
-            return const TurmaPage();
-          });
-        }
-
         if (configuracoes.name == TurmaInscricaoPage.rota) {
+          var turmasInscritas = configuracoes.arguments as List<Turma>;
           return MaterialPageRoute(builder: (context) {
-            return const TurmaInscricaoPage();
+            return TurmaInscricaoPage(turmasInscritas: turmasInscritas);
           });
         }
 
