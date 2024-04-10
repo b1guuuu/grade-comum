@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:grade/controller/aluno_controller.dart';
+import 'package:grade/controller/global_controller.dart';
+import 'package:grade/controller/inscricao_controller.dart';
 import 'package:grade/controller/turma_controller.dart';
+import 'package:grade/model/inscricao.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
-import 'package:grade/view/page/inicio.dart';
+import 'package:grade/view/component/navegacao.dart';
+import 'package:grade/view/component/turma_list_tile.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TurmaPage extends StatefulWidget {
   static const rota = '/turmas';
@@ -20,13 +22,14 @@ class TurmaPage extends StatefulWidget {
 
 class TurmaPageState extends State<TurmaPage> {
   final TurmaController _turmaController = TurmaController();
+  final InscricaoController _inscricaoController = InscricaoController();
   List<Turma> _turmas = [];
   bool _carregando = true;
 
   @override
   void initState() {
     super.initState();
-    buscarTurmasInscritas();
+    _buscarTurmasInscritas();
   }
 
   @override
@@ -36,56 +39,18 @@ class TurmaPageState extends State<TurmaPage> {
         title: const Text('Turmas'),
         actions: [
           IconButton(
-              onPressed: buscarTurmasInscritas,
+              onPressed: _buscarTurmasInscritas,
               icon: const Icon(Icons.refresh)),
           IconButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, TurmaInscricaoPage.rota),
+              onPressed: () => Navigator.pushNamed(
+                      context, TurmaInscricaoPage.rota,
+                      arguments: _turmas)
+                  .then((value) => _buscarTurmasInscritas()),
               icon: const Icon(Icons.add)),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(child: Text('Header')),
-            ListTile(
-              title: Text('Inicio'),
-              leading: Icon(Icons.home_filled),
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, InicioPage.rota),
-            ),
-            ListTile(
-              title: Text('Perfil'),
-              leading: Icon(Icons.person),
-            ),
-            ListTile(
-              title: Text('Grade'),
-              leading: Icon(Icons.access_time_filled),
-            ),
-            ListTile(
-              title: Text('Turmas'),
-              leading: Icon(Icons.people),
-              onTap: () => Navigator.pop(context),
-            ),
-            ListTile(
-              title: Text('Calendário'),
-              leading: Icon(Icons.calendar_month),
-            ),
-            ListTile(
-              title: Text('Faltas'),
-              leading: Icon(Icons.hourglass_empty),
-            ),
-            ListTile(
-              title: Text('Anotações'),
-              leading: Icon(Icons.edit),
-            ),
-            ListTile(
-              title: Text('Configurações'),
-              leading: Icon(Icons.settings),
-            ),
-          ],
-        ),
+      drawer: const Drawer(
+        child: Navegacao(),
       ),
       body: _carregando
           ? const Carregando()
@@ -98,18 +63,13 @@ class TurmaPageState extends State<TurmaPage> {
                     )
                   : ListView.builder(
                       itemCount: _turmas.length,
-                      prototypeItem: ListTile(
-                        title: Text(
-                            '${_turmas.first.disciplina.nome} - ${_turmas.first.numero}'),
-                        subtitle: Text(
-                            'Professor (a): ${_turmas.first.professor.nome}'),
-                      ),
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                              '${_turmas[index].disciplina.nome} - ${_turmas[index].numero}'),
-                          subtitle: Text(
-                              'Professor (a): ${_turmas[index].professor.nome}'),
+                        return TurmaListTile(
+                          turma: _turmas[index],
+                          iconButton: IconButton(
+                              onPressed: () =>
+                                  _deletarInscriacao(_turmas[index]),
+                              icon: const Icon(Icons.delete)),
                         );
                       },
                     ),
@@ -117,17 +77,21 @@ class TurmaPageState extends State<TurmaPage> {
     );
   }
 
-  Future<void> buscarTurmasInscritas() async {
+  Future<void> _buscarTurmasInscritas() async {
     setState(() {
       _carregando = true;
     });
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    var idAluno = preferences.getInt('idAluno');
-    var resposta = await _turmaController.buscaTurmasInscritas(idAluno!);
-    print(resposta);
+    var resposta = await _turmaController
+        .buscaTurmasInscritas(GlobalController.instance.aluno.id);
     setState(() {
       _turmas = resposta;
       _carregando = false;
     });
+  }
+
+  Future<void> _deletarInscriacao(Turma turma) async {
+    await _inscricaoController.deletarInscricao(Inscricao(
+        idAluno: GlobalController.instance.aluno.id, idTurma: turma.id));
+    _buscarTurmasInscritas();
   }
 }

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:grade/controller/aluno_controller.dart';
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/aluno.dart';
 import 'package:grade/view/page/inicio.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -60,10 +64,19 @@ class LoginPageState extends State<LoginPage> {
   Future<void> efetuarLogin() async {
     var aluno = Aluno.login(
         matricula: _matriculaController.text, senha: _senhaController.text);
-    aluno = await _alunoController.login(aluno);
-    print(aluno.toString());
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setInt('idAluno', aluno.id);
-    Navigator.of(context).pushReplacementNamed(InicioPage.rota);
+    try {
+      aluno = await _alunoController.login(aluno);
+      final SharedPreferences preferences =
+          await SharedPreferences.getInstance();
+      preferences.setString('aluno', jsonEncode(aluno.toMap()));
+      GlobalController.instance.setAluno(aluno);
+      Navigator.of(context).pushReplacementNamed(InicioPage.rota);
+    } catch (e) {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: 'Não foi possível fazer login',
+          text: 'Verifique os dados informados');
+    }
   }
 }

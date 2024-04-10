@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:grade/controller/global_controller.dart';
+import 'package:grade/model/aluno.dart';
 import 'package:grade/view/page/cadastro.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/login.dart';
@@ -45,9 +49,10 @@ class SaudacaoPage extends StatelessWidget {
 
   Future<void> verificaAlunoLogado(context) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    var idAluno = preferences.getInt('idAluno');
+    var alunoStr = preferences.getString('aluno');
 
-    if (idAluno != null) {
+    if (alunoStr != null) {
+      GlobalController.instance.setAluno(Aluno.fromJson(jsonDecode(alunoStr)));
       Navigator.of(context).pushReplacementNamed(InicioPage.rota);
     }
   }
