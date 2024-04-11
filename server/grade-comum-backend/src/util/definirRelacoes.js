@@ -1,4 +1,5 @@
 const Aluno = require('../repository/aluno')
+const Anotacao = require('../repository/anotacao')
 const Disciplina = require('../repository/disciplina')
 const Horario = require('../repository/horario')
 const Inscricao = require('../repository/inscricao')
@@ -23,5 +24,11 @@ Professor.hasOne(Presenca, { foreignKey: { name: 'idProfessor', field: 'idprofes
 
 Professor.hasMany(Turma, { foreignKey: { name: 'idProfessor', field: 'idprofessor' }, as: 'professorturma' })
 Turma.belongsTo(Professor, { targetKey: 'id', foreignKey: { name: 'idProfessor', field: 'idprofessor' }, as: 'turmaprofessor' })
+
+Aluno.hasMany(Anotacao, { foreignKey: { name: 'idAluno', field: 'idaluno' }, as: 'alunoanotacao' })
+Anotacao.belongsTo(Aluno, { targetKey: 'id', foreignKey: { name: 'idAluno', field: 'idaluno' }, as: 'anotacaoaluno' })
+
+Disciplina.hasMany(Anotacao, { foreignKey: { name: 'idDisciplina', field: 'iddisciplina' }, as: 'disciplinaanotacao' })
+Anotacao.belongsTo(Disciplina, { targetKey: 'id', foreignKey: { name: 'idDisciplina', field: 'iddisciplina' }, as: 'anotacaodisciplina' })
 
 console.log('Relações definidas')

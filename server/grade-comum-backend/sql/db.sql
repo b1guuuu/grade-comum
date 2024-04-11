@@ -60,3 +60,14 @@ CREATE TABLE IF NOT EXISTS inscricao (
     PRIMARY KEY (idTurma, idAluno)
 );
 
+CREATE TABLE IF NOT EXISTS anotacao(
+    id SERIAL,
+    conteudo TEXT NOT NULL,
+    dataCalendario DATE,
+    tituloCalendario TEXT,
+    idAluno INT NOT NULL,
+    idDisciplina INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (idAluno) REFERENCES aluno(id),
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id)
+);
