@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade/model/turma.dart';
+import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/cadastro.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
@@ -34,7 +35,8 @@ class App extends StatelessWidget {
         InicioPage.rota: (context) => const InicioPage(),
         TurmaPage.rota: (context) => const TurmaPage(),
         PerfilPage.rota: (context) => const PerfilPage(),
-        GradePage.rota: (context) => const GradePage()
+        GradePage.rota: (context) => const GradePage(),
+        AnotacaoPage.rota: (context) => const AnotacaoPage()
       },
       onGenerateRoute: (configuracoes) {
         if (configuracoes.name == TurmaInscricaoPage.rota) {

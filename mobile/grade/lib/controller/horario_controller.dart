@@ -1,5 +1,4 @@
 import 'package:grade/model/horario.dart';
-import 'package:grade/model/turma.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grade/model/horario.dart';
 
 class TabelaGrade extends StatefulWidget {
   final List<List<String>> grade;

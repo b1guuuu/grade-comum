@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/perfil.dart';
@@ -46,7 +47,8 @@ class Navegacao extends StatelessWidget {
         ListTile(
           title: const Text('Anotações'),
           leading: const Icon(Icons.edit),
-          onTap: () => Navigator.pushReplacementNamed(context, InicioPage.rota),
+          onTap: () =>
+              Navigator.pushReplacementNamed(context, AnotacaoPage.rota),
         ),
         ListTile(
           title: const Text('Configurações'),
