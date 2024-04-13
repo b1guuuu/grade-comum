@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grade/model/disciplina.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/page/anotacao.dart';
+import 'package:grade/view/page/anotacao_disciplina.dart';
 import 'package:grade/view/page/cadastro.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
@@ -43,6 +45,13 @@ class App extends StatelessWidget {
           var turmasInscritas = configuracoes.arguments as List<Turma>;
           return MaterialPageRoute(builder: (context) {
             return TurmaInscricaoPage(turmasInscritas: turmasInscritas);
+          });
+        }
+
+        if (configuracoes.name == AnotacaoDisciplinaPage.rota) {
+          var disciplina = configuracoes.arguments as Disciplina;
+          return MaterialPageRoute(builder: (context) {
+            return AnotacaoDisciplinaPage(disciplina: disciplina);
           });
         }
 
