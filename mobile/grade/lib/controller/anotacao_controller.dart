@@ -1,9 +1,11 @@
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/anotacao.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AnotacaoController {
-  final String _urlBase = 'http://192.168.0.10:3000/anotacao';
+  final String _urlBase = '${GlobalController.baseURL}/anotacao';
+
   Future<List<Anotacao>> buscaTodos() async {
     final resposta = await http.get(Uri.parse(_urlBase),
         headers: <String, String>{
@@ -19,9 +21,11 @@ class AnotacaoController {
     }
   }
 
-  Future<List<Anotacao>> buscaTodosAluno(int idAluno) async {
+  Future<List<Anotacao>> buscaTodosAlunoDisciplina(
+      int idAluno, int idDisciplina) async {
     final resposta = await http.get(
-        Uri.parse('$_urlBase/aluno/?idAluno=$idAluno'),
+        Uri.parse(
+            '$_urlBase/aluno?idAluno=$idAluno&idDisciplina=$idDisciplina'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         });

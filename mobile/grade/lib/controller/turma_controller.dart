@@ -1,9 +1,10 @@
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/turma.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class TurmaController {
-  final String _urlBase = 'http://192.168.0.10:3000/turma';
+  final String _urlBase = '${GlobalController.baseURL}/turma';
 
   Future<List<Turma>> buscaTodas() async {
     final resposta = await http.get(Uri.parse(_urlBase),

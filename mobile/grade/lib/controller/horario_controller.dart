@@ -1,9 +1,10 @@
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/horario.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class HorarioController {
-  final String _urlBase = 'http://192.168.0.10:3000/horario';
+  final String _urlBase = '${GlobalController.baseURL}/horario';
 
   Future<List<Horario>> buscaTodos() async {
     final resposta = await http.get(Uri.parse(_urlBase),

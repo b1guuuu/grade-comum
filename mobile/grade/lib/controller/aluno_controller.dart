@@ -1,9 +1,10 @@
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/aluno.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AlunoController {
-  final String _urlBase = 'http://192.168.0.10:3000/aluno';
+  final String _urlBase = '${GlobalController.baseURL}/aluno';
 
   Future<Aluno> login(Aluno aluno) async {
     final resposta = await http.post(Uri.parse('$_urlBase/login'),

@@ -1,9 +1,10 @@
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/inscricao.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class InscricaoController {
-  final String _urlBase = 'http://192.168.0.10:3000/inscricao';
+  final String _urlBase = '${GlobalController.baseURL}/inscricao';
 
   Future<void> inscreverEmTurma(Inscricao inscricao) async {
     final resposta = await http.post(Uri.parse(_urlBase),
