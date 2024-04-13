@@ -1,8 +1,10 @@
+import 'package:intl/intl.dart';
+
 class Anotacao {
   late int id;
   late String conteudo;
-  late DateTime? dataCalendario;
-  late String? tituloCalendario;
+  late DateTime? dataCalendario = null;
+  late String? tituloCalendario = null;
   late int idAluno;
   late int idDisciplina;
 
@@ -21,7 +23,7 @@ class Anotacao {
   Anotacao.fromJson(dynamic json)
       : id = json['id'],
         conteudo = json['conteudo'],
-        dataCalendario = json['dataCalendario'],
+        dataCalendario = Anotacao.formatarData(json['dataCalendario']),
         tituloCalendario = json['tituloCalendario'],
         idAluno = json['idAluno'],
         idDisciplina = json['idDisciplina'];
@@ -58,11 +60,18 @@ class Anotacao {
   Map<String, dynamic> toMapCalendario() {
     return {
       'conteudo': conteudo,
-      'dataCalendario': dataCalendario,
+      'dataCalendario': dataCalendario!.toLocal().toString(),
       'tituloCalendario': tituloCalendario,
       'idAluno': idAluno,
       'idDisciplina': idDisciplina
     };
+  }
+
+  static DateTime? formatarData(dynamic data) {
+    print(data);
+    if (data == null || data.toString() == 'null') return null;
+    var inputFormat = DateFormat('yyyy-MM-dd');
+    return inputFormat.parse(data);
   }
 
   @override
