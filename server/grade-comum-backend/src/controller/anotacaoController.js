@@ -16,10 +16,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/aluno', async (req, res, next) => {
   try {
-    const { idAluno } = req.query
+    const { idAluno, idDisciplina } = req.query
     let anotacoes = await Anotacao.findAll({
       include: [
-        { model: Disciplina, required: true, as: 'anotacaodisciplina' }
+        { model: Disciplina, required: true, as: 'anotacaodisciplina', where: { id: idDisciplina } }
       ],
       where: { idAluno },
       order: ['iddisciplina']
@@ -63,6 +63,7 @@ router.get('/calendario/aluno', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body
+    console.log({ dataRequisicao })
     const anotacao = await Anotacao.create(dataRequisicao)
     res.status(201)
     res.json(anotacao.toJSON())

@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const Anotacao = require('../repository/disciplinas')
 const Disciplina = require('../repository/disciplina')
 const Turma = require('../repository/turma')
 const Inscricao = require('../repository/inscricao')
+const Anotacao = require('../repository/anotacao')
 
 router.get('/', async (req, res, next) => {
   try {
