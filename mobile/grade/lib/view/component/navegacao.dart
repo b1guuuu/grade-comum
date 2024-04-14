@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade/view/page/anotacao.dart';
+import 'package:grade/view/page/calendario.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/perfil.dart';
@@ -37,7 +38,8 @@ class Navegacao extends StatelessWidget {
         ListTile(
           title: const Text('Calendário'),
           leading: const Icon(Icons.calendar_month),
-          onTap: () => Navigator.pushReplacementNamed(context, InicioPage.rota),
+          onTap: () =>
+              Navigator.pushReplacementNamed(context, CalendarioPage.rota),
         ),
         ListTile(
           title: const Text('Faltas'),
