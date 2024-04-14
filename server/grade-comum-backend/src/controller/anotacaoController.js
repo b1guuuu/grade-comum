@@ -2,6 +2,7 @@ const router = require('express').Router()
 const { Op } = require('sequelize')
 const Anotacao = require('../repository/anotacao')
 const Disciplina = require('../repository/disciplina')
+const { anotacaoComDisciplina } = require('../util/criaObjetoComPropriedadeRenomeada')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -25,10 +26,7 @@ router.get('/aluno', async (req, res, next) => {
       order: ['iddisciplina']
     })
 
-    anotacoes = anotacoes.map((anotacao) => {
-      const anotacaoJson = anotacao.toJSON().renameProperty('anotacaodisciplina', 'disciplina')
-      return anotacaoJson
-    })
+    anotacoes = anotacoes.map((anotacao) => anotacaoComDisciplina(anotacao))
     res.status(200)
     res.json(anotacoes)
   } catch (error) {
@@ -48,10 +46,7 @@ router.get('/calendario/aluno', async (req, res, next) => {
       order: ['datacalendario']
     })
 
-    anotacoes = anotacoes.map((anotacao) => {
-      const anotacaoJson = anotacao.toJSON().renameProperty('anotacaodisciplina', 'disciplina')
-      return anotacaoJson
-    })
+    anotacoes = anotacoes.map((anotacao) => anotacaoComDisciplina(anotacao))
     res.status(200)
     res.json(anotacoes)
   } catch (error) {
@@ -63,7 +58,6 @@ router.get('/calendario/aluno', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body
-    console.log({ dataRequisicao })
     const anotacao = await Anotacao.create(dataRequisicao)
     res.status(201)
     res.json(anotacao.toJSON())
@@ -73,4 +67,31 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.delete('/', async (req, res, next) => {
+  try {
+    const { id } = req.query
+    await Anotacao.destroy({ where: { id } })
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.put('/', async (req, res, next) => {
+  try {
+    const dataRequisicao = req.body
+    const anotacaoBanco = await Anotacao.findOne({ where: { id: dataRequisicao.id } })
+    anotacaoBanco.conteudo = dataRequisicao.conteudo
+    anotacaoBanco.dataCalendario = dataRequisicao.dataCalendario
+    anotacaoBanco.tituloCalendario = dataRequisicao.dataCalendario
+    await anotacaoBanco.save()
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
 module.exports = router

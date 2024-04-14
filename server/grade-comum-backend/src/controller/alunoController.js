@@ -16,7 +16,6 @@ router.post('/login', async (req, res, next) => {
 
     if (alunoRecuperadoDoBanco && alunoRecuperadoDoBanco !== null) {
       const senhasIguais = await encriptador.compararSenhas(alunoComDadosInformados.senha, alunoRecuperadoDoBanco.senha)
-      console.log({ senhasIguais })
       if (senhasIguais) {
         alunoRecuperadoDoBanco.senha = ''
         alunoRecuperadoDoBanco.senhaSalt = ''

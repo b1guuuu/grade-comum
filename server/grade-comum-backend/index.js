@@ -1,7 +1,6 @@
 const server = require('./src/config/server')
 const { conexao } = require('./src/util/conexao')
 require('./src/util/definirRelacoes')
-require('./src/util/renomeiaPropriedade')
 
 const PORT = process.env.PORT
 

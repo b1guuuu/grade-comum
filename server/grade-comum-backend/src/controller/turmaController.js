@@ -4,6 +4,7 @@ const Disciplina = require('../repository/disciplina')
 const Professor = require('../repository/professor')
 const Horario = require('../repository/horario')
 const { geradorHorarios } = require('../util/geradorHorarios')
+const { turmaComDisciplinaEProfessor, turmaComDisciplinaProfessorEInscricao } = require('../util/criaObjetoComPropriedadeRenomeada')
 const Inscricao = require('../repository/inscricao')
 
 router.get('/', async (req, res, next) => {
@@ -12,11 +13,7 @@ router.get('/', async (req, res, next) => {
       include: [{ model: Disciplina, as: 'turmadisciplina' }, { model: Professor, as: 'turmaprofessor' }],
       order: ['numero']
     })
-    turmas = turmas.map((turma) => {
-      const turmaJson = turma.toJSON().renameProperty('turmadisciplina', 'disciplina')
-      turmaJson.renameProperty('turmaprofessor', 'professor')
-      return turmaJson
-    })
+    turmas = turmas.map((turma) => turmaComDisciplinaEProfessor(turma))
     res.status(200)
     res.json(turmas)
   } catch (error) {
@@ -56,12 +53,7 @@ router.get('/aluno', async (req, res, next) => {
       ],
       order: ['numero']
     })
-    turmas = turmas.map((turma) => {
-      const turmaJson = turma.toJSON().renameProperty('turmadisciplina', 'disciplina')
-      turmaJson.renameProperty('turmaprofessor', 'professor')
-      turmaJson.renameProperty('turmainscricao', 'inscricao')
-      return turmaJson
-    })
+    turmas = turmas.map((turma) => turmaComDisciplinaProfessorEInscricao(turma))
     res.status(200)
     res.json(turmas)
   } catch (error) {

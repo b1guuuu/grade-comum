@@ -2,6 +2,7 @@ const Horario = require('../repository/horario')
 const Turma = require('../repository/turma')
 const Disciplina = require('../repository/disciplina')
 const Inscricao = require('../repository/inscricao')
+const { horarioComTurmaEDisciplina } = require('../util/criaObjetoComPropriedadeRenomeada')
 
 const router = require('express').Router()
 
@@ -33,11 +34,7 @@ router.get('/aluno', async (req, res, next) => {
       ],
       order: ['diaSemana']
     })
-    horarios = horarios.map((horario) => {
-      const horarioJson = horario.toJSON().renameProperty('horarioturma', 'turma')
-      horarioJson.turma.renameProperty('turmadisciplina', 'disciplina')
-      return horarioJson
-    })
+    horarios = horarios.map((horario) => horarioComTurmaEDisciplina(horario))
     res.status(200)
     res.json(horarios)
   } catch (error) {
