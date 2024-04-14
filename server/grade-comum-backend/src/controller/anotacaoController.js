@@ -82,10 +82,11 @@ router.delete('/', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body
+    console.log({ dataRequisicao })
     const anotacaoBanco = await Anotacao.findOne({ where: { id: dataRequisicao.id } })
     anotacaoBanco.conteudo = dataRequisicao.conteudo
     anotacaoBanco.dataCalendario = dataRequisicao.dataCalendario
-    anotacaoBanco.tituloCalendario = dataRequisicao.dataCalendario
+    anotacaoBanco.tituloCalendario = dataRequisicao.tituloCalendario
     await anotacaoBanco.save()
     res.status(204)
     res.json()
