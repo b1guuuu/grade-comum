@@ -8,8 +8,10 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class FormularioAnotacao extends StatefulWidget {
   final int idDisciplina;
+  final Anotacao? anotacao;
 
-  const FormularioAnotacao({super.key, required this.idDisciplina});
+  const FormularioAnotacao(
+      {super.key, required this.idDisciplina, required this.anotacao});
 
   @override
   State<FormularioAnotacao> createState() {
@@ -27,6 +29,34 @@ class FormularioAnotacaoState extends State<FormularioAnotacao> {
 
   late bool _adicionarAoCalendario = false;
   late DateTime? _dataCalendario = null;
+
+  @override
+  void initState() {
+    super.initState();
+    _inicializarCampos();
+  }
+
+  void _inicializarCampos() {
+    if (widget.anotacao != null) {
+      setState(() {
+        _conteudoTxtController.text = widget.anotacao!.conteudo;
+        print(widget.anotacao);
+        if (widget.anotacao!.dataCalendario != null &&
+            widget.anotacao!.tituloCalendario != null) {
+          _tituloCalendarioTxtController.text =
+              widget.anotacao!.tituloCalendario!;
+          var formatacaoInicial = DateFormat('yyyy-MM-dd HH:mm');
+          var inputDate = formatacaoInicial
+              .parse(widget.anotacao!.dataCalendario!.toLocal().toString());
+          var formataoOutput = DateFormat('dd/MM/yyyy');
+
+          _dataCalendario = widget.anotacao!.dataCalendario;
+          _dataCalendarioTxtController.text = formataoOutput.format(inputDate);
+          _adicionarAoCalendario = true;
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +87,8 @@ class FormularioAnotacaoState extends State<FormularioAnotacao> {
                     onChanged: (newValue) => {
                           setState(() {
                             _adicionarAoCalendario = newValue;
+                            _dataCalendario = null;
+                            _dataCalendarioTxtController.clear();
                           })
                         })
               ],
@@ -156,19 +188,21 @@ class FormularioAnotacaoState extends State<FormularioAnotacao> {
 
   Future<void> _salvarAnotacao() async {
     if (_validarAnotacao()) {
-      print(_adicionarAoCalendario);
-      Anotacao anotacao = _adicionarAoCalendario
-          ? Anotacao.calendario(
-              conteudo: _conteudoTxtController.text.trim(),
-              dataCalendario: _dataCalendario,
-              tituloCalendario: _tituloCalendarioTxtController.text.trim(),
-              idAluno: GlobalController.instance.aluno.id,
-              idDisciplina: widget.idDisciplina)
-          : Anotacao.simples(
-              conteudo: _conteudoTxtController.text.trim(),
-              idAluno: GlobalController.instance.aluno.id,
-              idDisciplina: widget.idDisciplina);
-      return _anotacaoController.salvaAnotacao(anotacao);
+      Anotacao anotacao = Anotacao.calendario(
+          conteudo: _conteudoTxtController.text.trim(),
+          dataCalendario: _dataCalendario,
+          tituloCalendario: _tituloCalendarioTxtController.text.trim(),
+          idAluno: GlobalController.instance.aluno.id,
+          idDisciplina: widget.idDisciplina);
+      if (widget.anotacao != null) {
+        print('Atualizar');
+        anotacao.id = widget.anotacao!.id;
+        print(anotacao);
+        return _anotacaoController.atualiza(anotacao);
+      } else {
+        print('Criar');
+        return _anotacaoController.salvaAnotacao(anotacao);
+      }
     } else {
       throw Exception('Dados inválidos');
     }

@@ -3,15 +3,17 @@ import 'package:intl/intl.dart';
 class Anotacao {
   late int id;
   late String conteudo;
-  late DateTime? dataCalendario = null;
-  late String? tituloCalendario = null;
+  late DateTime? dataCalendario;
+  late String? tituloCalendario;
   late int idAluno;
   late int idDisciplina;
 
   Anotacao.simples(
       {required this.conteudo,
       required this.idAluno,
-      required this.idDisciplina});
+      required this.idDisciplina})
+      : dataCalendario = null,
+        tituloCalendario = null;
 
   Anotacao.calendario(
       {required this.conteudo,
@@ -60,7 +62,7 @@ class Anotacao {
   Map<String, dynamic> toMapCalendario() {
     return {
       'conteudo': conteudo,
-      'dataCalendario': dataCalendario!.toLocal().toString(),
+      'dataCalendario': dataCalendario?.toLocal().toString(),
       'tituloCalendario': tituloCalendario,
       'idAluno': idAluno,
       'idDisciplina': idDisciplina
@@ -68,7 +70,6 @@ class Anotacao {
   }
 
   static DateTime? formatarData(dynamic data) {
-    print(data);
     if (data == null || data.toString() == 'null') return null;
     var inputFormat = DateFormat('yyyy-MM-dd');
     return inputFormat.parse(data);

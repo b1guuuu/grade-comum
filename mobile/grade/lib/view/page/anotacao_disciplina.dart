@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:grade/controller/anotacao_controller.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/anotacao.dart';
@@ -7,6 +6,8 @@ import 'package:grade/model/disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/formulario_anotacao.dart';
 import 'package:grade/view/page/anotacao.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class AnotacaoDisciplinaPage extends StatefulWidget {
   static const rota = '${AnotacaoPage.rota}/disciplina';
@@ -43,11 +44,15 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
     });
   }
 
-  Future<void> _apresentarModalNovaAnotacao(BuildContext context) async {
+  Future<void> _apresentarModalNovaAnotacao(
+      BuildContext context, Anotacao? anotacao) async {
     return showDialog(
       context: context,
       builder: (context) {
-        return FormularioAnotacao(idDisciplina: widget.disciplina.id);
+        return FormularioAnotacao(
+          idDisciplina: widget.disciplina.id,
+          anotacao: anotacao,
+        );
       },
     );
   }
@@ -60,7 +65,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _apresentarModalNovaAnotacao(context)
+          _apresentarModalNovaAnotacao(context, null)
               .then((value) => _listarAnotacoes());
         },
         enableFeedback: true,
@@ -86,11 +91,17 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
                           Row(
                             children: [
                               IconButton(
-                                  onPressed: () => print('delete'),
-                                  icon: Icon(Icons.delete)),
+                                  onPressed: () =>
+                                      _solicitaConfirmacaoDeletarAnotacao(
+                                          _anotacoes[index], context),
+                                  icon: const Icon(Icons.delete)),
                               IconButton(
-                                  onPressed: () => print('edit'),
-                                  icon: Icon(Icons.edit_outlined)),
+                                  onPressed: () {
+                                    _apresentarModalNovaAnotacao(
+                                            context, _anotacoes[index])
+                                        .then((value) => _listarAnotacoes());
+                                  },
+                                  icon: const Icon(Icons.edit_outlined)),
                             ],
                           )
                         ],
@@ -99,5 +110,26 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
                   ),
       ),
     );
+  }
+
+  Future<void> _solicitaConfirmacaoDeletarAnotacao(
+      Anotacao anotacao, BuildContext context) async {
+    await QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      cancelBtnText: 'Voltar',
+      confirmBtnText: 'Deletar',
+      confirmBtnColor: Color(Colors.red.value),
+      onCancelBtnTap: () => Navigator.pop(context),
+      onConfirmBtnTap: () =>
+          _deletarAnotacao(anotacao).then((value) => Navigator.pop(context)),
+      text: 'Deseja deletar a anotação "${anotacao.conteudo}"?',
+      title: 'Confirmação',
+    );
+    _listarAnotacoes();
+  }
+
+  Future<void> _deletarAnotacao(Anotacao anotacao) async {
+    return _anotacaoController.deletar(anotacao);
   }
 }

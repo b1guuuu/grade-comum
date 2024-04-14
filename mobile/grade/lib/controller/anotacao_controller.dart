@@ -69,4 +69,31 @@ class AnotacaoController {
           'Ocorreu um erro ao inserir anotação: ${resposta.toString()}');
     }
   }
+
+  Future<void> deletar(Anotacao anotacao) async {
+    final resposta = await http.delete(Uri.parse('$_urlBase?id=${anotacao.id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode != 204) {
+      throw Exception(
+          'Ocorreu um erro ao excluir anotação: ${resposta.toString()}');
+    }
+  }
+
+  Future<void> atualiza(Anotacao anotacao) async {
+    final resposta = await http.put(Uri.parse(_urlBase),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(anotacao.tituloCalendario == null
+            ? {'id': anotacao.id, ...anotacao.toMapSimples()}
+            : {'id': anotacao.id, ...anotacao.toMapCalendario()}));
+
+    if (resposta.statusCode != 204) {
+      throw Exception(
+          'Ocorreu um erro ao atualizar anotação: ${resposta.toString()}');
+    }
+  }
 }
