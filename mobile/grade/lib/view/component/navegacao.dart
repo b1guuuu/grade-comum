@@ -64,8 +64,9 @@ class Navegacao extends StatelessWidget {
             title: const Text('Sair'),
             leading: const Icon(Icons.logout_rounded),
             onTap: () => {
-                  // GlobalController.instance.clear(),
-                  SharedPreferences.getInstance().then((preferences) => preferences.clear()),
+                  GlobalController.instance.setAluno(null),
+                  SharedPreferences.getInstance()
+                      .then((preferences) => preferences.clear()),
                   Navigator.pushReplacementNamed(context, LoginPage.rota),
                 }),
       ],

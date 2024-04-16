@@ -45,7 +45,7 @@ class GradePageState extends State<GradePage> {
       _carregando = true;
     });
     var resposta = await _controller
-        .buscaHorariosInscritos(GlobalController.instance.aluno.id);
+        .buscaHorariosInscritos(GlobalController.instance.aluno!.id);
     setState(() {
       _horarios = resposta;
     });
@@ -66,7 +66,7 @@ class GradePageState extends State<GradePage> {
       List<String> linha = [periodos[i]];
       for (var j = 0; j < 5; j++) {
         var horarioQuery = _horarios
-            .where((horario) => horario.diaSemana == i && horario.ordem == j);
+            .where((horario) => horario.diaSemana == j && horario.ordem == i);
         if (horarioQuery.isEmpty) {
           linha.add('');
         } else {

@@ -82,7 +82,7 @@ class TurmaPageState extends State<TurmaPage> {
       _carregando = true;
     });
     var resposta = await _turmaController
-        .buscaTurmasInscritas(GlobalController.instance.aluno.id);
+        .buscaTurmasInscritas(GlobalController.instance.aluno!.id);
     setState(() {
       _turmas = resposta;
       _carregando = false;
@@ -91,7 +91,7 @@ class TurmaPageState extends State<TurmaPage> {
 
   Future<void> _deletarInscriacao(Turma turma) async {
     await _inscricaoController.deletarInscricao(Inscricao(
-        idAluno: GlobalController.instance.aluno.id, idTurma: turma.id));
+        idAluno: GlobalController.instance.aluno!.id, idTurma: turma.id));
     _buscarTurmasInscritas();
   }
 }

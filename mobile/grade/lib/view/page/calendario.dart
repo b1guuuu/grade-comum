@@ -2,7 +2,6 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:grade/controller/anotacao_controller.dart';
 import 'package:grade/controller/global_controller.dart';
-import 'package:grade/model/anotacao.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/navegacao.dart';
 
@@ -32,7 +31,7 @@ class CalendarioPageState extends State<CalendarioPage> {
       _carregando = true;
     });
     var anotacoes = await _anotacaoController
-        .buscaTodosAlunoCalendario(GlobalController.instance.aluno.id);
+        .buscaTodosAlunoCalendario(GlobalController.instance.aluno!.id);
 
     var eventosCalendario =
         CalendarControllerProvider.of(context).controller.allEvents;

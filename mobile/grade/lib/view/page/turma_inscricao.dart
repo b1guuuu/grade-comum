@@ -24,7 +24,6 @@ class TurmaInscricaoPage extends StatefulWidget {
 class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
   final TurmaController _turmaController = TurmaController();
   final InscricaoController _inscricaoController = InscricaoController();
-  List<Turma> _turmas = [];
   List<Turma> _turmasFiltradas = [];
   bool _carregando = true;
 
@@ -95,7 +94,6 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
     });
     var resposta = await _turmaController.buscaTodas();
     setState(() {
-      _turmas = resposta;
       _turmasFiltradas = resposta;
       _carregando = false;
     });
@@ -103,6 +101,6 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
 
   Future<void> _inscreverTurma(Turma turma) async {
     await _inscricaoController.inscreverEmTurma(Inscricao(
-        idAluno: GlobalController.instance.aluno.id, idTurma: turma.id));
+        idAluno: GlobalController.instance.aluno!.id, idTurma: turma.id));
   }
 }

@@ -74,9 +74,9 @@ class PerfilPageState extends State<PerfilPage> {
     });
     setState(() {
       _nomeController = TextEditingController.fromValue(
-          TextEditingValue(text: GlobalController.instance.aluno.nome));
+          TextEditingValue(text: GlobalController.instance.aluno!.nome));
       _matriculaController = TextEditingController.fromValue(
-          TextEditingValue(text: GlobalController.instance.aluno.matricula));
+          TextEditingValue(text: GlobalController.instance.aluno!.matricula));
       _carregando = false;
     });
   }
@@ -89,7 +89,7 @@ class PerfilPageState extends State<PerfilPage> {
         _senhaController.text == _confirmaSenhaController.text) {
       try {
         var aluno = Aluno(
-            id: GlobalController.instance.aluno.id,
+            id: GlobalController.instance.aluno!.id,
             nome: _nomeController.text,
             matricula: _matriculaController.text,
             senha: _senhaController.text);
