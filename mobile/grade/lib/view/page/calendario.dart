@@ -33,22 +33,13 @@ class CalendarioPageState extends State<CalendarioPage> {
     var anotacoes = await _anotacaoController
         .buscaTodosAlunoCalendario(GlobalController.instance.aluno!.id!);
 
-    var eventosCalendario =
-        CalendarControllerProvider.of(context).controller.allEvents;
-
-    if (anotacoes.length > eventosCalendario.length) {
-      var anotacoesNaoInseridas = anotacoes
-          .where((anotacao) =>
-              eventosCalendario.indexWhere(
-                  (evento) => evento.title == anotacao.tituloCalendario!) ==
-              -1)
-          .toList();
-      for (var novaAnotacao in anotacoesNaoInseridas) {
-        CalendarControllerProvider.of(context).controller.add(CalendarEventData(
-            title: novaAnotacao.tituloCalendario!,
-            date: novaAnotacao.dataCalendario!,
-            description: novaAnotacao.conteudo));
-      }
+    CalendarControllerProvider.of(context).controller.removeAll(
+        CalendarControllerProvider.of(context).controller.allEvents.toList());
+    for (var novaAnotacao in anotacoes) {
+      CalendarControllerProvider.of(context).controller.add(CalendarEventData(
+          title: novaAnotacao.tituloCalendario!,
+          date: novaAnotacao.dataCalendario!,
+          description: novaAnotacao.conteudo));
     }
     setState(() {
       _carregando = false;
@@ -60,6 +51,11 @@ class CalendarioPageState extends State<CalendarioPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendário'),
+        actions: [
+          IconButton(
+              onPressed: () => _buscarAnotacoes(),
+              icon: const Icon(Icons.update))
+        ],
       ),
       drawer: const Drawer(
         child: Navegacao(),
