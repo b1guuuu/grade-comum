@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/calendario.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
+import 'package:grade/view/page/login.dart';
 import 'package:grade/view/page/perfil.dart';
 import 'package:grade/view/page/turma.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Navegacao extends StatelessWidget {
   const Navegacao({super.key});
@@ -57,6 +60,14 @@ class Navegacao extends StatelessWidget {
           leading: const Icon(Icons.settings),
           onTap: () => Navigator.pushReplacementNamed(context, InicioPage.rota),
         ),
+        ListTile(
+            title: const Text('Sair'),
+            leading: const Icon(Icons.logout_rounded),
+            onTap: () => {
+                  // GlobalController.instance.clear(),
+                  SharedPreferences.getInstance().then((preferences) => preferences.clear()),
+                  Navigator.pushReplacementNamed(context, LoginPage.rota),
+                }),
       ],
     );
   }
