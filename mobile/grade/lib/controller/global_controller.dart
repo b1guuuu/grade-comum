@@ -3,7 +3,7 @@ import 'package:grade/model/aluno.dart';
 
 class GlobalController extends ChangeNotifier {
   static GlobalController instance = GlobalController();
-  Aluno? aluno = null;
+  Aluno? aluno;
   static const String baseURL = 'http://192.168.0.10:3000';
 
   setAluno(Aluno? aluno) {

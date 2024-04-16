@@ -11,7 +11,7 @@ class AlunoController {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: jsonEncode(aluno.toMapLogin()));
+        body: jsonEncode(aluno.toMap()));
 
     if (resposta.statusCode == 200) {
       return Aluno.fromJson(jsonDecode(resposta.body));
@@ -26,7 +26,7 @@ class AlunoController {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
         },
-        body: jsonEncode(aluno.toMapSemId()));
+        body: jsonEncode(aluno.toMap()));
 
     if (resposta.statusCode == 201) {
       return Aluno.fromJson(jsonDecode(resposta.body));

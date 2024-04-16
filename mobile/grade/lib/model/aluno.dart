@@ -1,8 +1,8 @@
 class Aluno {
-  late int id;
-  late String nome;
-  late String matricula;
-  late String senha;
+  int? id;
+  String? nome;
+  String? matricula;
+  String? senha;
 
   Aluno(
       {required this.id,
@@ -14,7 +14,7 @@ class Aluno {
 
   Aluno.cadastro(
       {required this.nome, required this.matricula, required this.senha});
-
+/* 
   Aluno.fromJson(dynamic json)
       : id = json['id'],
         nome = json['nome'],
@@ -38,6 +38,15 @@ class Aluno {
 
   Map<String, dynamic> toMapLeitura() {
     return {"id": id, "nome": nome, "matricula": matricula};
+  }
+ */
+  Aluno.fromJson(dynamic json)
+      : id = json['id'],
+        nome = json['nome'],
+        matricula = json['matricula'];
+
+  Map<String, dynamic> toMap() {
+    return {"id": id, "nome": nome, "matricula": matricula, "senha": senha};
   }
 
   @override

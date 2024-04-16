@@ -74,9 +74,9 @@ class PerfilPageState extends State<PerfilPage> {
     });
     setState(() {
       _nomeController = TextEditingController.fromValue(
-          TextEditingValue(text: GlobalController.instance.aluno!.nome));
+          TextEditingValue(text: GlobalController.instance.aluno!.nome!));
       _matriculaController = TextEditingController.fromValue(
-          TextEditingValue(text: GlobalController.instance.aluno!.matricula));
+          TextEditingValue(text: GlobalController.instance.aluno!.matricula!));
       _carregando = false;
     });
   }

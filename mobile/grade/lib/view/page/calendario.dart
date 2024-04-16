@@ -31,7 +31,7 @@ class CalendarioPageState extends State<CalendarioPage> {
       _carregando = true;
     });
     var anotacoes = await _anotacaoController
-        .buscaTodosAlunoCalendario(GlobalController.instance.aluno!.id);
+        .buscaTodosAlunoCalendario(GlobalController.instance.aluno!.id!);
 
     var eventosCalendario =
         CalendarControllerProvider.of(context).controller.allEvents;

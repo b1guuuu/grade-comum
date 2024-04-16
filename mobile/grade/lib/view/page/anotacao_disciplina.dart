@@ -37,7 +37,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
       _carregando = true;
     });
     var temp = await _anotacaoController.buscaTodosAlunoDisciplina(
-        GlobalController.instance.aluno!.id, widget.disciplina.id);
+        GlobalController.instance.aluno!.id!, widget.disciplina.id);
     setState(() {
       _anotacoes = temp;
       _carregando = false;

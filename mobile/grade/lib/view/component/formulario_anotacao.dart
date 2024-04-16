@@ -27,8 +27,8 @@ class FormularioAnotacaoState extends State<FormularioAnotacao> {
       TextEditingController();
   final AnotacaoController _anotacaoController = AnotacaoController();
 
-  late bool _adicionarAoCalendario = false;
-  DateTime? _dataCalendario = null;
+  bool _adicionarAoCalendario = false;
+  DateTime? _dataCalendario;
 
   @override
   void initState() {
@@ -191,7 +191,7 @@ class FormularioAnotacaoState extends State<FormularioAnotacao> {
           conteudo: _conteudoTxtController.text.trim(),
           dataCalendario: _dataCalendario,
           tituloCalendario: _tituloCalendarioTxtController.text.trim(),
-          idAluno: GlobalController.instance.aluno!.id,
+          idAluno: GlobalController.instance.aluno!.id!,
           idDisciplina: widget.idDisciplina);
       if (widget.anotacao != null) {
         anotacao.id = widget.anotacao!.id;

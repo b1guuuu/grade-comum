@@ -45,7 +45,7 @@ class GradePageState extends State<GradePage> {
       _carregando = true;
     });
     var resposta = await _controller
-        .buscaHorariosInscritos(GlobalController.instance.aluno!.id);
+        .buscaHorariosInscritos(GlobalController.instance.aluno!.id!);
     setState(() {
       _horarios = resposta;
     });

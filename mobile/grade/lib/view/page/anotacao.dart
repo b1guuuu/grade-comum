@@ -32,9 +32,9 @@ class AnotacaoPageState extends State<AnotacaoPage> {
       _carregando = true;
     });
     var disciplinasAnotacoes = await _controller
-        .listarDisciplinasAnotacoesAluno(GlobalController.instance.aluno!.id);
+        .listarDisciplinasAnotacoesAluno(GlobalController.instance.aluno!.id!);
     var disciplinasInscritas = await _controller
-        .listarDisciplinasAlunoInscrito(GlobalController.instance.aluno!.id);
+        .listarDisciplinasAlunoInscrito(GlobalController.instance.aluno!.id!);
 
     disciplinasAnotacoes.addAll(disciplinasInscritas);
     setState(() {

@@ -65,7 +65,7 @@ class CadastroPageState extends State<CadastroPage> {
       aluno = await _alunoController.cadastro(aluno);
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      preferences.setString('aluno', jsonEncode(aluno.toMapLeitura()));
+      preferences.setString('aluno', jsonEncode(aluno.toMap()));
       GlobalController.instance.setAluno(aluno);
       Navigator.of(context).pushReplacementNamed(InicioPage.rota);
     } else {

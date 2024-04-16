@@ -101,6 +101,6 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
 
   Future<void> _inscreverTurma(Turma turma) async {
     await _inscricaoController.inscreverEmTurma(Inscricao(
-        idAluno: GlobalController.instance.aluno!.id, idTurma: turma.id));
+        idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id));
   }
 }
