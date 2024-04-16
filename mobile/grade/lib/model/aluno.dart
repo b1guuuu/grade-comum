@@ -25,15 +25,19 @@ class Aluno {
         matricula = json['matricula'];
 
   Map<String, dynamic> toMap() {
-    return {"id": id, "nome": nome, "matricula": matricula};
+    return {"id": id, "nome": nome, "matricula": matricula, "senha": senha};
   }
 
   Map<String, dynamic> toMapSemId() {
-    return {"nome": nome, "matricula": matricula};
+    return {"nome": nome, "matricula": matricula, "senha": senha};
   }
 
   Map<String, dynamic> toMapLogin() {
     return {"matricula": matricula, "senha": senha};
+  }
+
+  Map<String, dynamic> toMapLeitura() {
+    return {"id": id, "nome": nome, "matricula": matricula};
   }
 
   @override

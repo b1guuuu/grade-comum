@@ -68,7 +68,7 @@ class LoginPageState extends State<LoginPage> {
       aluno = await _alunoController.login(aluno);
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
-      preferences.setString('aluno', jsonEncode(aluno.toMap()));
+      preferences.setString('aluno', jsonEncode(aluno.toMapLeitura()));
       GlobalController.instance.setAluno(aluno);
       Navigator.of(context).pushReplacementNamed(InicioPage.rota);
     } catch (e) {
