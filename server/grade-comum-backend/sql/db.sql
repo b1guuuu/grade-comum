@@ -1,7 +1,23 @@
-CREATE TABLE IF NOT EXISTS disciplina(
+CREATE TABLE IF NOT EXISTS curso(
     id SERIAL,
     nome TEXT NOT NULL,
     PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS disciplina(
+    id SERIAL,
+    nome TEXT NOT NULL,
+    idCurso INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (idCurso) REFERENCES curso(id)
+);
+
+CREATE TABLE IF NOT EXISTS requisito(
+    idDisciplina INT NOT NULL,
+    idDisciplinaRequisito INT NOT NULL,
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
+    FOREIGN KEY (idDisciplinaRequisito) REFERENCES disciplina(id),
+    PRIMARY KEY (idDisciplina, idDisciplinaRequisito)
 );
 
 CREATE TABLE IF NOT EXISTS aluno (
@@ -10,7 +26,9 @@ CREATE TABLE IF NOT EXISTS aluno (
     matricula VARCHAR(10) NOT NULL UNIQUE,
     senha TEXT NOT NULL,
     senhaSalt TEXT NOT NULL,
-    PRIMARY KEY (id)
+    idCurso INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (idCurso) REFERENCES curso(id)
 );
 
 CREATE TABLE IF NOT EXISTS professor(
@@ -23,8 +41,8 @@ CREATE TABLE IF NOT EXISTS presenca(
     id SERIAL,
     presente BOOLEAN NOT NULL,
     observacao TEXT DEFAULT '',
+    ultimaAtualizacao DATE DEFAULT CURRENT_DATE,
     idProfessor INT NOT NULL,
-    ultimaAtualizacao DATE NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (idProfessor) REFERENCES professor(id)
 );
@@ -55,6 +73,7 @@ CREATE TABLE IF NOT EXISTS horario (
 CREATE TABLE IF NOT EXISTS inscricao (
     idTurma INT NOT NULL,
     idAluno INT NOT NULL,
+    concluido DATE,
     FOREIGN KEY (idTurma) REFERENCES turma(id),
     FOREIGN KEY (idAluno) REFERENCES aluno(id),
     PRIMARY KEY (idTurma, idAluno)

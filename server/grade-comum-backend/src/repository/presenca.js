@@ -16,8 +16,7 @@ const Presenca = conexao.define('presenca', {
     type: DataTypes.STRING
   },
   ultimaAtualizacao: {
-    type: DataTypes.DATE,
-    allowNull: false
+    type: DataTypes.DATE
   },
   idProfessor: {
     references: {

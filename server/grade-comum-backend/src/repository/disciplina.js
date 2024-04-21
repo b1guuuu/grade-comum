@@ -11,6 +11,14 @@ const Disciplina = conexao.define('disciplina', {
   nome: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  idCurso: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'curso',
+      key: 'id'
+    },
+    field: 'idcurso'
   }
 }, { tableName: 'disciplina', timestamps: false, freezeTableName: true })
 

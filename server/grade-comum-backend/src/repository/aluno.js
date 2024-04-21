@@ -24,6 +24,14 @@ const Aluno = conexao.define('aluno', {
     type: DataTypes.STRING,
     allowNull: false,
     field: 'senhasalt'
+  },
+  idCurso: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'curso',
+      key: 'id'
+    },
+    field: 'idcurso'
   }
 }, { tableName: 'aluno', timestamps: false, freezeTableName: true })
 
