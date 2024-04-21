@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS curso(
     PRIMARY KEY (id)
 );
 
+INSERT INTO curso (nome) VALUES ('Sistemas de Informação');
+
 CREATE TABLE IF NOT EXISTS disciplina(
     id SERIAL,
     nome TEXT NOT NULL,
