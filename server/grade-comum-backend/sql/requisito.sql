@@ -42,3 +42,44 @@ INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
 	 (100,87),
 	 (101,94),
 	 (104,96);
+
+--Matemática
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	 (111,105),
+	 (112,106),
+	 (113,107),
+	 (117,111),
+	 (118,111),
+	 (118,112),
+	 (119,113),
+	 (120,108),
+	 (124,118),
+	 (129,127);
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	 (130,124),
+	 (131,125),
+	 (133,112),
+	 (133,111),
+	 (134,128),
+	 (134,119),
+	 (135,127),
+	 (136,129),
+	 (137,130),
+	 (138,120);
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	 (139,124),
+	 (140,33),
+	 (141,124),
+	 (142,135),
+	 (143,123),
+	 (144,139),
+	 (147,140),
+	 (148,124),
+	 (149,142),
+	 (150,120);
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	 (152,124),
+	 (155,147),
+	 (156,115),
+	 (157,149),
+	 (158,150);
