@@ -65,7 +65,7 @@ class AnotacaoPageState extends State<AnotacaoPage> {
                 : ListView.builder(
                     itemCount: _disciplinas.length,
                     itemBuilder: (context, index) => ListTile(
-                      title: Text(_disciplinas[index].nome),
+                      title: Text(_disciplinas[index].nome!),
                       onTap: () => Navigator.pushNamed(
                           context, AnotacaoDisciplinaPage.rota,
                           arguments: _disciplinas[index]),

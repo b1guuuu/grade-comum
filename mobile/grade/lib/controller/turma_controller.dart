@@ -14,9 +14,7 @@ class TurmaController {
 
     if (resposta.statusCode == 200) {
       List<dynamic> listaJson = jsonDecode(resposta.body);
-      return listaJson
-          .map((json) => Turma.fromJsonComDisciplinaProfessor(json))
-          .toList();
+      return listaJson.map((json) => Turma.fromJson(json)).toList();
     } else {
       throw Exception(
           'Ocorreu um erro ao buscar as turmas: ${resposta.toString()}');
@@ -32,9 +30,23 @@ class TurmaController {
 
     if (resposta.statusCode == 200) {
       List<dynamic> listaJson = jsonDecode(resposta.body);
-      return listaJson
-          .map((json) => Turma.fromJsonComDisciplinaProfessor(json))
-          .toList();
+      return listaJson.map((json) => Turma.fromJson(json)).toList();
+    } else {
+      throw Exception(
+          'Ocorreu um erro ao buscar as turmas: ${resposta.toString()}');
+    }
+  }
+
+  Future<List<Turma>> buscaTurmasValidas(int idAluno) async {
+    final resposta = await http.get(
+        Uri.parse('$_urlBase/aluno/disponiveis?idAluno=$idAluno'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode == 200) {
+      List<dynamic> listaJson = jsonDecode(resposta.body);
+      return listaJson.map((json) => Turma.fromJson(json)).toList();
     } else {
       throw Exception(
           'Ocorreu um erro ao buscar as turmas: ${resposta.toString()}');

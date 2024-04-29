@@ -52,4 +52,17 @@ class DisciplinaController {
           'Ocorreu um erro ao buscar as disciplinas: ${resposta.toString()}');
     }
   }
+
+  Future<void> cadastrarDisciplina(Disciplina disciplina) async {
+    final resposta = await http.post(Uri.parse(_urlBase),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(disciplina.toMap()));
+
+    if (resposta.statusCode != 201) {
+      throw Exception(
+          'Ocorreu um erro ao cadastrar a disciplina: ${jsonDecode(resposta.body).toString()}');
+    }
+  }
 }

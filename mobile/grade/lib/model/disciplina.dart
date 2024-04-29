@@ -1,6 +1,8 @@
 class Disciplina {
-  late int id;
-  final String nome;
+  int? id;
+  String? nome;
+  int? idCurso;
+  List<Disciplina>? requisitos;
 
   Disciplina({required this.id, required this.nome});
 
@@ -8,16 +10,21 @@ class Disciplina {
 
   Disciplina.fromJson(dynamic json)
       : id = json['id'],
-        nome = json['nome'];
+        nome = json['nome'],
+        idCurso = json['idCurso'],
+        requisitos = json['requisitos']
+            ?.map((requisito) => Disciplina.fromJson(requisito));
 
-  Disciplina.fromJsonSemId(dynamic json) : nome = json['nome'];
+  Disciplina.cadastro(
+      {required this.nome, required this.idCurso, required this.requisitos});
 
   Map<String, dynamic> toMap() {
-    return {"id": id, "nome": nome};
-  }
-
-  Map<String, dynamic> toMapSemId() {
-    return {"nome": nome};
+    return {
+      "id": id,
+      "nome": nome,
+      "idCurso": idCurso,
+      "requisitos": requisitos?.map((requisito) => requisito.toMap()).toList()
+    };
   }
 
   @override

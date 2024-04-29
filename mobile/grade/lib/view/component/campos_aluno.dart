@@ -31,6 +31,7 @@ class CamposAlunoState extends State<CamposAluno> {
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) return "Informe o nome";
+                return null;
               },
               decoration: const InputDecoration(
                   hintText: 'Nome',
@@ -46,6 +47,7 @@ class CamposAlunoState extends State<CamposAluno> {
                 if (value == null || value.isEmpty) {
                   return "Informe a matrícula";
                 }
+                return null;
               },
               decoration: const InputDecoration(
                   hintText: 'Matrícula',
@@ -61,6 +63,7 @@ class CamposAlunoState extends State<CamposAluno> {
                 if (value == null || value.isEmpty) {
                   return "Informe uma senha";
                 }
+                return null;
               },
               decoration: const InputDecoration(
                   hintText: 'Senha',
@@ -79,9 +82,10 @@ class CamposAlunoState extends State<CamposAluno> {
                 if (value == null || value.isEmpty) {
                   return "Confirme a senha";
                 }
-                if (value != widget.senhaController) {
+                if (value != widget.senhaController.text) {
                   return "As senhas não são iguais";
                 }
+                return null;
               },
               decoration: const InputDecoration(
                   hintText: 'Confirmar senha',
@@ -96,7 +100,6 @@ class CamposAlunoState extends State<CamposAluno> {
               height: 10.0,
             ),
           ],
-        )
-      );
+        ));
   }
 }

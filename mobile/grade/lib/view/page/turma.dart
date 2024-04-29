@@ -91,7 +91,7 @@ class TurmaPageState extends State<TurmaPage> {
 
   Future<void> _deletarInscriacao(Turma turma) async {
     await _inscricaoController.deletarInscricao(Inscricao(
-        idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id));
+        idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id!));
     _buscarTurmasInscritas();
   }
 }

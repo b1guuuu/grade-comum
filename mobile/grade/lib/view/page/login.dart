@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:grade/controller/aluno_controller.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/aluno.dart';
-import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/util/alertas_personalizados.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,7 +23,6 @@ class LoginPageState extends State<LoginPage> {
   final AlunoController _alunoController = AlunoController();
   final TextEditingController _matriculaController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
-  late bool _carregando = false;
 
   final _formLogin = GlobalKey<FormState>();
 
@@ -47,6 +44,7 @@ class LoginPageState extends State<LoginPage> {
                     if (value == null || value.isEmpty) {
                       return "Informe a matrícula";
                     }
+                    return null;
                   },
                   decoration: const InputDecoration(
                       hintText: 'Matrícula', border: OutlineInputBorder()),
@@ -60,6 +58,7 @@ class LoginPageState extends State<LoginPage> {
                     if (value == null || value.isEmpty) {
                       return "Informe a senha";
                     }
+                    return null;
                   },
                   decoration: const InputDecoration(
                       hintText: 'Senha', border: OutlineInputBorder()),
@@ -96,7 +95,6 @@ class LoginPageState extends State<LoginPage> {
       preferences.setString('aluno', jsonEncode(aluno.toMap()));
       GlobalController.instance.setAluno(aluno);
       Navigator.of(context).pushReplacementNamed(InicioPage.rota);
-      _carregando = false;
     } on Exception catch (e) {
       AlertasPersonalizados.show(context, e);
     }

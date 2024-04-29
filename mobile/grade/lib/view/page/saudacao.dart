@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/aluno.dart';
+import 'package:grade/view/admin/inicio.dart';
 import 'package:grade/view/page/cadastro.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/login.dart';
@@ -40,7 +41,14 @@ class SaudacaoPage extends StatelessWidget {
             FilledButton(
                 onPressed: () =>
                     Navigator.of(context).pushNamed(CadastroPage.rota),
-                child: const Text('Cadastrar'))
+                child: const Text('Cadastrar')),
+            const SizedBox(
+              height: 10.0,
+            ),
+            FilledButton(
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(InicioAdminPage.rota),
+                child: const Text('Admin'))
           ],
         ),
       ),

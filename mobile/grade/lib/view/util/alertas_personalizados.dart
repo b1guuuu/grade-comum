@@ -9,7 +9,6 @@ class AlertasPersonalizados {
 }
 
 void determinarAlerta(Exception e, BuildContext context) {
-  String text = e.toString();
   if (e.toString().contains("No route to host") ||
       e.toString().contains("Connection timed out")) {
     QuickAlert.show(

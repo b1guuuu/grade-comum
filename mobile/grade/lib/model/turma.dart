@@ -2,13 +2,13 @@ import 'package:grade/model/disciplina.dart';
 import 'package:grade/model/professor.dart';
 
 class Turma {
-  late int id;
-  final int codigo;
-  final int numero;
-  final int idDisciplina;
-  final int idProfessor;
-  late Disciplina disciplina;
-  late Professor professor;
+  int? id;
+  int? codigo;
+  int? numero;
+  int? idDisciplina;
+  int? idProfessor;
+  Disciplina? disciplina;
+  Professor? professor;
 
   Turma(
       {required this.id,
@@ -28,30 +28,13 @@ class Turma {
         codigo = json['codigo'],
         numero = json['numero'],
         idDisciplina = json['idDisciplina'],
-        idProfessor = json['idProfessor'];
-
-  Turma.fromJsonSemId(dynamic json)
-      : codigo = json['codigo'],
-        numero = json['numero'],
-        idDisciplina = json['idDisciplina'],
-        idProfessor = json['idProfessor'];
-
-  Turma.fromJsonComDisciplina(dynamic json)
-      : id = json['id'],
-        codigo = json['codigo'],
-        numero = json['numero'],
-        idDisciplina = json['idDisciplina'],
         idProfessor = json['idProfessor'],
-        disciplina = Disciplina.fromJson(json['disciplina']);
-
-  Turma.fromJsonComDisciplinaProfessor(dynamic json)
-      : id = json['id'],
-        codigo = json['codigo'],
-        numero = json['numero'],
-        idDisciplina = json['idDisciplina'],
-        idProfessor = json['idProfessor'],
-        disciplina = Disciplina.fromJson(json['disciplina']),
-        professor = Professor.fromJson(json['professor']);
+        disciplina = json['disciplina'] == null
+            ? null
+            : Disciplina.fromJson(json['disciplina']),
+        professor = json['professor'] == null
+            ? null
+            : Professor.fromJson(json['professor']);
 
   Map<String, dynamic> toMap() {
     return {
@@ -59,16 +42,9 @@ class Turma {
       "codigo": codigo,
       "numero": numero,
       "idDisciplina": idDisciplina,
-      "idProfessor": idProfessor
-    };
-  }
-
-  Map<String, dynamic> toMapSemId() {
-    return {
-      "codigo": codigo,
-      "numero": numero,
-      "idDisciplina": idDisciplina,
-      "idProfessor": idProfessor
+      "idProfessor": idProfessor,
+      "disciplina": disciplina?.toString(),
+      "professor": professor?.toString()
     };
   }
 

@@ -50,7 +50,7 @@ class Horario {
         sala = json['sala'],
         ordem = json['ordem'],
         idTurma = json['idTurma'],
-        turma = Turma.fromJsonComDisciplina(json['turma']);
+        turma = Turma.fromJson(json['turma']);
 
   Map<String, dynamic> toMap() {
     return {

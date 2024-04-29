@@ -24,8 +24,11 @@ class TurmaInscricaoPage extends StatefulWidget {
 class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
   final TurmaController _turmaController = TurmaController();
   final InscricaoController _inscricaoController = InscricaoController();
+  final TextEditingController _nomeTxtController = TextEditingController();
   List<Turma> _turmasFiltradas = [];
+  List<Turma> _turmas = [];
   bool _carregando = true;
+  bool _habilitarFiltro = false;
 
   @override
   void initState() {
@@ -33,11 +36,48 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
     _buscarTurmas();
   }
 
+  void _alternarVisualizacaoFiltro() {
+    if (_habilitarFiltro) {
+      setState(() {
+        _turmasFiltradas = _turmas;
+      });
+    }
+    setState(() {
+      _habilitarFiltro = !_habilitarFiltro;
+      _nomeTxtController.clear();
+    });
+  }
+
+  void _filtrarDisciplinas(filtro) {
+    var temp = _turmas
+        .where((turma) => turma.disciplina!.nome!
+            .toUpperCase()
+            .contains(_nomeTxtController.text.toUpperCase()))
+        .toList();
+    setState(() {
+      _turmasFiltradas = temp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Turmas disponíveis'),
+          title: _habilitarFiltro
+              ? TextFormField(
+                  decoration: const InputDecoration(
+                      hintText: 'Nome', label: Text('Nome disciplina')),
+                  controller: _nomeTxtController,
+                  onFieldSubmitted: _filtrarDisciplinas,
+                )
+              : const Text('Turmas disponíveis'),
+          actions: [
+            IconButton(
+                onPressed: _alternarVisualizacaoFiltro,
+                icon: _habilitarFiltro
+                    ? const Icon(Icons.cancel)
+                    : const Icon(Icons.search))
+          ],
         ),
         body: Container(
           color: const Color.fromARGB(255, 208, 208, 208),
@@ -92,8 +132,10 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
     setState(() {
       _carregando = true;
     });
-    var resposta = await _turmaController.buscaTodas();
+    var resposta = await _turmaController
+        .buscaTurmasValidas(GlobalController.instance.aluno!.id!);
     setState(() {
+      _turmas = resposta;
       _turmasFiltradas = resposta;
       _carregando = false;
     });
@@ -101,6 +143,6 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
 
   Future<void> _inscreverTurma(Turma turma) async {
     await _inscricaoController.inscreverEmTurma(Inscricao(
-        idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id));
+        idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id!));
   }
 }

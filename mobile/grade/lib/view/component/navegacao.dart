@@ -4,8 +4,8 @@ import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/calendario.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
-import 'package:grade/view/page/login.dart';
 import 'package:grade/view/page/perfil.dart';
+import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -67,7 +67,7 @@ class Navegacao extends StatelessWidget {
                   GlobalController.instance.setAluno(null),
                   SharedPreferences.getInstance()
                       .then((preferences) => preferences.clear()),
-                  Navigator.pushReplacementNamed(context, LoginPage.rota),
+                  Navigator.pushReplacementNamed(context, SaudacaoPage.rota),
                 }),
       ],
     );

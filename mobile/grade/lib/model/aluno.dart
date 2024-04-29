@@ -3,6 +3,7 @@ class Aluno {
   String? nome;
   String? matricula;
   String? senha;
+  int? idCurso;
 
   Aluno(
       {required this.id,
@@ -13,40 +14,25 @@ class Aluno {
   Aluno.login({required this.matricula, required this.senha});
 
   Aluno.cadastro(
-      {required this.nome, required this.matricula, required this.senha});
-/* 
+      {required this.nome,
+      required this.matricula,
+      required this.senha,
+      required this.idCurso});
+
   Aluno.fromJson(dynamic json)
       : id = json['id'],
         nome = json['nome'],
-        matricula = json['matricula'];
-
-  Aluno.fromJsonSemId(dynamic json)
-      : nome = json['nome'],
-        matricula = json['matricula'];
+        matricula = json['matricula'],
+        idCurso = json['idCurso'];
 
   Map<String, dynamic> toMap() {
-    return {"id": id, "nome": nome, "matricula": matricula, "senha": senha};
-  }
-
-  Map<String, dynamic> toMapSemId() {
-    return {"nome": nome, "matricula": matricula, "senha": senha};
-  }
-
-  Map<String, dynamic> toMapLogin() {
-    return {"matricula": matricula, "senha": senha};
-  }
-
-  Map<String, dynamic> toMapLeitura() {
-    return {"id": id, "nome": nome, "matricula": matricula};
-  }
- */
-  Aluno.fromJson(dynamic json)
-      : id = json['id'],
-        nome = json['nome'],
-        matricula = json['matricula'];
-
-  Map<String, dynamic> toMap() {
-    return {"id": id, "nome": nome, "matricula": matricula, "senha": senha};
+    return {
+      "id": id,
+      "nome": nome,
+      "matricula": matricula,
+      "senha": senha,
+      "idCurso": idCurso
+    };
   }
 
   @override

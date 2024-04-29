@@ -61,7 +61,8 @@ class CadastroPageState extends State<CadastroPage> {
       var aluno = Aluno.cadastro(
           nome: _nomeController.text,
           matricula: _matriculaController.text,
-          senha: _senhaController.text);
+          senha: _senhaController.text,
+          idCurso: 1);
       aluno = await _alunoController.cadastro(aluno);
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();

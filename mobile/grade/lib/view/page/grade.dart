@@ -71,7 +71,8 @@ class GradePageState extends State<GradePage> {
           linha.add('');
         } else {
           var horario = horarioQuery.first;
-          var valorCelula = '${horario.turma.disciplina.nome}\n${horario.sala}';
+          var valorCelula =
+              '${horario.turma.disciplina!.nome}\n${horario.sala}';
           linha.add(valorCelula);
         }
       }
@@ -154,7 +155,7 @@ class GradePageState extends State<GradePage> {
                                 content: Column(
                                   children: horarios
                                       .map((horario) => Text(
-                                          '${horario.inicio} - ${horario.fim} ${horario.turma.disciplina.nome} (${horario.sala})'))
+                                          '${horario.inicio} - ${horario.fim} ${horario.turma.disciplina!.nome} (${horario.sala})'))
                                       .toList(),
                                 ),
                               ))

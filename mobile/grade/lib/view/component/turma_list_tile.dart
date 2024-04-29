@@ -12,10 +12,10 @@ class TurmaListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        turma.disciplina.nome,
+        turma.disciplina!.nome!,
       ),
       subtitle: Text(
-        '${turma.professor.nome}\nDisciplina ${turma.numero}',
+        '${turma.professor!.nome}\nDisciplina ${turma.numero}',
       ),
       trailing: iconButton,
     );

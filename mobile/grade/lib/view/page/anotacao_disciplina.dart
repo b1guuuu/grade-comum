@@ -37,7 +37,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
       _carregando = true;
     });
     var temp = await _anotacaoController.buscaTodosAlunoDisciplina(
-        GlobalController.instance.aluno!.id!, widget.disciplina.id);
+        GlobalController.instance.aluno!.id!, widget.disciplina.id!);
     setState(() {
       _anotacoes = temp;
       _carregando = false;
@@ -50,7 +50,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
       context: context,
       builder: (context) {
         return FormularioAnotacao(
-          idDisciplina: widget.disciplina.id,
+          idDisciplina: widget.disciplina.id!,
           anotacao: anotacao,
         );
       },
@@ -61,7 +61,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.disciplina.nome),
+        title: Text(widget.disciplina.nome!),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
