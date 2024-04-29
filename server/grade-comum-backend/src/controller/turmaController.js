@@ -4,8 +4,11 @@ const Disciplina = require('../repository/disciplina')
 const Professor = require('../repository/professor')
 const Horario = require('../repository/horario')
 const { geradorHorarios } = require('../util/geradorHorarios')
-const { turmaComDisciplinaEProfessor, turmaComDisciplinaProfessorEInscricao } = require('../util/criaObjetoComPropriedadeRenomeada')
+const { turmaComDisciplinaEProfessor, turmaComDisciplinaProfessorEInscricao, disciplinaComRequisitos } = require('../util/criaObjetoComPropriedadeRenomeada')
 const Inscricao = require('../repository/inscricao')
+const { Op } = require('sequelize')
+const { conexao } = require('../util/conexao')
+const Requisito = require('../repository/requisito')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -56,6 +59,89 @@ router.get('/aluno', async (req, res, next) => {
     turmas = turmas.map((turma) => turmaComDisciplinaProfessorEInscricao(turma))
     res.status(200)
     res.json(turmas)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.get('/aluno/disponiveis', async (req, res, next) => {
+  try {
+    const { idAluno } = req.query
+
+    // Busca as turmas de disciplinas não concluídas
+    let turmas = await Turma.findAll({
+      include: [
+        {
+          model: Disciplina,
+          required: true,
+          as: 'turmadisciplina',
+          where: {
+            id: {
+              [Op.notIn]: conexao.literal(`
+                (SELECT iddisciplina FROM progresso WHERE idaluno = ${idAluno})
+              `)
+            }
+          }
+        },
+        {
+          model: Professor, required: true, as: 'turmaprofessor'
+        }
+      ]
+    })
+    turmas = turmas.map((turma) => turmaComDisciplinaEProfessor(turma))
+
+    // Busca as disciplinas já concluídas
+    const disciplinasConcluidas = await Disciplina.findAll({
+      where: {
+        id: {
+          [Op.in]: conexao.literal(`
+            (SELECT iddisciplina FROM progresso)
+          `)
+        }
+      }
+    })
+
+    // Buscas as disciplinas pendentes e seus respectivos requisitos
+    let disciplinasPendentesComRequisitos = await Disciplina.findAll({
+      include: [{
+        model: Requisito, as: 'disciplinabaserequisito'
+      }],
+      where: {
+        id: {
+          [Op.notIn]: conexao.literal(`
+            (SELECT iddisciplina FROM progresso)
+          `)
+        }
+      }
+    })
+    disciplinasPendentesComRequisitos = disciplinasPendentesComRequisitos.map((disciplina) => disciplinaComRequisitos(disciplina))
+    const turmasValidas = []
+
+    // Filtrando turmas, retornando apenas as que o aluno pode se inscrever
+    for (const turma of turmas) {
+      console.log({ turma })
+      const indexTurmaDisciplinaConcluida = disciplinasConcluidas.findIndex((disciplinaConcluida) => disciplinaConcluida.id === turma.id)
+      console.log({ indexTurmaDisciplinaConcluida })
+      if (indexTurmaDisciplinaConcluida === -1) {
+        const disciplinaPendenteComRequisitos = disciplinasPendentesComRequisitos.find((disciplinaPendente) => disciplinaPendente.id === turma.disciplina.id)
+        console.log({ disciplinaPendenteComRequisitos })
+        let contadorRequisitosCumpridos = 0
+        for (const requisito of disciplinaPendenteComRequisitos.requisitos) {
+          console.log({ requisito })
+          const indexDisciplinaRequisitoJaConcluida = disciplinasConcluidas.findIndex((disciplinaConcluida) => disciplinaConcluida.id === requisito.idDisciplinaRequissito)
+          if (indexDisciplinaRequisitoJaConcluida > -1) {
+            contadorRequisitosCumpridos++
+          }
+        }
+        if (contadorRequisitosCumpridos === disciplinaPendenteComRequisitos.requisitos.length) {
+          turmasValidas.push(turma)
+        }
+      }
+    }
+
+    res.status(200)
+    res.json(turmasValidas)
   } catch (error) {
     console.error(error)
     next(error)

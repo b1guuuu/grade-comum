@@ -1,14 +1,14 @@
 const { conexao } = require('../util/conexao')
 const { DataTypes } = require('sequelize')
 
-const Inscricao = conexao.define('inscricao', {
-  idTurma: {
+const Progresso = conexao.define('progresso', {
+  idDisciplina: {
     references: {
-      model: 'turma',
+      model: 'disciplina',
       key: 'id'
     },
     primaryKey: true,
-    field: 'idturma',
+    field: 'iddisciplina',
     type: DataTypes.INTEGER
   },
   idAluno: {
@@ -20,6 +20,6 @@ const Inscricao = conexao.define('inscricao', {
     field: 'idaluno',
     type: DataTypes.INTEGER
   }
-}, { tableName: 'inscricao', timestamps: false, freezeTableName: true })
+}, { tableName: 'progresso', timestamps: false, freezeTableName: true })
 
-module.exports = Inscricao
+module.exports = Progresso

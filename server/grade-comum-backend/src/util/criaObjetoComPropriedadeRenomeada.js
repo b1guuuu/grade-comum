@@ -44,10 +44,28 @@ const turmaComDisciplinaProfessorEInscricao = (turma) => {
   }
 }
 
+const disciplinaComRequisitos = (disciplina) => {
+  let disciplinaJSON
+  try {
+    disciplinaJSON = disciplina.toJSON()
+  } catch (error) {
+    disciplinaJSON = disciplina
+  }
+
+  const { id, nome, idCurso } = disciplinaJSON
+  return {
+    id,
+    nome,
+    idCurso,
+    requisitos: disciplinaJSON.disciplinabaserequisito
+  }
+}
+
 module.exports = {
   anotacaoComDisciplina,
   horarioComTurmaEDisciplina,
   turmaComDisciplina,
   turmaComDisciplinaEProfessor,
-  turmaComDisciplinaProfessorEInscricao
+  turmaComDisciplinaProfessorEInscricao,
+  disciplinaComRequisitos
 }

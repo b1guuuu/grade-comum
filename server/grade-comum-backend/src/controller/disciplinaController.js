@@ -3,6 +3,7 @@ const Disciplina = require('../repository/disciplina')
 const Turma = require('../repository/turma')
 const Inscricao = require('../repository/inscricao')
 const Anotacao = require('../repository/anotacao')
+const Requisito = require('../repository/requisito')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -17,10 +18,12 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const dataRequisicao = req.body
-    const disciplina = await Disciplina.create(dataRequisicao)
+    const { requisitos, ...dadosNovaDisciplina } = req.body
+    const disciplina = await Disciplina.create(dadosNovaDisciplina)
+    const dadosRequisitos = requisitos == null ? [] : requisitos.map((requisito) => { return { idDisciplina: disciplina.id, idDisciplinaRequisito: requisito.id } })
+    const requisitosInseridos = await Requisito.bulkCreate(dadosRequisitos)
     res.status(201)
-    res.json(disciplina.toJSON())
+    res.json({ ...disciplina.toJSON(), requisitos: requisitosInseridos.map((requisito) => requisito.toJSON()) })
   } catch (error) {
     console.error(error)
     next(error)
