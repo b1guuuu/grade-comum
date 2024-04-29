@@ -4,8 +4,6 @@ CREATE TABLE IF NOT EXISTS curso(
     PRIMARY KEY (id)
 );
 
-INSERT INTO curso (nome) VALUES ('Sistemas de Informação');
-
 CREATE TABLE IF NOT EXISTS disciplina(
     id SERIAL,
     nome TEXT NOT NULL,
@@ -75,7 +73,6 @@ CREATE TABLE IF NOT EXISTS horario (
 CREATE TABLE IF NOT EXISTS inscricao (
     idTurma INT NOT NULL,
     idAluno INT NOT NULL,
-    concluido DATE,
     FOREIGN KEY (idTurma) REFERENCES turma(id),
     FOREIGN KEY (idAluno) REFERENCES aluno(id),
     PRIMARY KEY (idTurma, idAluno)
@@ -91,4 +88,12 @@ CREATE TABLE IF NOT EXISTS anotacao(
     PRIMARY KEY (id),
     FOREIGN KEY (idAluno) REFERENCES aluno(id),
     FOREIGN KEY (idDisciplina) REFERENCES disciplina(id)
+);
+
+CREATE TABLE IF NOT EXISTS progresso (
+    idDisciplina INT NOT NULL,
+    idAluno INT NOT NULL,
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
+    FOREIGN KEY (idAluno) REFERENCES aluno(id),
+    PRIMARY KEY (idDisciplina, idAluno)
 );
