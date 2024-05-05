@@ -68,7 +68,7 @@ INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
 	 (138,120);
 INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
 	 (139,124),
-	 (140,33),
+	 (140,133),
 	 (141,124),
 	 (142,135),
 	 (143,123),
