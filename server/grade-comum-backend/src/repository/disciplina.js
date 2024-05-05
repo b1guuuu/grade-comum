@@ -12,6 +12,10 @@ const Disciplina = conexao.define('disciplina', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  periodo: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   idCurso: {
     type: DataTypes.INTEGER,
     references: {

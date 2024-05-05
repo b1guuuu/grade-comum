@@ -4,9 +4,11 @@ const router = require('express').Router()
 
 router.get('/', async (req, res, next) => {
   try {
-    const inscricoes = await Curso.findAll()
+    const cursos = await Curso.findAll({
+      order: ['nome']
+    })
     res.status(200)
-    res.json(inscricoes.map(d => d.toJSON()))
+    res.json(cursos.map(d => d.toJSON()))
   } catch (error) {
     console.error(error)
     next(error)

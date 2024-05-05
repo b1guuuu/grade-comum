@@ -19,6 +19,14 @@ const Progresso = conexao.define('progresso', {
     primaryKey: true,
     field: 'idaluno',
     type: DataTypes.INTEGER
+  },
+  tentativas: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1
+  },
+  concluido: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, { tableName: 'progresso', timestamps: false, freezeTableName: true })
 

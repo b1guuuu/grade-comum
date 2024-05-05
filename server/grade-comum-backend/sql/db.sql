@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS curso(
 CREATE TABLE IF NOT EXISTS disciplina(
     id SERIAL,
     nome TEXT NOT NULL,
+    periodo INT NOT NULL,
     idCurso INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (idCurso) REFERENCES curso(id)
@@ -93,6 +94,8 @@ CREATE TABLE IF NOT EXISTS anotacao(
 CREATE TABLE IF NOT EXISTS progresso (
     idDisciplina INT NOT NULL,
     idAluno INT NOT NULL,
+    tentativas INT DEFAULT 1,
+    concluido BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
     FOREIGN KEY (idAluno) REFERENCES aluno(id),
     PRIMARY KEY (idDisciplina, idAluno)
