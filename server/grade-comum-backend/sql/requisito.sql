@@ -83,3 +83,102 @@ INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
 	 (156,115),
 	 (157,149),
 	 (158,150);
+
+--Administração
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(167,161),
+	(168,162),
+	(172,166),
+	(175,169),
+	(176,164),
+	(177,171),
+	(179,168),
+	(180,167),
+	(183,167),
+	(184,177);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(184,178),
+	(185,167),
+	(186,168),
+	(187,182),
+	(190,184),
+	(191,185),
+	(193,187),
+	(195,189),
+	(196,189),
+	(198,159);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(200,182),
+	(202,191),
+	(202,193),
+	(203,163),
+	(206,167),
+	(207,188),
+	(208,200),
+	(209,201);
+
+
+--Engenharia de Produção
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(217,214),
+	(219,213),
+	(221,213),
+	(223,211),
+	(224,219),
+	(226,220),
+	(227,221),
+	(228,222),
+	(229,218),
+	(230,224);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(231,224),
+	(232,225),
+	(233,227),
+	(236,228),
+	(238,221),
+	(238,219),
+	(239,227),
+	(240,232),
+	(240,234),
+	(243,235);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(244,238),
+	(245,239),
+	(247,234),
+	(247,241),
+	(249,216),
+	(249,235),
+	(252,234),
+	(252,246),
+	(252,248),
+	(253,243);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(244,238),
+	(245,239),
+	(247,234),
+	(247,241),
+	(249,216),
+	(249,235),
+	(252,234),
+	(252,246),
+	(252,248);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(253,242),
+	(258,226),
+	(259,246),
+	(260,257),
+	(261,243),
+	(262,250),
+	(263,223),
+	(267,236),
+	(268,242);
+
+INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(271,263),
+	(272,264);
