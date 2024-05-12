@@ -154,22 +154,10 @@ INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
 	(249,235),
 	(252,234),
 	(252,246),
-	(252,248),
+	(253,242),
 	(253,243);
 
 INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
-	(244,238),
-	(245,239),
-	(247,234),
-	(247,241),
-	(249,216),
-	(249,235),
-	(252,234),
-	(252,246),
-	(252,248);
-
-INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
-	(253,242),
 	(258,226),
 	(259,246),
 	(260,257),
@@ -177,8 +165,6 @@ INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
 	(262,250),
 	(263,223),
 	(267,236),
-	(268,242);
-
-INSERT INTO public.requisito (iddisciplina,iddisciplinarequisito) VALUES
+	(268,242),
 	(271,263),
 	(272,264);

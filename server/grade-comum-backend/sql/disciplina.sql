@@ -175,7 +175,7 @@ INSERT INTO public.disciplina (id,nome,idcurso,periodo) VALUES
 	 (204,'GESTÃO DE SERVIÇOS',3,8),
 	 (205,'GERÊNCIA DE PROJETOS',3,8),
 	 (206,'GESTÃO ESTRATÉGICA',3,8),
-	 (207,'ADMINISTRAÇÃO PÚBLICA',3,8)
+	 (207,'ADMINISTRAÇÃO PÚBLICA',3,8),
 	 (208,'TCC II',3,8);
 
 INSERT INTO public.disciplina (id,nome,idcurso,periodo) VALUES
@@ -259,4 +259,4 @@ INSERT INTO public.disciplina (id,nome,idcurso,periodo) VALUES
 INSERT INTO public.disciplina (id,nome,idcurso,periodo) VALUES
 	 (270,'LEGISLAÇÃO E SEGURANÇA DO TRABALHO',4,10),
 	 (271,'TRABALHO DE CONCLUSÃO DE CURSO II - EP',4,10),
-	 (272,'ESTÁGIO SUPERVISIONADO I (EP)',4,10),;
+	 (272,'ESTÁGIO SUPERVISIONADO I (EP)',4,10);
