@@ -57,6 +57,7 @@ class DisciplinaCadastroState extends State<DisciplinaCadastro> {
   Future<void> _salvarDisciplina() async {
     var disciplina = Disciplina.cadastro(
         nome: _nomeTxtController.text,
+        periodo: 1,
         idCurso: _idCurso,
         requisitos: _requisitos);
     return _disciplinaController.cadastrarDisciplina(disciplina);

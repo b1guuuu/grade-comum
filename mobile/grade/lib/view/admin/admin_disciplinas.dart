@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:grade/controller/disciplina_controller.dart';
 import 'package:grade/model/disciplina.dart';
-import 'package:grade/view/admin/inicio.dart';
+import 'package:grade/view/admin/admin_inicio.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/disciplina_cadastro.dart';
 import 'package:grade/view/component/navegacao.dart';
 
-class DisciplinasPage extends StatefulWidget {
-  static const rota = '${InicioAdminPage.rota}/disciplinas';
+class AdminDisciplinasPage extends StatefulWidget {
+  static const rota = '${AdminInicioPage.rota}/disciplinas';
 
-  const DisciplinasPage({super.key});
+  const AdminDisciplinasPage({super.key});
 
   @override
-  State<DisciplinasPage> createState() {
-    return DisciplinasPageState();
+  State<AdminDisciplinasPage> createState() {
+    return AdminDisciplinasPageState();
   }
 }
 
-class DisciplinasPageState extends State<DisciplinasPage> {
+class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
   final DisciplinaController _disciplinaController = DisciplinaController();
   List<Disciplina> _disciplinas = [];
   bool _carregando = true;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grade/controller/aluno_controller.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/aluno.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/util/alertas_personalizados.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,9 +33,7 @@ class LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: const Text('Efetuar Login'),
         ),
-        body: Container(
-          color: const Color.fromARGB(255, 208, 208, 208),
-          padding: const EdgeInsets.all(20.0),
+        body: ContainerBase(
           child: Form(
             key: _formLogin,
             child: Column(

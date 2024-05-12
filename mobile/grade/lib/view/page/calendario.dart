@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grade/controller/anotacao_controller.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/view/component/carregando.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao.dart';
 
 class CalendarioPage extends StatefulWidget {
@@ -60,9 +61,7 @@ class CalendarioPageState extends State<CalendarioPage> {
       drawer: const Drawer(
         child: Navegacao(),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(5.0),
+      body: ContainerBase(
         child: _carregando ? const Carregando() : const MonthView(),
       ),
     );

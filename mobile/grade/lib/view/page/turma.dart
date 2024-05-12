@@ -5,6 +5,7 @@ import 'package:grade/controller/turma_controller.dart';
 import 'package:grade/model/inscricao.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/component/turma_list_tile.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
@@ -54,9 +55,7 @@ class TurmaPageState extends State<TurmaPage> {
       ),
       body: _carregando
           ? const Carregando()
-          : Container(
-              color: const Color.fromARGB(255, 208, 208, 208),
-              padding: const EdgeInsets.all(20.0),
+          : ContainerBase(
               child: _turmas.isEmpty
                   ? const Center(
                       child: Text('Você não tem turmas cadastradas'),

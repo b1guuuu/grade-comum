@@ -5,6 +5,7 @@ import 'package:grade/controller/global_controller.dart';
 import 'package:grade/controller/horario_controller.dart';
 import 'package:grade/model/horario.dart';
 import 'package:grade/view/component/carregando.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/component/tabela_grade.dart';
 
@@ -123,9 +124,7 @@ class GradePageState extends State<GradePage> {
         drawer: const Drawer(
           child: Navegacao(),
         ),
-        body: Container(
-          color: const Color.fromARGB(255, 208, 208, 208),
-          padding: const EdgeInsets.all(5.0),
+        body: ContainerBase(
           child: _carregando
               ? const Carregando()
               : _visualizacaoTabela

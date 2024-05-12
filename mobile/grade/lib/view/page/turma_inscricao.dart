@@ -5,6 +5,7 @@ import 'package:grade/controller/turma_controller.dart';
 import 'package:grade/model/inscricao.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/turma_list_tile.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:quickalert/quickalert.dart';
@@ -79,9 +80,7 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
                     : const Icon(Icons.search))
           ],
         ),
-        body: Container(
-          color: const Color.fromARGB(255, 208, 208, 208),
-          padding: const EdgeInsets.all(5.0),
+        body: ContainerBase(
           child: _carregando
               ? const Carregando()
               : _turmasFiltradas.isEmpty

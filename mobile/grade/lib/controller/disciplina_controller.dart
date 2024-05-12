@@ -13,8 +13,29 @@ class DisciplinaController {
         });
 
     if (resposta.statusCode == 200) {
-      List<dynamic> listaJson = jsonDecode(resposta.body);
+      var listaJson = jsonDecode(resposta.body);
       return listaJson.map((json) => Disciplina.fromJson(json)).toList();
+    } else {
+      throw Exception(
+          'Ocorreu um erro ao buscar as disciplinas: ${resposta.toString()}');
+    }
+  }
+
+  Future<List<Disciplina>> listarPPC(int idCurso) async {
+    final resposta = await http.get(Uri.parse('$_urlBase/ppc?idCurso=$idCurso'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode == 200) {
+      var listaJson = jsonDecode(resposta.body);
+      List<Disciplina> disciplinas = [];
+      for (var disciplinaJson in listaJson) {
+        var disciplina = Disciplina.fromJson(disciplinaJson);
+        disciplina.setRequisitos(disciplinaJson);
+        disciplinas.add(disciplina);
+      }
+      return disciplinas;
     } else {
       throw Exception(
           'Ocorreu um erro ao buscar as disciplinas: ${resposta.toString()}');
