@@ -60,7 +60,7 @@ router.put('/', async (req, res, next) => {
 
     presenca.set('presente', presente)
     presenca.set('observacao', observacao)
-    presenca.set('ultimaAtualizacao', ultimaAtualizacao)
+    presenca.set('ultimaatualizacao', ultimaAtualizacao)
 
     await presenca.save()
     res.status(204)
