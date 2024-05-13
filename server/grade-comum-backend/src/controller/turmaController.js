@@ -148,4 +148,16 @@ router.get('/aluno/disponiveis', async (req, res, next) => {
   }
 })
 
+router.delete('/', async (req, res, next) => {
+  try {
+    const dataRequisicao = req.body
+    const turma = Turma.build(dataRequisicao)
+    await turma.destroy()
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
 module.exports = router
