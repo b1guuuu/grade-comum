@@ -27,6 +27,20 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.put('/', async (req, res, next) => {
+  try {
+    const { id, nome } = req.body
+    const curso = await Curso.findByPk(id)
+    curso.nome = nome
+    await curso.save()
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 router.delete('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body

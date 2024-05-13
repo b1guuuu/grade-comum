@@ -70,7 +70,7 @@ const disciplinaComRequisitosFormatados = (disciplina) => {
 }
 
 const presencaComProfessor = (presenca) => {
-let presencaJSON
+  let presencaJSON
   try {
     presencaJSON = presenca.toJSON()
   } catch (error) {
@@ -85,6 +85,10 @@ let presencaJSON
     professor: presencaJSON.presencaprofessor
   }
 }
+const disciplinaComCurso = (disciplina) => {
+  const { disciplinacurso, ...atributos } = disciplina.toJSON()
+  return { ...atributos, curso: disciplinacurso }
+}
 
 module.exports = {
   anotacaoComDisciplina,
@@ -94,5 +98,6 @@ module.exports = {
   turmaComDisciplinaProfessorEInscricao,
   disciplinaComRequisitos,
   disciplinaComRequisitosFormatados,
-  presencaComProfessor
+  presencaComProfessor,
+  disciplinaComCurso
 }
