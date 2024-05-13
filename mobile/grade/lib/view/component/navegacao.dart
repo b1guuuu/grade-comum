@@ -6,6 +6,7 @@ import 'package:grade/view/page/ppc.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/perfil.dart';
+import 'package:grade/view/page/professores.dart';
 import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,9 +52,10 @@ class Navegacao extends StatelessWidget {
               Navigator.pushReplacementNamed(context, CalendarioPage.rota),
         ),
         ListTile(
-          title: const Text('Faltas'),
-          leading: const Icon(Icons.hourglass_empty),
-          onTap: () => Navigator.pushReplacementNamed(context, InicioPage.rota),
+          title: const Text('Professores'),
+          leading: const Icon(Icons.people),
+          onTap: () =>
+              Navigator.pushReplacementNamed(context, ProfessoresPage.rota),
         ),
         ListTile(
           title: const Text('Anotações'),

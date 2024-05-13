@@ -16,6 +16,7 @@ import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/login.dart';
 import 'package:grade/view/page/perfil.dart';
 import 'package:grade/view/page/ppc.dart';
+import 'package:grade/view/page/professores.dart';
 import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
@@ -55,7 +56,8 @@ class App extends StatelessWidget {
           PPCPage.rota: (context) => const PPCPage(),
           AdminCursosPage.rota: (context) => const AdminCursosPage(),
           AdminProfessoresPage.rota: (context) => const AdminProfessoresPage(),
-          AdminTurmasPage.rota: (context) => const AdminTurmasPage()
+          AdminTurmasPage.rota: (context) => const AdminTurmasPage(),
+          ProfessoresPage.rota: (context) => const ProfessoresPage()
         },
         onGenerateRoute: (configuracoes) {
           if (configuracoes.name == TurmaInscricaoPage.rota) {

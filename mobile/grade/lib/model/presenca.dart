@@ -1,9 +1,13 @@
+import 'package:grade/model/professor.dart';
+import 'package:intl/intl.dart';
+
 class Presenca {
   late int id;
-  final bool presente;
+  late bool presente;
   late String observacao;
   late DateTime ultimaAtualizacao;
   late int idProfessor;
+  Professor? professor;
 
   Presenca.semId(this.presente);
 
@@ -12,7 +16,10 @@ class Presenca {
         presente = json['presente'],
         observacao = json['observacao'],
         idProfessor = json['idProfessor'],
-        ultimaAtualizacao = json['ultimaAtualizacao'];
+        ultimaAtualizacao = Presenca.formatarData(json['ultimaAtualizacao']),
+        professor = json['professor'] == null
+            ? null
+            : Professor.fromJson(json['professor']);
 
   Presenca.fromJsonSemId(dynamic json)
       : presente = json['presente'],
@@ -26,7 +33,7 @@ class Presenca {
       "presente": presente,
       "observacao": observacao,
       "idProfessor": idProfessor,
-      "ultimaAtualizacao": ultimaAtualizacao
+      "ultimaAtualizacao": ultimaAtualizacao.toString()
     };
   }
 
@@ -45,6 +52,11 @@ class Presenca {
 
   set setUltimaAtualizacao(DateTime ultimaAtualizacao) {
     this.ultimaAtualizacao = ultimaAtualizacao;
+  }
+
+  static DateTime formatarData(dynamic data) {
+    var inputFormat = DateFormat('yyyy-MM-dd');
+    return inputFormat.parse(data);
   }
 
   @override

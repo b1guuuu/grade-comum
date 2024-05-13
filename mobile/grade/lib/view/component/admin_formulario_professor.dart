@@ -24,7 +24,7 @@ class AdminFormularioProfessorState extends State<AdminFormularioProfessor> {
     super.initState();
     if (widget.professor != null) {
       setState(() {
-        _nomeTxtController.text = widget.professor!.nome!;
+        _nomeTxtController.text = widget.professor!.nome;
       });
     }
   }
