@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:grade/view/component/navegacao_admin.dart';
 
-class InicioAdminPage extends StatefulWidget {
+class AdminInicioPage extends StatefulWidget {
   static const rota = '/admin';
 
-  const InicioAdminPage({super.key});
+  const AdminInicioPage({super.key});
 
   @override
-  State<InicioAdminPage> createState() {
+  State<AdminInicioPage> createState() {
     return InicioPageState();
   }
 }
 
-class InicioPageState extends State<InicioAdminPage> {
+class InicioPageState extends State<AdminInicioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/view/component/campos_aluno.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao.dart';
 
 class PerfilPage extends StatefulWidget {
@@ -24,9 +25,7 @@ class PerfilPageState extends State<PerfilPage> {
       drawer: const Drawer(
         child: Navegacao(),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(20.0),
+      body: ContainerBase(
         child: CamposAluno(
           aluno: GlobalController.instance.aluno!,
         ),

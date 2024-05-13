@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao.dart';
 
 class InicioPage extends StatefulWidget {
@@ -22,10 +23,8 @@ class InicioPageState extends State<InicioPage> {
       drawer: const Drawer(
         child: Navegacao(),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(20.0),
-        child: const Center(
+      body: const ContainerBase(
+        child: Center(
           child: Text('Inicio'),
         ),
       ),

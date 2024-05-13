@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/calendario.dart';
+import 'package:grade/view/page/ppc.dart';
 import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/perfil.dart';
@@ -32,6 +33,11 @@ class Navegacao extends StatelessWidget {
           title: const Text('Grade'),
           leading: const Icon(Icons.access_time_filled),
           onTap: () => Navigator.pushReplacementNamed(context, GradePage.rota),
+        ),
+        ListTile(
+          title: const Text('Disciplinas curso (PPC)'),
+          leading: const Icon(Icons.library_books_outlined),
+          onTap: () => Navigator.pushReplacementNamed(context, PPCPage.rota),
         ),
         ListTile(
           title: const Text('Turmas'),

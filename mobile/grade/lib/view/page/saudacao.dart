@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/aluno.dart';
-import 'package:grade/view/admin/inicio.dart';
+import 'package:grade/view/admin/admin_inicio.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/page/cadastro.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/login.dart';
@@ -21,9 +22,7 @@ class SaudacaoPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bem-vindo!'),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(20.0),
+      body: ContainerBase(
         child: Column(
           children: [
             const Text(
@@ -47,7 +46,7 @@ class SaudacaoPage extends StatelessWidget {
             ),
             FilledButton(
                 onPressed: () =>
-                    Navigator.of(context).pushNamed(InicioAdminPage.rota),
+                    Navigator.of(context).pushNamed(AdminInicioPage.rota),
                 child: const Text('Admin'))
           ],
         ),

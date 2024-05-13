@@ -62,7 +62,7 @@ class CamposAlunoState extends State<CamposAluno> {
   Widget build(BuildContext context) {
     return Form(
         key: _formCamposAluno,
-        child: Column(
+        child: ListView(
           children: [
             TextFormField(
               validator: (value) {
@@ -142,7 +142,6 @@ class CamposAlunoState extends State<CamposAluno> {
                   .map((curso) => DropdownMenuItem(
                         value: curso,
                         child: Text(curso.nome!),
-                        enabled: widget.aluno != null,
                       ))
                   .toList(),
               onChanged: (value) => setState(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade/view/component/campos_aluno.dart';
+import 'package:grade/view/component/container_base.dart';
 
 class CadastroPage extends StatefulWidget {
   static const rota = '/cadastro';
@@ -19,10 +20,8 @@ class CadastroPageState extends State<CadastroPage> {
       appBar: AppBar(
         title: const Text('Efetuar Cadastro'),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(20.0),
-        child: const CamposAluno(
+      body: const ContainerBase(
+        child: CamposAluno(
           aluno: null,
         ),
       ),

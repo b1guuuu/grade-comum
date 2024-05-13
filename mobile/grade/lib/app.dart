@@ -2,8 +2,8 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:grade/model/disciplina.dart';
 import 'package:grade/model/turma.dart';
-import 'package:grade/view/admin/disciplinas.dart';
-import 'package:grade/view/admin/inicio.dart';
+import 'package:grade/view/admin/admin_disciplinas.dart';
+import 'package:grade/view/admin/admin_inicio.dart';
 import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/anotacao_disciplina.dart';
 import 'package:grade/view/page/cadastro.dart';
@@ -12,6 +12,7 @@ import 'package:grade/view/page/grade.dart';
 import 'package:grade/view/page/inicio.dart';
 import 'package:grade/view/page/login.dart';
 import 'package:grade/view/page/perfil.dart';
+import 'package:grade/view/page/ppc.dart';
 import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
@@ -46,8 +47,9 @@ class App extends StatelessWidget {
           GradePage.rota: (context) => const GradePage(),
           AnotacaoPage.rota: (context) => const AnotacaoPage(),
           CalendarioPage.rota: (context) => const CalendarioPage(),
-          DisciplinasPage.rota: (context) => const DisciplinasPage(),
-          InicioAdminPage.rota: (context) => const InicioAdminPage()
+          AdminDisciplinasPage.rota: (context) => const AdminDisciplinasPage(),
+          AdminInicioPage.rota: (context) => const AdminInicioPage(),
+          PPCPage.rota: (context) => const PPCPage()
         },
         onGenerateRoute: (configuracoes) {
           if (configuracoes.name == TurmaInscricaoPage.rota) {

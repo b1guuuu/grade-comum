@@ -4,6 +4,7 @@ import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/anotacao.dart';
 import 'package:grade/model/disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/formulario_anotacao.dart';
 import 'package:grade/view/page/anotacao.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -71,9 +72,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
         enableFeedback: true,
         child: const Icon(Icons.add_circle),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(5.0),
+      body: ContainerBase(
         child: _carregando
             ? const Carregando()
             : _anotacoes.isEmpty

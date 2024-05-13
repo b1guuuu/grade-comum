@@ -2,8 +2,8 @@ class Presenca {
   late int id;
   final bool presente;
   late String observacao;
-  late int idProfessor;
   late DateTime ultimaAtualizacao;
+  late int idProfessor;
 
   Presenca.semId(this.presente);
 

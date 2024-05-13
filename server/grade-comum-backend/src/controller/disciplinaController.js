@@ -4,12 +4,39 @@ const Turma = require('../repository/turma')
 const Inscricao = require('../repository/inscricao')
 const Anotacao = require('../repository/anotacao')
 const Requisito = require('../repository/requisito')
+const { disciplinaComRequisitosFormatados, disciplinaComRequisitos } = require('../util/criaObjetoComPropriedadeRenomeada')
 
 router.get('/', async (req, res, next) => {
   try {
     const disciplinas = await Disciplina.findAll()
     res.status(200)
     res.json(disciplinas.map(d => d.toJSON()))
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.get('/ppc', async (req, res, next) => {
+  try {
+    const { idCurso } = req.query
+    let disciplinas = await Disciplina.findAll({
+      include: [
+        {
+          model: Requisito,
+          as: 'disciplinabaserequisito',
+          required: false,
+          include: [
+            { model: Disciplina, as: 'requisitodisciplina', required: false }
+          ]
+        }
+      ],
+      where: { idCurso },
+      order: ['periodo']
+    })
+    disciplinas = disciplinas.map((disciplina) => disciplinaComRequisitosFormatados(disciplina))
+    res.status(200)
+    res.json(disciplinas)
   } catch (error) {
     console.error(error)
     next(error)

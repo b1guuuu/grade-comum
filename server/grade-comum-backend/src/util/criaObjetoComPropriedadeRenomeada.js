@@ -52,13 +52,21 @@ const disciplinaComRequisitos = (disciplina) => {
     disciplinaJSON = disciplina
   }
 
-  const { id, nome, idCurso } = disciplinaJSON
+  const { id, nome, periodo, idCurso } = disciplinaJSON
   return {
     id,
     nome,
+    periodo,
     idCurso,
     requisitos: disciplinaJSON.disciplinabaserequisito
   }
+}
+
+const disciplinaComRequisitosFormatados = (disciplina) => {
+  const disciplinaBase = disciplinaComRequisitos(disciplina)
+  const requisitos = disciplinaBase.requisitos.map((requisito) => requisito.requisitodisciplina)
+  disciplinaBase.requisitos = requisitos
+  return disciplinaBase
 }
 
 const presencaComProfessor = (presenca) => {
@@ -85,5 +93,6 @@ module.exports = {
   turmaComDisciplinaEProfessor,
   turmaComDisciplinaProfessorEInscricao,
   disciplinaComRequisitos,
+  disciplinaComRequisitosFormatados,
   presencaComProfessor
 }

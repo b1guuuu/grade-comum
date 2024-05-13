@@ -15,7 +15,7 @@ class TurmaListTile extends StatelessWidget {
         turma.disciplina!.nome!,
       ),
       subtitle: Text(
-        '${turma.professor!.nome}\nDisciplina ${turma.numero}',
+        '${turma.professor!.nome}\nDisciplina ${turma.numero}\nPeríodo ${turma.disciplina!.periodo}',
       ),
       trailing: iconButton,
     );

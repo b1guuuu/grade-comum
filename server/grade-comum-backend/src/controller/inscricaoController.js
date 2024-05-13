@@ -16,6 +16,7 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body
+    console.log(dataRequisicao)
     const inscricao = await Inscricao.create(dataRequisicao)
     res.status(201)
     res.json(inscricao.toJSON())
