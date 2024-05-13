@@ -3,10 +3,19 @@ import 'package:grade/model/turma.dart';
 
 class TurmaListTile extends StatelessWidget {
   final Turma turma;
-  final IconButton? iconButton;
+  final Widget? trailing;
+  final int? tentativas;
 
   const TurmaListTile(
-      {super.key, required this.turma, required this.iconButton});
+      {super.key, required this.turma, this.trailing, this.tentativas});
+
+  String _montaSubtitulo() {
+    if (tentativas == null) {
+      return '${turma.professor!.nome}\nDisciplina: ${turma.numero}\nCódigo: ${turma.codigo}\nPeríodo: ${turma.disciplina!.periodo}';
+    } else {
+      return '${turma.professor!.nome}\nDisciplina: ${turma.numero}\nCódigo: ${turma.codigo}\nVezes inscrito(a) na disciplina: $tentativas';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +23,8 @@ class TurmaListTile extends StatelessWidget {
       title: Text(
         turma.disciplina!.nome!,
       ),
-      subtitle: Text(
-        '${turma.professor!.nome}\nDisciplina ${turma.numero}\nPeríodo ${turma.disciplina!.periodo}',
-      ),
-      trailing: iconButton,
+      subtitle: Text(_montaSubtitulo()),
+      trailing: trailing,
     );
   }
 }

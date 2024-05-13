@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/controller/inscricao_controller.dart';
+import 'package:grade/controller/progresso_controller.dart';
 import 'package:grade/controller/turma_controller.dart';
+import 'package:grade/model/disciplina.dart';
 import 'package:grade/model/inscricao.dart';
+import 'package:grade/model/progresso.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
@@ -23,11 +26,13 @@ class TurmaInscricaoPage extends StatefulWidget {
 }
 
 class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
-  final TurmaController _turmaController = TurmaController();
-  final InscricaoController _inscricaoController = InscricaoController();
-  final TextEditingController _nomeTxtController = TextEditingController();
+  final _turmaController = TurmaController();
+  final _progressoController = ProgressoController();
+  final _inscricaoController = InscricaoController();
+  final _nomeTxtController = TextEditingController();
   List<Turma> _turmasFiltradas = [];
   List<Turma> _turmas = [];
+  List<Progresso> _progressos = [];
   bool _carregando = true;
   bool _habilitarFiltro = false;
 
@@ -91,8 +96,10 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
                       itemCount: _turmasFiltradas.length,
                       itemBuilder: (context, index) {
                         return TurmaListTile(
+                            tentativas: _numeroVezesInscritas(
+                                _turmasFiltradas[index].disciplina!),
                             turma: _turmasFiltradas[index],
-                            iconButton: IconButton(
+                            trailing: IconButton(
                               onPressed: widget.turmasInscritas
                                       .contains(_turmasFiltradas[index])
                                   ? null
@@ -133,9 +140,12 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
     });
     var resposta = await _turmaController
         .buscaTurmasValidas(GlobalController.instance.aluno!.id!);
+    var progressos = await _progressoController
+        .listarPorAluno(GlobalController.instance.aluno!.id!);
     setState(() {
       _turmas = resposta;
       _turmasFiltradas = resposta;
+      _progressos = progressos;
       _carregando = false;
     });
   }
@@ -143,5 +153,15 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
   Future<void> _inscreverTurma(Turma turma) async {
     await _inscricaoController.inscreverEmTurma(Inscricao(
         idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id!));
+  }
+
+  int _numeroVezesInscritas(Disciplina disciplina) {
+    try {
+      var progresso = _progressos
+          .singleWhere((progresso) => progresso.idDisciplina == disciplina.id);
+      return progresso.tentativas;
+    } catch (e) {
+      return 0;
+    }
   }
 }

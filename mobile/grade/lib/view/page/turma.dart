@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:grade/controller/global_controller.dart';
 import 'package:grade/controller/inscricao_controller.dart';
+import 'package:grade/controller/progresso_controller.dart';
 import 'package:grade/controller/turma_controller.dart';
 import 'package:grade/model/inscricao.dart';
+import 'package:grade/model/progresso.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/component/turma_list_tile.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class TurmaPage extends StatefulWidget {
   static const rota = '/turmas';
@@ -22,8 +26,9 @@ class TurmaPage extends StatefulWidget {
 }
 
 class TurmaPageState extends State<TurmaPage> {
-  final TurmaController _turmaController = TurmaController();
-  final InscricaoController _inscricaoController = InscricaoController();
+  final _turmaController = TurmaController();
+  final _inscricaoController = InscricaoController();
+  final _progressoController = ProgressoController();
   List<Turma> _turmas = [];
   bool _carregando = true;
 
@@ -65,10 +70,21 @@ class TurmaPageState extends State<TurmaPage> {
                       itemBuilder: (context, index) {
                         return TurmaListTile(
                           turma: _turmas[index],
-                          iconButton: IconButton(
-                              onPressed: () =>
-                                  _deletarInscriacao(_turmas[index]),
-                              icon: const Icon(Icons.delete)),
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () =>
+                                        _confirmarExclusao(_turmas[index]),
+                                    icon: const Icon(Icons.delete)),
+                                IconButton(
+                                    onPressed: () =>
+                                        _confirmarConclusao(_turmas[index]),
+                                    icon: const Icon(Icons.check_box))
+                              ],
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -88,9 +104,70 @@ class TurmaPageState extends State<TurmaPage> {
     });
   }
 
-  Future<void> _deletarInscriacao(Turma turma) async {
-    await _inscricaoController.deletarInscricao(Inscricao(
-        idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id!));
-    _buscarTurmasInscritas();
+  Future<void> _confirmarExclusao(Turma turma) async {
+    return QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      cancelBtnText: 'Voltar',
+      confirmBtnText: 'Deletar',
+      confirmBtnColor: Color(Colors.red.value),
+      onCancelBtnTap: () => Navigator.pop(context),
+      onConfirmBtnTap: () => _deletar(turma),
+      text: 'Deseja deletar a inscrição na turma "${turma.codigo}"?',
+      title: 'Confirmação',
+    );
+  }
+
+  Future<void> _confirmarConclusao(Turma turma) async {
+    return QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      cancelBtnText: 'Voltar',
+      confirmBtnText: 'Confirmar',
+      confirmBtnColor: Color(Colors.green.value),
+      onCancelBtnTap: () => Navigator.pop(context),
+      onConfirmBtnTap: () => _concluirDisciplina(turma),
+      text:
+          'Deseja confirmar a aprovação na disciplina "${turma.disciplina!.nome}"?',
+      title: 'Confirmação',
+    );
+  }
+
+  Future<void> _deletar(Turma turma) async {
+    try {
+      Navigator.pop(context);
+      return _inscricaoController.deletarInscricao(Inscricao(
+          idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id!));
+    } catch (e) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        confirmBtnText: 'Fechar',
+        text: e.toString(),
+        title: 'Erro ao deletar turma',
+      );
+    } finally {
+      _buscarTurmasInscritas();
+    }
+  }
+
+  Future<void> _concluirDisciplina(Turma turma) async {
+    try {
+      Navigator.pop(context);
+      await _progressoController.atualizar(
+          turma.disciplina!.id!, GlobalController.instance.aluno!.id!);
+      return _inscricaoController.deletarInscricao(Inscricao(
+          idAluno: GlobalController.instance.aluno!.id!, idTurma: turma.id!));
+    } catch (e) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        confirmBtnText: 'Fechar',
+        text: e.toString(),
+        title: 'Erro ao concluir disciplina',
+      );
+    } finally {
+      _buscarTurmasInscritas();
+    }
   }
 }
