@@ -3,6 +3,7 @@ import 'package:grade/view/admin/admin_cursos.dart';
 import 'package:grade/view/admin/admin_disciplinas.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
 import 'package:grade/view/admin/admin_professores.dart';
+import 'package:grade/view/admin/admin_turmas.dart';
 import 'package:grade/view/page/saudacao.dart';
 
 class AdminNavegacao extends StatelessWidget {
@@ -42,7 +43,7 @@ class AdminNavegacao extends StatelessWidget {
           title: const Text('Turmas'),
           leading: const Icon(Icons.people_alt_sharp),
           onTap: () =>
-              Navigator.pushReplacementNamed(context, AdminInicioPage.rota),
+              Navigator.pushReplacementNamed(context, AdminTurmasPage.rota),
         ),
         ListTile(
             title: const Text('Sair'),

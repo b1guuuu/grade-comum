@@ -15,7 +15,7 @@ class Disciplina {
         nome = json['nome'],
         periodo = json['periodo'],
         idCurso = json['idCurso'],
-        curso = Curso.fromJson(json['curso']);
+        curso = json['curso'] == null ? null : Curso.fromJson(json['curso']);
 
   Disciplina.cadastro(
       {required this.nome,
