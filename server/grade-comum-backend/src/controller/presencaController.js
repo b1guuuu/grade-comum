@@ -1,12 +1,48 @@
 const router = require('express').Router()
+const { Op } = require('sequelize')
 const Presenca = require('../repository/presenca')
 const Professor = require('../repository/professor')
+const Turma = require('../repository/turma')
 const { presencaComProfessor } = require('../util/criaObjetoComPropriedadeRenomeada')
+const { conexao } = require('../util/conexao')
 
 router.get('/', async (req, res, next) => {
   try {
     let presencas = await Presenca.findAll({
       include: [{ model: Professor, as: 'presencaprofessor' }],
+      order: ['ultimaatualizacao']
+    })
+    presencas = presencas.map((presenca) => presencaComProfessor(presenca))
+    res.status(200)
+    res.json(presencas)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.get('/aluno', async (req, res, next) => {
+  try {
+    const { idAluno } = req.query
+    let presencas = await Presenca.findAll({
+      include: [{
+        model: Professor,
+        as: 'presencaprofessor',
+        required: true,
+        include: [
+          {
+            model: Turma,
+            as: 'professorturma',
+            required: true,
+            attributes: [],
+            where: {
+              id: {
+                [Op.in]: conexao.literal(`(SELECT idturma FROM inscricao WHERE idaluno=${idAluno})`)
+              }
+            }
+          }
+        ]
+      }],
       order: ['ultimaatualizacao']
     })
     presencas = presencas.map((presenca) => presencaComProfessor(presenca))
