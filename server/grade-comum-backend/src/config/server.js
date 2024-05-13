@@ -18,6 +18,7 @@ const horarioController = require('../controller/horarioController')
 const anotacaoController = require('../controller/anotacaoController')
 const cursoController = require('../controller/cursoController')
 const presencaController = require('../controller/presencaController')
+const progressoController = require('../controller/progressoController')
 
 // Cria instância do servidor
 const app = express()
@@ -37,6 +38,7 @@ app.use('/horario', horarioController)
 app.use('/anotacao', anotacaoController)
 app.use('/curso', cursoController)
 app.use('/presenca', presencaController)
+app.use('/progresso', progressoController)
 
 // Trata os erros que ocorrerem durante o processamento
 app.use((error, req, res, next) => {

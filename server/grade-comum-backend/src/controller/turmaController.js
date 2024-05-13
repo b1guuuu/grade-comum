@@ -79,7 +79,7 @@ router.get('/aluno/disponiveis', async (req, res, next) => {
           where: {
             id: {
               [Op.notIn]: conexao.literal(`
-                (SELECT iddisciplina FROM progresso WHERE idaluno = ${idAluno})
+                (SELECT iddisciplina FROM progresso WHERE idaluno = ${idAluno} AND concluido=true)
               `)
             }
           }
@@ -96,7 +96,7 @@ router.get('/aluno/disponiveis', async (req, res, next) => {
       where: {
         id: {
           [Op.in]: conexao.literal(`
-            (SELECT iddisciplina FROM progresso)
+            (SELECT iddisciplina FROM progresso WHERE concluido=true)
           `)
         }
       }
@@ -110,7 +110,7 @@ router.get('/aluno/disponiveis', async (req, res, next) => {
       where: {
         id: {
           [Op.notIn]: conexao.literal(`
-            (SELECT iddisciplina FROM progresso)
+            (SELECT iddisciplina FROM progresso WHERE concluido=true)
           `)
         }
       }
@@ -120,15 +120,11 @@ router.get('/aluno/disponiveis', async (req, res, next) => {
 
     // Filtrando turmas, retornando apenas as que o aluno pode se inscrever
     for (const turma of turmas) {
-      console.log({ turma })
       const indexTurmaDisciplinaConcluida = disciplinasConcluidas.findIndex((disciplinaConcluida) => disciplinaConcluida.id === turma.id)
-      console.log({ indexTurmaDisciplinaConcluida })
       if (indexTurmaDisciplinaConcluida === -1) {
         const disciplinaPendenteComRequisitos = disciplinasPendentesComRequisitos.find((disciplinaPendente) => disciplinaPendente.id === turma.disciplina.id)
-        console.log({ disciplinaPendenteComRequisitos })
         let contadorRequisitosCumpridos = 0
         for (const requisito of disciplinaPendenteComRequisitos.requisitos) {
-          console.log({ requisito })
           const indexDisciplinaRequisitoJaConcluida = disciplinasConcluidas.findIndex((disciplinaConcluida) => disciplinaConcluida.id === requisito.idDisciplinaRequissito)
           if (indexDisciplinaRequisitoJaConcluida > -1) {
             contadorRequisitosCumpridos++
@@ -139,7 +135,6 @@ router.get('/aluno/disponiveis', async (req, res, next) => {
         }
       }
     }
-
     res.status(200)
     res.json(turmasValidas)
   } catch (error) {
