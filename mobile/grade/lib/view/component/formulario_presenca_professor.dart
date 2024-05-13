@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade/controller/presenca_controller.dart';
-import 'package:grade/controller/professor_controller.dart';
 import 'package:grade/model/presenca.dart';
-import 'package:grade/model/professor.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 

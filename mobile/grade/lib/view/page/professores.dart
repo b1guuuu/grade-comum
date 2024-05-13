@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:grade/controller/global_controller.dart';
 import 'package:grade/controller/presenca_controller.dart';
-import 'package:grade/controller/professor_controller.dart';
 import 'package:grade/model/presenca.dart';
-import 'package:grade/model/professor.dart';
-import 'package:grade/view/component/admin_formulario_professor.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
-import 'package:grade/view/component/admin_navegacao.dart';
 import 'package:grade/view/component/formulario_presenca_professor.dart';
 import 'package:grade/view/component/navegacao.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class ProfessoresPage extends StatefulWidget {
   static const rota = '/professores';
@@ -33,7 +28,7 @@ class ProfessoresPageState extends State<ProfessoresPage> {
   @override
   void initState() {
     super.initState();
-    _buscarPresencas();
+    _listarApenasProfessoresDeTurmasInscritas();
   }
 
   void _alternarVisualizacaoFiltro() {
@@ -77,6 +72,19 @@ class ProfessoresPageState extends State<ProfessoresPage> {
         builder: (context) => FormularioPresencaProfessor(presenca: presenca));
   }
 
+  Future<void> _listarApenasProfessoresDeTurmasInscritas() async {
+    setState(() {
+      _carregando = true;
+    });
+    var presencas = await _presencaController
+        .listarAluno(GlobalController.instance.aluno!.id!);
+    setState(() {
+      _presencas = presencas;
+      _presencasFiltradas = presencas;
+      _carregando = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +102,23 @@ class ProfessoresPageState extends State<ProfessoresPage> {
               onPressed: _alternarVisualizacaoFiltro,
               icon: _habilitarFiltro
                   ? const Icon(Icons.cancel)
-                  : const Icon(Icons.search))
+                  : const Icon(Icons.search)),
+          PopupMenuButton(
+            enableFeedback: true,
+            icon: const Icon(Icons.menu),
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  child: const Text('Professores de turmas inscritas'),
+                  onTap: () => _listarApenasProfessoresDeTurmasInscritas(),
+                ),
+                PopupMenuItem(
+                  child: const Text('Todos os professores'),
+                  onTap: () => _listarApenasProfessoresDeTurmasInscritas(),
+                ),
+              ];
+            },
+          )
         ],
       ),
       drawer: const Drawer(
@@ -103,19 +127,23 @@ class ProfessoresPageState extends State<ProfessoresPage> {
       body: ContainerBase(
         child: _carregando
             ? const Carregando()
-            : ListView.builder(
-                itemCount: _presencasFiltradas.length,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(_presencasFiltradas[index].professor!.nome),
-                  subtitle: Text(
-                      'Presente: ${_presencasFiltradas[index].presente ? 'SIM' : 'NÃO'}\nÚltima atualização: ${_presencasFiltradas[index].ultimaAtualizacao.toLocal().toString().substring(0, 11)}\nObservação: ${_presencasFiltradas[index].observacao}'),
-                  enableFeedback: true,
-                  onTap: () {
-                    _abrirFormulario(context, _presencasFiltradas[index])
-                        .then((value) => _buscarPresencas());
-                  },
-                ),
-              ),
+            : _presencasFiltradas.isEmpty
+                ? const Center(
+                    child: Text('Não há professores para os filtros definidos'),
+                  )
+                : ListView.builder(
+                    itemCount: _presencasFiltradas.length,
+                    itemBuilder: (context, index) => ListTile(
+                      title: Text(_presencasFiltradas[index].professor!.nome),
+                      subtitle: Text(
+                          'Presente: ${_presencasFiltradas[index].presente ? 'SIM' : 'NÃO'}\nÚltima atualização: ${_presencasFiltradas[index].ultimaAtualizacao.toLocal().toString().substring(0, 11)}\nObservação: ${_presencasFiltradas[index].observacao}'),
+                      enableFeedback: true,
+                      onTap: () {
+                        _abrirFormulario(context, _presencasFiltradas[index])
+                            .then((value) => _buscarPresencas());
+                      },
+                    ),
+                  ),
       ),
     );
   }

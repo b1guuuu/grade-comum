@@ -24,6 +24,26 @@ class PresencaController {
     }
   }
 
+  Future<List<Presenca>> listarAluno(int idAluno) async {
+    final resposta = await http.get(
+        Uri.parse('$_urlBase/aluno?idAluno=$idAluno'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode == 200) {
+      var listaJson = jsonDecode(resposta.body);
+      List<Presenca> presencas = [];
+      for (var json in listaJson) {
+        presencas.add(Presenca.fromJson(json));
+      }
+      return presencas;
+    } else {
+      throw Exception(
+          'Ocorreu um erro ao buscar os presenças: ${resposta.toString()}');
+    }
+  }
+
   Future<Presenca> listarPorProfessor(int idProfessor) async {
     final resposta = await http.get(
         Uri.parse('$_urlBase/professor?idProfessor=$idProfessor'),

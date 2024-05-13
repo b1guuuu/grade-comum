@@ -4,7 +4,6 @@ import 'package:grade/controller/inscricao_controller.dart';
 import 'package:grade/controller/progresso_controller.dart';
 import 'package:grade/controller/turma_controller.dart';
 import 'package:grade/model/inscricao.dart';
-import 'package:grade/model/progresso.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
