@@ -4,8 +4,6 @@ class Curso {
 
   Curso({required this.id, required this.nome});
 
-  Curso.cadastro({required this.nome});
-
   Curso.fromJson(dynamic json)
       : id = json['id'],
         nome = json['nome'];

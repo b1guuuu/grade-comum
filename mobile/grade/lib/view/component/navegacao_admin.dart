@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grade/view/admin/admin_cursos.dart';
 import 'package:grade/view/admin/admin_disciplinas.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
 import 'package:grade/view/page/saudacao.dart';
@@ -22,7 +23,7 @@ class NavegacaoAdmin extends StatelessWidget {
           title: const Text('Cursos'),
           leading: const Icon(Icons.cases_sharp),
           onTap: () =>
-              Navigator.pushReplacementNamed(context, AdminInicioPage.rota),
+              Navigator.pushReplacementNamed(context, AdminCursosPage.rota),
         ),
         ListTile(
           title: const Text('Disciplinas'),

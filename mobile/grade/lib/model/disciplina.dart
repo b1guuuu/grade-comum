@@ -1,9 +1,12 @@
+import 'package:grade/model/curso.dart';
+
 class Disciplina {
   int? id;
   String? nome;
   int? periodo;
   int? idCurso;
   List<Disciplina>? requisitos;
+  Curso? curso;
 
   Disciplina({required this.id, required this.nome});
 
@@ -11,7 +14,8 @@ class Disciplina {
       : id = json['id'],
         nome = json['nome'],
         periodo = json['periodo'],
-        idCurso = json['idCurso'];
+        idCurso = json['idCurso'],
+        curso = Curso.fromJson(json['curso']);
 
   Disciplina.cadastro(
       {required this.nome,

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grade/controller/disciplina_controller.dart';
 import 'package:grade/model/disciplina.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
+import 'package:grade/view/component/admin_formulario_disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
-import 'package:grade/view/component/disciplina_cadastro.dart';
-import 'package:grade/view/component/navegacao.dart';
+import 'package:grade/view/component/navegacao_admin.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class AdminDisciplinasPage extends StatefulWidget {
   static const rota = '${AdminInicioPage.rota}/disciplinas';
@@ -18,14 +20,40 @@ class AdminDisciplinasPage extends StatefulWidget {
 }
 
 class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
-  final DisciplinaController _disciplinaController = DisciplinaController();
+  final _disciplinaController = DisciplinaController();
+  final _filtroTxtController = TextEditingController();
   List<Disciplina> _disciplinas = [];
+  List<Disciplina> _disciplinasFiltradas = [];
   bool _carregando = true;
+  bool _habilitarFiltro = false;
 
   @override
   void initState() {
     super.initState();
     _buscarDisciplinas();
+  }
+
+  void _alternarVisualizacaoFiltro() {
+    if (_habilitarFiltro) {
+      setState(() {
+        _disciplinasFiltradas = _disciplinas;
+      });
+    }
+    setState(() {
+      _habilitarFiltro = !_habilitarFiltro;
+      _filtroTxtController.clear();
+    });
+  }
+
+  void _filtrarDisciplinas(filtro) {
+    var temp = _disciplinas
+        .where((disciplina) => disciplina.nome!
+            .toUpperCase()
+            .contains(_filtroTxtController.text.toUpperCase()))
+        .toList();
+    setState(() {
+      _disciplinasFiltradas = temp;
+    });
   }
 
   Future<void> _buscarDisciplinas() async {
@@ -35,6 +63,7 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
     var disciplinas = await _disciplinaController.listar();
     setState(() {
       _disciplinas = disciplinas;
+      _disciplinasFiltradas = disciplinas;
       _carregando = false;
     });
   }
@@ -43,10 +72,27 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
     return showDialog(
       context: context,
       builder: (context) {
-        return DisciplinaCadastro(
-          disciplinas: _disciplinas,
-        );
+        return const AdminFormularioDisciplina();
       },
+    );
+  }
+
+  Future<void> _deletarDisciplina(
+      Disciplina disciplina, BuildContext context) async {
+    return QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      cancelBtnText: 'Voltar',
+      confirmBtnText: 'Deletar',
+      confirmBtnColor: Color(Colors.red.value),
+      onCancelBtnTap: () => Navigator.pop(context),
+      onConfirmBtnTap: () =>
+          _disciplinaController.deletar(disciplina).then((value) {
+        Navigator.pop(context);
+        _buscarDisciplinas();
+      }),
+      text: 'Deseja deletar a disciplina "${disciplina.nome}"?',
+      title: 'Confirmação',
     );
   }
 
@@ -54,10 +100,24 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Disciplinas'),
+        title: _habilitarFiltro
+            ? TextFormField(
+                decoration: const InputDecoration(
+                    hintText: 'Nome', label: Text('Nome disciplina')),
+                controller: _filtroTxtController,
+                onFieldSubmitted: _filtrarDisciplinas,
+              )
+            : const Text('Admin: Disciplinas'),
+        actions: [
+          IconButton(
+              onPressed: _alternarVisualizacaoFiltro,
+              icon: _habilitarFiltro
+                  ? const Icon(Icons.cancel)
+                  : const Icon(Icons.search))
+        ],
       ),
       drawer: const Drawer(
-        child: Navegacao(),
+        child: NavegacaoAdmin(),
       ),
       body: Container(
         color: const Color.fromARGB(255, 208, 208, 208),
@@ -65,10 +125,15 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
         child: _carregando
             ? const Carregando()
             : ListView.builder(
-                itemCount: _disciplinas.length,
+                itemCount: _disciplinasFiltradas.length,
                 itemBuilder: (context, index) => ListTile(
-                  title: Text(_disciplinas[index].nome!),
+                  title: Text(_disciplinasFiltradas[index].nome!),
+                  subtitle: Text(_disciplinasFiltradas[index].curso!.nome!),
                   enableFeedback: true,
+                  trailing: IconButton(
+                      onPressed: () => _deletarDisciplina(
+                          _disciplinasFiltradas[index], context),
+                      icon: const Icon(Icons.delete)),
                 ),
               ),
       ),

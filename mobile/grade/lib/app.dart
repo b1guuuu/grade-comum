@@ -2,6 +2,7 @@ import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:grade/model/disciplina.dart';
 import 'package:grade/model/turma.dart';
+import 'package:grade/view/admin/admin_cursos.dart';
 import 'package:grade/view/admin/admin_disciplinas.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
 import 'package:grade/view/page/anotacao.dart';
@@ -49,7 +50,8 @@ class App extends StatelessWidget {
           CalendarioPage.rota: (context) => const CalendarioPage(),
           AdminDisciplinasPage.rota: (context) => const AdminDisciplinasPage(),
           AdminInicioPage.rota: (context) => const AdminInicioPage(),
-          PPCPage.rota: (context) => const PPCPage()
+          PPCPage.rota: (context) => const PPCPage(),
+          AdminCursosPage.rota: (context) => const AdminCursosPage()
         },
         onGenerateRoute: (configuracoes) {
           if (configuracoes.name == TurmaInscricaoPage.rota) {

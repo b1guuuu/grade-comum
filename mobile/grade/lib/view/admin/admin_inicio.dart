@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/navegacao_admin.dart';
 
 class AdminInicioPage extends StatefulWidget {
@@ -22,10 +23,8 @@ class InicioPageState extends State<AdminInicioPage> {
       drawer: const Drawer(
         child: NavegacaoAdmin(),
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 208, 208, 208),
-        padding: const EdgeInsets.all(5.0),
-        child: const Center(
+      body: const ContainerBase(
+        child: Center(
           child:
               Text('Utilize a barra de navegação para escolher o que manter.'),
         ),

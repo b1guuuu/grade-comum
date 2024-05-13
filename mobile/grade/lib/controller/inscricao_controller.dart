@@ -15,7 +15,7 @@ class InscricaoController {
 
     if (resposta.statusCode != 201) {
       throw Exception(
-          'Ocorreu um erro ao buscar as turmas: ${resposta.toString()}');
+          'Ocorreu um erro ao buscar as turmas: ${jsonDecode(resposta.body)}');
     }
   }
 
@@ -28,7 +28,7 @@ class InscricaoController {
 
     if (resposta.statusCode != 204) {
       throw Exception(
-          'Ocorreu um erro ao buscar as turmas: ${resposta.toString()}');
+          'Ocorreu um erro ao deletar a inscrição: ${jsonDecode(resposta.body)}');
     }
   }
 }

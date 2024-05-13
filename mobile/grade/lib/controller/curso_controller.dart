@@ -20,4 +20,30 @@ class CursoController {
           'Ocorreu um erro ao buscar os cursos: ${resposta.toString()}');
     }
   }
+
+  Future<void> inserir(Curso curso) async {
+    final resposta = await http.post(Uri.parse(_urlBase),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(curso.toMap()));
+
+    if (resposta.statusCode != 201) {
+      throw Exception(
+          'Ocorreu um erro ao inserir o curso: ${jsonDecode(resposta.body)}');
+    }
+  }
+
+  Future<void> atualizar(Curso curso) async {
+    final resposta = await http.put(Uri.parse(_urlBase),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(curso.toMap()));
+
+    if (resposta.statusCode != 204) {
+      throw Exception(
+          'Ocorreu um erro ao inserir o curso: ${jsonDecode(resposta.body)}');
+    }
+  }
 }

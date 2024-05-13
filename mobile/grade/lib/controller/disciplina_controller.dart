@@ -14,7 +14,31 @@ class DisciplinaController {
 
     if (resposta.statusCode == 200) {
       var listaJson = jsonDecode(resposta.body);
-      return listaJson.map((json) => Disciplina.fromJson(json)).toList();
+      List<Disciplina> disciplinas = [];
+      for (var disciplina in listaJson) {
+        disciplinas.add(Disciplina.fromJson(disciplina));
+      }
+      return disciplinas;
+    } else {
+      throw Exception(
+          'Ocorreu um erro ao buscar as disciplinas: ${resposta.toString()}');
+    }
+  }
+
+  Future<List<Disciplina>> listarPorCurso(int idCurso) async {
+    final resposta = await http.get(
+        Uri.parse('$_urlBase/curso?idCurso=$idCurso'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode == 200) {
+      var listaJson = jsonDecode(resposta.body);
+      List<Disciplina> disciplinas = [];
+      for (var disciplina in listaJson) {
+        disciplinas.add(Disciplina.fromJson(disciplina));
+      }
+      return disciplinas;
     } else {
       throw Exception(
           'Ocorreu um erro ao buscar as disciplinas: ${resposta.toString()}');
@@ -74,7 +98,7 @@ class DisciplinaController {
     }
   }
 
-  Future<void> cadastrarDisciplina(Disciplina disciplina) async {
+  Future<void> inserir(Disciplina disciplina) async {
     final resposta = await http.post(Uri.parse(_urlBase),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8'
@@ -84,6 +108,19 @@ class DisciplinaController {
     if (resposta.statusCode != 201) {
       throw Exception(
           'Ocorreu um erro ao cadastrar a disciplina: ${jsonDecode(resposta.body).toString()}');
+    }
+  }
+
+  Future<void> deletar(Disciplina disciplina) async {
+    final resposta = await http.delete(Uri.parse(_urlBase),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(disciplina.toMap()));
+
+    if (resposta.statusCode != 204) {
+      throw Exception(
+          'Ocorreu um erro ao deletar a disciplina: ${jsonDecode(resposta.body)}');
     }
   }
 }
