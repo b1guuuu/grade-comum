@@ -1,43 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:grade/controller/disciplina_controller.dart';
-import 'package:grade/model/disciplina.dart';
+import 'package:grade/controller/professor_controller.dart';
+import 'package:grade/model/professor.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
-import 'package:grade/view/component/admin_formulario_disciplina.dart';
+import 'package:grade/view/component/admin_formulario_professor.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/admin_navegacao.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-class AdminDisciplinasPage extends StatefulWidget {
-  static const rota = '${AdminInicioPage.rota}/disciplinas';
+class AdminProfessoresPage extends StatefulWidget {
+  static const rota = '${AdminInicioPage.rota}/professores';
 
-  const AdminDisciplinasPage({super.key});
-
+  const AdminProfessoresPage({super.key});
   @override
-  State<AdminDisciplinasPage> createState() {
-    return AdminDisciplinasPageState();
+  State<AdminProfessoresPage> createState() {
+    return AdminProfessoresPageState();
   }
 }
 
-class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
-  final _disciplinaController = DisciplinaController();
+class AdminProfessoresPageState extends State<AdminProfessoresPage> {
+  final _professorController = ProfessorController();
   final _filtroTxtController = TextEditingController();
-  List<Disciplina> _disciplinas = [];
-  List<Disciplina> _disciplinasFiltradas = [];
+  List<Professor> _professores = [];
+  List<Professor> _professoresFiltrados = [];
   bool _carregando = true;
   bool _habilitarFiltro = false;
 
   @override
   void initState() {
     super.initState();
-    _buscarDisciplinas();
+    _buscarProfessores();
   }
 
   void _alternarVisualizacaoFiltro() {
     if (_habilitarFiltro) {
       setState(() {
-        _disciplinasFiltradas = _disciplinas;
+        _professoresFiltrados = _professores;
       });
     }
     setState(() {
@@ -46,40 +45,40 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
     });
   }
 
-  void _filtrarDisciplinas(filtro) {
-    var temp = _disciplinas
-        .where((disciplina) => disciplina.nome!
+  void _filtrarProfessores(filtro) {
+    var temp = _professores
+        .where((professor) => professor.nome
             .toUpperCase()
             .contains(_filtroTxtController.text.toUpperCase()))
         .toList();
     setState(() {
-      _disciplinasFiltradas = temp;
+      _professoresFiltrados = temp;
     });
   }
 
-  Future<void> _buscarDisciplinas() async {
+  Future<void> _buscarProfessores() async {
     setState(() {
       _carregando = true;
     });
-    var disciplinas = await _disciplinaController.listar();
+    var professores = await _professorController.listar();
     setState(() {
-      _disciplinas = disciplinas;
-      _disciplinasFiltradas = disciplinas;
+      _professores = professores;
+      _professoresFiltrados = professores;
       _carregando = false;
     });
   }
 
-  Future<void> _apresentarModalNovaDisciplina(BuildContext context) async {
+  Future<void> _abrirFormulario(
+      BuildContext context, Professor? professor) async {
     return showDialog(
-      context: context,
-      builder: (context) {
-        return const AdminFormularioDisciplina();
-      },
-    );
+        context: context,
+        builder: (context) => AdminFormularioProfessor(
+              professor: professor,
+            ));
   }
 
-  Future<void> _deletarDisciplina(
-      Disciplina disciplina, BuildContext context) async {
+  Future<void> _deletarProfessor(
+      Professor professor, BuildContext context) async {
     return QuickAlert.show(
       context: context,
       type: QuickAlertType.confirm,
@@ -88,11 +87,11 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
       confirmBtnColor: Color(Colors.red.value),
       onCancelBtnTap: () => Navigator.pop(context),
       onConfirmBtnTap: () =>
-          _disciplinaController.deletar(disciplina).then((value) {
+          _professorController.deletar(professor).then((value) {
         Navigator.pop(context);
-        _buscarDisciplinas();
+        _buscarProfessores();
       }),
-      text: 'Deseja deletar "${disciplina.nome}"?',
+      text: 'Deseja deletar "${professor.nome}"?',
       title: 'Confirmação',
     );
   }
@@ -104,11 +103,11 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
         title: _habilitarFiltro
             ? TextFormField(
                 decoration: const InputDecoration(
-                    hintText: 'Nome', label: Text('Nome disciplina')),
+                    hintText: 'Nome', label: Text('Nome professor')),
                 controller: _filtroTxtController,
-                onFieldSubmitted: _filtrarDisciplinas,
+                onFieldSubmitted: _filtrarProfessores,
               )
-            : const Text('Admin: Disciplinas'),
+            : const Text('Admin: Professores'),
         actions: [
           IconButton(
               onPressed: _alternarVisualizacaoFiltro,
@@ -124,22 +123,24 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
         child: _carregando
             ? const Carregando()
             : ListView.builder(
-                itemCount: _disciplinasFiltradas.length,
+                itemCount: _professoresFiltrados.length,
                 itemBuilder: (context, index) => ListTile(
-                  title: Text(_disciplinasFiltradas[index].nome!),
-                  subtitle: Text(_disciplinasFiltradas[index].curso!.nome!),
+                  title: Text(_professoresFiltrados[index].nome),
                   enableFeedback: true,
+                  onLongPress: () {
+                    _abrirFormulario(context, _professoresFiltrados[index])
+                        .then((value) => _buscarProfessores());
+                  },
                   trailing: IconButton(
-                      onPressed: () => _deletarDisciplina(
-                          _disciplinasFiltradas[index], context),
+                      onPressed: () => _deletarProfessor(
+                          _professoresFiltrados[index], context),
                       icon: const Icon(Icons.delete)),
                 ),
               ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _apresentarModalNovaDisciplina(context)
-              .then((value) => _buscarDisciplinas());
+          _abrirFormulario(context, null).then((value) => _buscarProfessores());
         },
         enableFeedback: true,
         child: const Icon(Icons.add_circle),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade/view/component/container_base.dart';
-import 'package:grade/view/component/navegacao_admin.dart';
+import 'package:grade/view/component/admin_navegacao.dart';
 
 class AdminInicioPage extends StatefulWidget {
   static const rota = '/admin';
@@ -21,7 +21,7 @@ class InicioPageState extends State<AdminInicioPage> {
         title: const Text('Administrador'),
       ),
       drawer: const Drawer(
-        child: NavegacaoAdmin(),
+        child: AdminNavegacao(),
       ),
       body: const ContainerBase(
         child: Center(

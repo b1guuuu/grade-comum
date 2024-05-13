@@ -5,7 +5,7 @@ import 'package:grade/view/admin/admin_inicio.dart';
 import 'package:grade/view/component/admin_formulario_curso.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
-import 'package:grade/view/component/navegacao_admin.dart';
+import 'package:grade/view/component/admin_navegacao.dart';
 
 class AdminCursosPage extends StatefulWidget {
   static const rota = '${AdminInicioPage.rota}/cursos';
@@ -55,7 +55,7 @@ class AdminCursosPageState extends State<AdminCursosPage> {
         title: const Text('Administrador: Cursos'),
       ),
       drawer: const Drawer(
-        child: NavegacaoAdmin(),
+        child: AdminNavegacao(),
       ),
       body: _carregando
           ? const Carregando()

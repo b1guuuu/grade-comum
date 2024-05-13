@@ -1,5 +1,5 @@
 class Professor {
-  late int id;
+  late int? id;
   final String nome;
 
   Professor({required this.id, required this.nome});

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grade/view/admin/admin_cursos.dart';
 import 'package:grade/view/admin/admin_disciplinas.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
+import 'package:grade/view/admin/admin_professores.dart';
 import 'package:grade/view/page/saudacao.dart';
 
-class NavegacaoAdmin extends StatelessWidget {
-  const NavegacaoAdmin({super.key});
+class AdminNavegacao extends StatelessWidget {
+  const AdminNavegacao({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +35,8 @@ class NavegacaoAdmin extends StatelessWidget {
         ListTile(
           title: const Text('Professores'),
           leading: const Icon(Icons.person),
-          onTap: () =>
-              Navigator.pushReplacementNamed(context, AdminInicioPage.rota),
+          onTap: () => Navigator.pushReplacementNamed(
+              context, AdminProfessoresPage.rota),
         ),
         ListTile(
           title: const Text('Turmas'),

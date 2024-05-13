@@ -5,6 +5,7 @@ import 'package:grade/model/turma.dart';
 import 'package:grade/view/admin/admin_cursos.dart';
 import 'package:grade/view/admin/admin_disciplinas.dart';
 import 'package:grade/view/admin/admin_inicio.dart';
+import 'package:grade/view/admin/admin_professores.dart';
 import 'package:grade/view/page/anotacao.dart';
 import 'package:grade/view/page/anotacao_disciplina.dart';
 import 'package:grade/view/page/cadastro.dart';
@@ -51,7 +52,8 @@ class App extends StatelessWidget {
           AdminDisciplinasPage.rota: (context) => const AdminDisciplinasPage(),
           AdminInicioPage.rota: (context) => const AdminInicioPage(),
           PPCPage.rota: (context) => const PPCPage(),
-          AdminCursosPage.rota: (context) => const AdminCursosPage()
+          AdminCursosPage.rota: (context) => const AdminCursosPage(),
+          AdminProfessoresPage.rota: (context) => const AdminProfessoresPage()
         },
         onGenerateRoute: (configuracoes) {
           if (configuracoes.name == TurmaInscricaoPage.rota) {

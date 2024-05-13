@@ -43,7 +43,7 @@ class CursoController {
 
     if (resposta.statusCode != 204) {
       throw Exception(
-          'Ocorreu um erro ao inserir o curso: ${jsonDecode(resposta.body)}');
+          'Ocorreu um erro ao atualizar o curso: ${jsonDecode(resposta.body)}');
     }
   }
 }
