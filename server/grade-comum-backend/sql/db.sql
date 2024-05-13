@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS disciplina(
     periodo INT NOT NULL,
     idCurso INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (idCurso) REFERENCES curso(id)
+    FOREIGN KEY (idCurso) REFERENCES curso(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS requisito(
     idDisciplina INT NOT NULL,
     idDisciplinaRequisito INT NOT NULL,
-    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
-    FOREIGN KEY (idDisciplinaRequisito) REFERENCES disciplina(id),
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idDisciplinaRequisito) REFERENCES disciplina(id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (idDisciplina, idDisciplinaRequisito)
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS aluno (
     senhaSalt TEXT NOT NULL,
     idCurso INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (idCurso) REFERENCES curso(id)
+    FOREIGN KEY (idCurso) REFERENCES curso(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS professor(
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS presenca(
     ultimaAtualizacao DATE DEFAULT CURRENT_DATE,
     idProfessor INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (idProfessor) REFERENCES professor(id)
+    FOREIGN KEY (idProfessor) REFERENCES professor(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS turma (
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS turma (
     idDisciplina INT NOT NULL,
     idProfessor INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
-    FOREIGN KEY (idProfessor) REFERENCES professor(id)
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idProfessor) REFERENCES professor(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS horario (
@@ -68,14 +68,14 @@ CREATE TABLE IF NOT EXISTS horario (
     ordem INT NOT NULL,
     idTurma INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (idTurma) REFERENCES turma(id)
+    FOREIGN KEY (idTurma) REFERENCES turma(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS inscricao (
     idTurma INT NOT NULL,
     idAluno INT NOT NULL,
-    FOREIGN KEY (idTurma) REFERENCES turma(id),
-    FOREIGN KEY (idAluno) REFERENCES aluno(id),
+    FOREIGN KEY (idTurma) REFERENCES turma(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idAluno) REFERENCES aluno(id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (idTurma, idAluno)
 );
 
@@ -87,8 +87,8 @@ CREATE TABLE IF NOT EXISTS anotacao(
     idAluno INT NOT NULL,
     idDisciplina INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (idAluno) REFERENCES aluno(id),
-    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id)
+    FOREIGN KEY (idAluno) REFERENCES aluno(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS progresso (
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS progresso (
     idAluno INT NOT NULL,
     tentativas INT DEFAULT 1,
     concluido BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
-    FOREIGN KEY (idAluno) REFERENCES aluno(id),
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (idAluno) REFERENCES aluno(id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (idDisciplina, idAluno)
 );
