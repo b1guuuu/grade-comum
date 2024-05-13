@@ -1,8 +1,6 @@
 const router = require('express').Router()
 const Presenca = require('../repository/presenca')
 const Professor = require('../repository/professor')
-const { Op } = require('sequelize')
-const { conexao } = require('../util/conexao')
 const { presencaComProfessor } = require('../util/criaObjetoComPropriedadeRenomeada')
 
 router.get('/', async (req, res, next) => {
@@ -24,9 +22,9 @@ router.get('/professor', async (req, res, next) => {
   try {
     const { idProfessor } = req.query
     let presenca = await Presenca.findOne({
-      where: {idProfessor: idProfessor},
+      where: { idProfessor },
       include: [
-        { model: Professor, as: 'presencaprofessor', required: true}
+        { model: Professor, as: 'presencaprofessor', required: true }
       ]
     })
     presenca = presencaComProfessor(presenca)
@@ -41,8 +39,8 @@ router.get('/professor', async (req, res, next) => {
 router.get('/faltas', async (req, res, next) => {
   try {
     let presencas = await Presenca.findAll({
-      include: [{model: Professor, required: true, as: 'presencaprofessor'}],
-      where: { presente: false },
+      include: [{ model: Professor, required: true, as: 'presencaprofessor' }],
+      where: { presente: false }
     })
     presencas = presencas.map((presenca) => presencaComProfessor(presenca))
 
@@ -56,14 +54,14 @@ router.get('/faltas', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   try {
-    const { id, presente, observacao, ultimaAtualizacao} = req.body
+    const { id, presente, observacao, ultimaAtualizacao } = req.body
 
     const presenca = await Presenca.findOne({ where: { id } })
 
     presenca.set('presente', presente)
     presenca.set('observacao', observacao)
     presenca.set('ultimaAtualizacao', ultimaAtualizacao)
-    
+
     await presenca.save()
     res.status(204)
     res.json()
