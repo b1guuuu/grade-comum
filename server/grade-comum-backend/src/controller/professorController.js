@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const AcaoInvalidaException = require('../exception/AcaoInvalidaException')
 const Presenca = require('../repository/presenca')
 const Professor = require('../repository/professor')
 
@@ -52,6 +53,9 @@ router.delete('/', async (req, res, next) => {
     res.json()
   } catch (error) {
     console.error(error)
+    if (error.name === 'SequelizeForeignKeyConstraintError') {
+      next(new AcaoInvalidaException('EXCLUIR', 'PROFESSOR', `Registro possui relação com tabela ${error.parent.table}`))
+    }
     next(error)
   }
 })

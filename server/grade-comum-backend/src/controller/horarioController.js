@@ -43,6 +43,29 @@ router.get('/aluno', async (req, res, next) => {
   }
 })
 
+router.get('/professor', async (req, res, next) => {
+  try {
+    const { idProfessor } = req.query
+    const horarios = await Horario.findAll({
+      include: [
+        {
+          model: Turma,
+          as: 'horarioturma',
+          required: true,
+          attributes: [],
+          where: { idProfessor }
+        }
+      ],
+      order: ['diaSemana']
+    })
+    res.status(200)
+    res.json(horarios)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body

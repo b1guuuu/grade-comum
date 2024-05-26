@@ -9,6 +9,7 @@ const Inscricao = require('../repository/inscricao')
 const { Op } = require('sequelize')
 const { conexao } = require('../util/conexao')
 const Requisito = require('../repository/requisito')
+const AcaoInvalidaException = require('../exception/AcaoInvalidaException')
 
 router.get('/', async (req, res, next) => {
   try {
@@ -152,6 +153,9 @@ router.delete('/', async (req, res, next) => {
     res.json()
   } catch (error) {
     console.error(error)
+    if (error.name === 'SequelizeForeignKeyConstraintError') {
+      next(new AcaoInvalidaException('EXCLUIR', 'TURMA', `Registro possui relação com tabela ${error.parent.table}`))
+    }
     next(error)
   }
 })

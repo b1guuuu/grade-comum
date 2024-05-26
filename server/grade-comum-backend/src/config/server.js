@@ -19,6 +19,7 @@ const anotacaoController = require('../controller/anotacaoController')
 const cursoController = require('../controller/cursoController')
 const presencaController = require('../controller/presencaController')
 const progressoController = require('../controller/progressoController')
+const AcaoInvalidaException = require('../exception/AcaoInvalidaException')
 
 // Cria instância do servidor
 const app = express()
@@ -46,16 +47,18 @@ app.use((error, req, res, next) => {
   if (error instanceof NaoEncontradoException) {
     status = 404
   }
-  if (error instanceof CampoInvalidoException || error instanceof RequisicaoInvalidaException || error instanceof AlunoInvalidoException) {
+  if (
+    error instanceof CampoInvalidoException ||
+    error instanceof RequisicaoInvalidaException ||
+    error instanceof AlunoInvalidoException ||
+    error instanceof AcaoInvalidaException) {
     status = 400
   }
   res.status(status)
   res.send({
-    id: error.idError,
     message: error.message,
-    error
-  }
-  )
+    ...error
+  })
 })
 
 module.exports = app
