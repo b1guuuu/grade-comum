@@ -66,6 +66,29 @@ router.get('/professor', async (req, res, next) => {
   }
 })
 
+router.get('/turma', async (req, res, next) => {
+  try {
+    const { idTurma } = req.query
+    const horarios = await Horario.findAll({
+      include: [
+        {
+          model: Turma,
+          as: 'horarioturma',
+          required: true,
+          attributes: [],
+          where: { id: idTurma }
+        }
+      ],
+      order: ['diaSemana']
+    })
+    res.status(200)
+    res.json(horarios)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 router.post('/', async (req, res, next) => {
   try {
     const dataRequisicao = req.body
@@ -96,6 +119,22 @@ router.put('/', async (req, res, next) => {
     const dataRequisicao = req.body
     const horario = Horario.build(dataRequisicao)
     await horario.save()
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
+router.put('/turma', async (req, res, next) => {
+  try {
+    const dataRequisicao = req.body
+    for await (const data of dataRequisicao) {
+      const horarioDB = await Horario.findByPk(data.id)
+      horarioDB.sala = data.sala
+      await horarioDB.save()
+    }
     res.status(204)
     res.json()
   } catch (error) {
