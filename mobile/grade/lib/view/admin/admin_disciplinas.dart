@@ -87,11 +87,22 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
       confirmBtnText: 'Deletar',
       confirmBtnColor: Color(Colors.red.value),
       onCancelBtnTap: () => Navigator.pop(context),
-      onConfirmBtnTap: () =>
-          _disciplinaController.deletar(disciplina).then((value) {
-        Navigator.pop(context);
-        _buscarDisciplinas();
-      }),
+      onConfirmBtnTap: () async {
+        try {
+          await _disciplinaController.deletar(disciplina);
+
+          Navigator.pop(context);
+          _buscarDisciplinas();
+        } catch (e) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            confirmBtnText: 'Fechar',
+            text: e.toString(),
+            title: 'Erro ao deletar disciplina',
+          );
+        }
+      },
       text: 'Deseja deletar "${disciplina.nome}"?',
       title: 'Confirmação',
     );

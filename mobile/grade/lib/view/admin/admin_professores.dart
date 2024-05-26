@@ -86,11 +86,21 @@ class AdminProfessoresPageState extends State<AdminProfessoresPage> {
       confirmBtnText: 'Deletar',
       confirmBtnColor: Color(Colors.red.value),
       onCancelBtnTap: () => Navigator.pop(context),
-      onConfirmBtnTap: () =>
-          _professorController.deletar(professor).then((value) {
-        Navigator.pop(context);
-        _buscarProfessores();
-      }),
+      onConfirmBtnTap: () async {
+        try {
+          await _professorController.deletar(professor);
+          Navigator.pop(context);
+          _buscarProfessores();
+        } catch (e) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            confirmBtnText: 'Fechar',
+            text: e.toString(),
+            title: 'Erro ao deletar professor',
+          );
+        }
+      },
       text: 'Deseja deletar "${professor.nome}"?',
       title: 'Confirmação',
     );

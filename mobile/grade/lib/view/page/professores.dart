@@ -6,6 +6,7 @@ import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/formulario_presenca_professor.dart';
 import 'package:grade/view/component/navegacao.dart';
+import 'package:grade/view/page/professores_grade.dart';
 
 class ProfessoresPage extends StatefulWidget {
   static const rota = '/professores';
@@ -114,7 +115,7 @@ class ProfessoresPageState extends State<ProfessoresPage> {
                 ),
                 PopupMenuItem(
                   child: const Text('Todos os professores'),
-                  onTap: () => _listarApenasProfessoresDeTurmasInscritas(),
+                  onTap: () => _buscarPresencas(),
                 ),
               ];
             },
@@ -142,6 +143,14 @@ class ProfessoresPageState extends State<ProfessoresPage> {
                         _abrirFormulario(context, _presencasFiltradas[index])
                             .then((value) => _buscarPresencas());
                       },
+                      trailing: IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, ProfessoresGradePage.rota,
+                                arguments:
+                                    _presencasFiltradas[index].idProfessor);
+                          },
+                          icon: const Icon(Icons.calendar_month)),
                     ),
                   ),
       ),

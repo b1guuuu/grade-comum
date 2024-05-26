@@ -58,8 +58,8 @@ class ProfessorController {
         body: jsonEncode(professor.toMap()));
 
     if (resposta.statusCode != 204) {
-      throw Exception(
-          'Ocorreu um erro ao deletar a professor: ${jsonDecode(resposta.body)}');
+      print(resposta.body);
+      throw Exception(jsonDecode(resposta.body)['message']);
     }
   }
 }

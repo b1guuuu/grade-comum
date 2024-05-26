@@ -65,8 +65,7 @@ class TurmaController {
         body: jsonEncode(turma.toMap()));
 
     if (resposta.statusCode != 204) {
-      throw Exception(
-          'Ocorreu um erro ao deletar a turma: ${jsonDecode(resposta.body)}');
+      throw Exception(jsonDecode(resposta.body)['message']);
     }
   }
 

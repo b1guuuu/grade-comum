@@ -82,10 +82,21 @@ class AdminTurmasPageState extends State<AdminTurmasPage> {
       confirmBtnText: 'Deletar',
       confirmBtnColor: Color(Colors.red.value),
       onCancelBtnTap: () => Navigator.pop(context),
-      onConfirmBtnTap: () => _turmaController.deletar(turma).then((value) {
-        Navigator.pop(context);
-        _buscarTurmas();
-      }),
+      onConfirmBtnTap: () async {
+        try {
+          await _turmaController.deletar(turma);
+          Navigator.pop(context);
+          _buscarTurmas();
+        } catch (e) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            confirmBtnText: 'Fechar',
+            text: e.toString(),
+            title: 'Erro ao deletar turma',
+          );
+        }
+      },
       text: 'Deseja deletar a turma "${turma.codigo}"?',
       title: 'Confirmação',
     );

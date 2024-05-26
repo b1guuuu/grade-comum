@@ -23,32 +23,34 @@ class SaudacaoPage extends StatelessWidget {
         title: const Text('Bem-vindo!'),
       ),
       body: ContainerBase(
-        child: Column(
-          children: [
-            const Text(
-                'Selecione se deseja entrar ou realizar cadastro na plataforma'),
-            const SizedBox(
-              height: 10.0,
-            ),
-            FilledButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(LoginPage.rota),
-                child: const Text('Entrar')),
-            const SizedBox(
-              height: 10.0,
-            ),
-            FilledButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(CadastroPage.rota),
-                child: const Text('Cadastrar')),
-            const SizedBox(
-              height: 10.0,
-            ),
-            FilledButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(AdminInicioPage.rota),
-                child: const Text('Admin'))
-          ],
+        child: Center(
+          child: Column(
+            children: [
+              const Text(
+                  'Selecione se deseja entrar ou realizar cadastro na plataforma'),
+              const SizedBox(
+                height: 10.0,
+              ),
+              FilledButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(LoginPage.rota),
+                  child: const Text('Entrar')),
+              const SizedBox(
+                height: 10.0,
+              ),
+              FilledButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(CadastroPage.rota),
+                  child: const Text('Cadastrar')),
+              const SizedBox(
+                height: 10.0,
+              ),
+              FilledButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(AdminInicioPage.rota),
+                  child: const Text('Admin'))
+            ],
+          ),
         ),
       ),
     );

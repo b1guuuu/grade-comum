@@ -119,8 +119,7 @@ class DisciplinaController {
         body: jsonEncode(disciplina.toMap()));
 
     if (resposta.statusCode != 204) {
-      throw Exception(
-          'Ocorreu um erro ao deletar a disciplina: ${jsonDecode(resposta.body)}');
+      throw Exception(jsonDecode(resposta.body)['message']);
     }
   }
 }

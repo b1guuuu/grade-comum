@@ -17,6 +17,7 @@ import 'package:grade/view/page/login.dart';
 import 'package:grade/view/page/perfil.dart';
 import 'package:grade/view/page/ppc.dart';
 import 'package:grade/view/page/professores.dart';
+import 'package:grade/view/page/professores_grade.dart';
 import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
@@ -71,6 +72,14 @@ class App extends StatelessWidget {
             var disciplina = configuracoes.arguments as Disciplina;
             return MaterialPageRoute(builder: (context) {
               return AnotacaoDisciplinaPage(disciplina: disciplina);
+            });
+          }
+          if (configuracoes.name == ProfessoresGradePage.rota) {
+            var idProfessor = configuracoes.arguments as int;
+            return MaterialPageRoute(builder: (context) {
+              return ProfessoresGradePage(
+                idProfessor: idProfessor,
+              );
             });
           }
 

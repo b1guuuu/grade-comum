@@ -36,4 +36,20 @@ class HorarioController {
           'Ocorreu um erro ao buscar os horários: ${resposta.toString()}');
     }
   }
+
+  Future<List<Horario>> buscaHorariosProfessor(int idProfessor) async {
+    final resposta = await http.get(
+        Uri.parse('$_urlBase/professor/?idProfessor=$idProfessor'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode == 200) {
+      List<dynamic> listaJson = jsonDecode(resposta.body);
+      return listaJson.map((json) => Horario.fromJson(json)).toList();
+    } else {
+      throw Exception(
+          'Ocorreu um erro ao buscar os horários: ${resposta.toString()}');
+    }
+  }
 }

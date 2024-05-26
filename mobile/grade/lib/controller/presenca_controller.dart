@@ -13,6 +13,7 @@ class PresencaController {
 
     if (resposta.statusCode == 200) {
       var listaJson = jsonDecode(resposta.body);
+      print(listaJson);
       List<Presenca> presencas = [];
       for (var json in listaJson) {
         presencas.add(Presenca.fromJson(json));
