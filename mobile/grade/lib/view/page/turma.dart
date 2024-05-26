@@ -7,6 +7,7 @@ import 'package:grade/model/inscricao.dart';
 import 'package:grade/model/turma.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
+import 'package:grade/view/component/formulario_atualizacao_horarios.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/component/turma_list_tile.dart';
 import 'package:grade/view/page/turma_inscricao.dart';
@@ -35,6 +36,12 @@ class TurmaPageState extends State<TurmaPage> {
   void initState() {
     super.initState();
     _buscarTurmasInscritas();
+  }
+
+  Future<void> _abrirFormulario(BuildContext context, Turma turma) async {
+    return showDialog(
+        context: context,
+        builder: (context) => FormularioAtualizacaoHorarios(turma: turma));
   }
 
   @override
@@ -70,17 +77,21 @@ class TurmaPageState extends State<TurmaPage> {
                         return TurmaListTile(
                           turma: _turmas[index],
                           trailing: SizedBox(
-                            width: 100,
+                            width: 150,
                             child: Row(
                               children: [
+                                IconButton(
+                                    onPressed: () => _abrirFormulario(
+                                        context, _turmas[index]),
+                                    icon: const Icon(Icons.edit)),
+                                IconButton(
+                                    onPressed: () =>
+                                        _confirmarConclusao(_turmas[index]),
+                                    icon: const Icon(Icons.check_box)),
                                 IconButton(
                                     onPressed: () =>
                                         _confirmarExclusao(_turmas[index]),
                                     icon: const Icon(Icons.delete)),
-                                IconButton(
-                                    onPressed: () =>
-                                        _confirmarConclusao(_turmas[index]),
-                                    icon: const Icon(Icons.check_box))
                               ],
                             ),
                           ),
