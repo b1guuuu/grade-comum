@@ -46,9 +46,15 @@ class InicioPageState extends State<InicioPage> {
     var resposta = await _horarioController
         .buscaHorariosInscritos(GlobalController.instance.aluno!.id!);
     setState(() {
-      _horarios = resposta.where((horario) => horario.diaSemana == 0).toList();
+      _horarios = resposta.where((horario) => horario.diaSemana == _currentDay.weekday - 1).toList();
     });
+    if(_horarios.isEmpty){
+      setState(() {
+        _carregando = false;
+      });
+    }else{
     _montaGradeTabela();
+    }
   }
 
   bool verificaHorarioAtual(String periodo) {
@@ -111,7 +117,7 @@ class InicioPageState extends State<InicioPage> {
         body: ContainerBase(
           child: _carregando
               ? const Carregando()
-              : InteractiveViewer(
+              : _horarios.isEmpty ? const Center(child: Text('Não há turmas para o dia de hoje'),) : InteractiveViewer(
                   constrained: false,
                   child: DataTable(
                       columns: ['Horário', _diasSemana[0]]
