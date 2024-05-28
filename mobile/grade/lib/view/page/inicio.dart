@@ -62,11 +62,12 @@ class InicioPageState extends State<InicioPage> {
     var inicioSplit = periodoSplit[0].split(':');
     var fimSplit = periodoSplit[1].split(':');
     var verificacaoHorarioInicio =
-        (int.parse(inicioSplit[0]) <= _currentDay.hour + 1) &&
+        (int.parse(inicioSplit[0]) <= _currentDay.hour) &&
             (int.parse(inicioSplit[1]) <= _currentDay.minute);
-    var verificacaoHorarioFim =
-        (int.parse(fimSplit[0]) >= _currentDay.hour + 1) &&
-            (int.parse(fimSplit[1]) >= _currentDay.minute);
+
+    verificacaoHorarioInicio = (int.parse(inicioSplit[0]) + (int.parse(inicioSplit[1])/60)) <= (_currentDay.hour + (_currentDay.minute/60));
+
+    var verificacaoHorarioFim = (int.parse(fimSplit[0]) + (int.parse(fimSplit[1])/60)) >= (_currentDay.hour + (_currentDay.minute/60));
     return verificacaoHorarioInicio && verificacaoHorarioFim;
   }
 
