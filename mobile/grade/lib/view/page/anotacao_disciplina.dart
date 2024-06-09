@@ -86,7 +86,7 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
                       child: Row(
                         children: [
                           const Icon(Icons.chevron_right),
-                          Expanded(child: Text(_anotacoes[index].conteudo)),
+                          Expanded(child: Text(_anotacoes[index].conteudo!)),
                           Row(
                             children: [
                               IconButton(

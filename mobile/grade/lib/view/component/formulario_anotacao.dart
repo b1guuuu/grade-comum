@@ -39,7 +39,7 @@ class FormularioAnotacaoState extends State<FormularioAnotacao> {
   void _inicializarCampos() {
     if (widget.anotacao != null) {
       setState(() {
-        _conteudoTxtController.text = widget.anotacao!.conteudo;
+        _conteudoTxtController.text = widget.anotacao!.conteudo!;
         if (widget.anotacao!.dataCalendario != null &&
             widget.anotacao!.tituloCalendario != null) {
           _tituloCalendarioTxtController.text =
