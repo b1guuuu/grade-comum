@@ -20,9 +20,6 @@ class ProfessoresGradePage extends StatefulWidget {
 
 class ProfessoresGradePageState extends State<ProfessoresGradePage> {
   final HorarioController _controller = HorarioController();
-  late List<Horario> _horarios = [];
-  late List<List<String>> _gradeTabela;
-  late bool _carregando = true;
   final _diasSemana = [
     'Segunda-feira',
     'Terça-feira',
@@ -30,6 +27,9 @@ class ProfessoresGradePageState extends State<ProfessoresGradePage> {
     'Quinta-feira',
     'Sexta-feira'
   ];
+  List<Horario> _horarios = [];
+  List<DataRow> _linhas = [];
+  bool _carregando = true;
 
   @override
   void initState() {
@@ -56,26 +56,27 @@ class ProfessoresGradePageState extends State<ProfessoresGradePage> {
       '20:40 - 21:30',
       '21:30 - 22:20'
     ];
-    List<List<String>> grade = [];
+    List<DataRow> grade = [];
 
     for (var i = 0; i < 5; i++) {
-      List<String> linha = [periodos[i]];
+      List<DataCell> turmas = [];
+      DataCell cellHorario = DataCell(Text(periodos[i]));
       for (var j = 0; j < 5; j++) {
+        DataCell cellTurma = DataCell.empty;
         var horarioQuery = _horarios
             .where((horario) => horario.diaSemana == j && horario.ordem == i);
-        if (horarioQuery.isEmpty) {
-          linha.add('');
-        } else {
+        if (horarioQuery.isNotEmpty) {
           var horario = horarioQuery.first;
           var valorCelula = horario.sala;
-          linha.add(valorCelula);
+          cellTurma = DataCell(Text(valorCelula));
         }
+        turmas.add(cellTurma);
       }
-      grade.add(linha);
+      grade.add(DataRow(cells: [cellHorario, ...turmas]));
     }
 
     setState(() {
-      _gradeTabela = grade;
+      _linhas = grade;
       _carregando = false;
     });
   }
@@ -90,7 +91,15 @@ class ProfessoresGradePageState extends State<ProfessoresGradePage> {
           child: _carregando
               ? const Carregando()
               : _horarios.isNotEmpty
-                  ? TabelaGrade(grade: _gradeTabela, dias: _diasSemana)
+                  ? InteractiveViewer(
+                      constrained: false,
+                      child: DataTable(
+                          columns: ['Horário', ..._diasSemana]
+                              .map((tituloColuna) =>
+                                  DataColumn(label: Text(tituloColuna)))
+                              .toList(),
+                          rows: _linhas),
+                    )
                   : const Center(
                       child: Text(
                           'Não há horários cadastrados para o docente selecionado'),
