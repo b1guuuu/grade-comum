@@ -4,6 +4,7 @@ const Turma = require('../repository/turma')
 const Inscricao = require('../repository/inscricao')
 const Anotacao = require('../repository/anotacao')
 const Requisito = require('../repository/requisito')
+const Professor = require('../repository/professor')
 const { disciplinaComRequisitosFormatados, disciplinaComCurso } = require('../util/criaObjetoComPropriedadeRenomeada')
 const { Op } = require('sequelize')
 const { conexao } = require('../util/conexao')
@@ -163,4 +164,32 @@ router.get('/aluno/inscrito', async (req, res, next) => {
     next(error)
   }
 })
+
+router.get('/professor', async (req, res, next) => {
+  try {
+    const { idProfessor } = req.query
+
+    const disciplinas = await Disciplina.findAll({
+      include: [
+        {
+          model: Turma,
+          required: true,
+          as: 'disciplinaturma',
+          include: [
+            { model: Professor, required: true, as: 'turmaprofessor', where: { id: idProfessor }, attributes: [] }
+          ],
+          attributes: []
+        }
+      ],
+      order: ['nome']
+    })
+
+    res.status(200)
+    res.json(disciplinas)
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 module.exports = router

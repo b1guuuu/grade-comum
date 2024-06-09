@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS disciplina(
 CREATE TABLE IF NOT EXISTS requisito(
     idDisciplina INT NOT NULL,
     idDisciplinaRequisito INT NOT NULL,
-    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (idDisciplinaRequisito) REFERENCES disciplina(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (idDisciplina) REFERENCES disciplina(id),
+    FOREIGN KEY (idDisciplinaRequisito) REFERENCES disciplina(id),
     PRIMARY KEY (idDisciplina, idDisciplinaRequisito)
 );
 
