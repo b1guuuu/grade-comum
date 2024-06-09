@@ -23,7 +23,6 @@ class GradePage extends StatefulWidget {
 class GradePageState extends State<GradePage> {
   final HorarioController _controller = HorarioController();
   late List<Horario> _horarios = [];
-  late List<List<String>> _gradeTabela;
   late List<List<Horario>> _gradeAccordion = [];
   late bool _carregando = true;
   late bool _visualizacaoTabela = true;
@@ -50,40 +49,6 @@ class GradePageState extends State<GradePage> {
     setState(() {
       _horarios = resposta;
     });
-    _montaGradeTabela();
-  }
-
-  void _montaGradeTabela() {
-    List<String> periodos = [
-      '18:00 - 18:50',
-      '18:50 - 19:40',
-      '19:40 - 20:30',
-      '20:40 - 21:30',
-      '21:30 - 22:20'
-    ];
-    List<List<String>> grade = [];
-
-    for (var i = 0; i < 5; i++) {
-      List<String> linha = [periodos[i]];
-      for (var j = 0; j < 5; j++) {
-        var horarioQuery = _horarios
-            .where((horario) => horario.diaSemana == j && horario.ordem == i);
-        if (horarioQuery.isEmpty) {
-          linha.add('');
-        } else {
-          var horario = horarioQuery.first;
-          var valorCelula =
-              '${horario.turma.disciplina!.nome}\n${horario.sala}';
-          linha.add(valorCelula);
-        }
-      }
-      grade.add(linha);
-    }
-
-    setState(() {
-      _gradeTabela = grade;
-    });
-
     _montaGradeAccordion();
   }
 
@@ -127,39 +92,47 @@ class GradePageState extends State<GradePage> {
         body: ContainerBase(
           child: _carregando
               ? const Carregando()
-              : _visualizacaoTabela
-                  ? TabelaGrade(grade: _gradeTabela, dias: _diasSemana)
-                  : Accordion(
-                      maxOpenSections: 5,
-                      headerBorderColor: Colors.blueGrey,
-                      headerBorderColorOpened: Colors.transparent,
-                      // headerBorderWidth: 1,
-                      headerBackgroundColorOpened: Colors.green,
-                      contentBackgroundColor: Colors.white,
-                      contentBorderColor: Colors.green,
-                      contentBorderWidth: 3,
-                      contentHorizontalPadding: 20,
-                      scaleWhenAnimating: true,
-                      openAndCloseAnimation: true,
-                      headerPadding: const EdgeInsets.symmetric(
-                          vertical: 7, horizontal: 15),
-                      sectionOpeningHapticFeedback: SectionHapticFeedback.heavy,
-                      sectionClosingHapticFeedback: SectionHapticFeedback.light,
-                      children: _gradeAccordion
-                          .map((horarios) => AccordionSection(
-                                isOpen: true,
-                                contentVerticalPadding: 20,
-                                header:
-                                    Text(_diasSemana[horarios.first.diaSemana]),
-                                content: Column(
-                                  children: horarios
-                                      .map((horario) => Text(
-                                          '${horario.inicio} - ${horario.fim} ${horario.turma.disciplina!.nome} (${horario.sala})'))
-                                      .toList(),
-                                ),
-                              ))
-                          .toList(),
-                    ),
+              : _horarios.isEmpty
+                  ? const Center(
+                      child: Text('Sem Horários Inscritos'),
+                    )
+                  : _visualizacaoTabela
+                      ? const TabelaGrade(
+                          visualizacaoSemanal: true,
+                        )
+                      : Accordion(
+                          maxOpenSections: 5,
+                          headerBorderColor: Colors.blueGrey,
+                          headerBorderColorOpened: Colors.transparent,
+                          // headerBorderWidth: 1,
+                          headerBackgroundColorOpened: Colors.green,
+                          contentBackgroundColor: Colors.white,
+                          contentBorderColor: Colors.green,
+                          contentBorderWidth: 3,
+                          contentHorizontalPadding: 20,
+                          scaleWhenAnimating: true,
+                          openAndCloseAnimation: true,
+                          headerPadding: const EdgeInsets.symmetric(
+                              vertical: 7, horizontal: 15),
+                          sectionOpeningHapticFeedback:
+                              SectionHapticFeedback.heavy,
+                          sectionClosingHapticFeedback:
+                              SectionHapticFeedback.light,
+                          children: _gradeAccordion
+                              .map((horarios) => AccordionSection(
+                                    isOpen: true,
+                                    contentVerticalPadding: 20,
+                                    header: Text(
+                                        _diasSemana[horarios.first.diaSemana]),
+                                    content: Column(
+                                      children: horarios
+                                          .map((horario) => Text(
+                                              '${horario.inicio} - ${horario.fim} ${horario.turma.disciplina!.nome} (${horario.sala})'))
+                                          .toList(),
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
         ));
   }
 }

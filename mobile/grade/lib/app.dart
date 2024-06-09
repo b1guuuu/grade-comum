@@ -17,6 +17,7 @@ import 'package:grade/view/page/login.dart';
 import 'package:grade/view/page/perfil.dart';
 import 'package:grade/view/page/ppc.dart';
 import 'package:grade/view/page/professores.dart';
+import 'package:grade/view/page/professores_disciplinas.dart';
 import 'package:grade/view/page/professores_grade.dart';
 import 'package:grade/view/page/saudacao.dart';
 import 'package:grade/view/page/turma.dart';
@@ -78,6 +79,14 @@ class App extends StatelessWidget {
             var idProfessor = configuracoes.arguments as int;
             return MaterialPageRoute(builder: (context) {
               return ProfessoresGradePage(
+                idProfessor: idProfessor,
+              );
+            });
+          }
+          if (configuracoes.name == ProfessoresDisciplinasPage.rota) {
+            var idProfessor = configuracoes.arguments as int;
+            return MaterialPageRoute(builder: (context) {
+              return ProfessoresDisciplinasPage(
                 idProfessor: idProfessor,
               );
             });

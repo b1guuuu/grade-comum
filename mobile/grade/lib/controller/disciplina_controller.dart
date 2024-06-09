@@ -122,4 +122,24 @@ class DisciplinaController {
       throw Exception(jsonDecode(resposta.body)['message']);
     }
   }
+
+  Future<List<Disciplina>> listarDisciplinasProfessor(int idProfessor) async {
+    final resposta = await http.get(
+        Uri.parse('$_urlBase/professor?idProfessor=$idProfessor'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (resposta.statusCode == 200) {
+      var listaJson = jsonDecode(resposta.body);
+      List<Disciplina> disciplinas = [];
+      for (var disciplina in listaJson) {
+        disciplinas.add(Disciplina.fromJson(disciplina));
+      }
+      return disciplinas;
+    } else {
+      throw Exception(
+          'Ocorreu um erro ao buscar as disciplinas: ${resposta.toString()}');
+    }
+  }
 }
