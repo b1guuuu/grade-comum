@@ -48,5 +48,54 @@ router.put('/concluir', async (req, res, next) => {
     next(error)
   }
 })
+router.put('/historico', async (req, res, next) => {
+  try {
+    const { idAluno, atualizacoes } = req.body
+
+    const insercoes = []
+    const exclucoes = []
+
+    for (const atualizacao of atualizacoes) {
+      if (atualizacao.acao === 'inserir') {
+        insercoes.push({
+          idDisciplina: atualizacao.idDisciplina,
+          idAluno,
+          concluido: true
+        })
+      } else {
+        exclucoes.push(atualizacao.idDisciplina)
+      }
+    }
+
+    console.log('')
+    console.log(insercoes)
+    console.log('')
+    console.log('')
+    console.log(exclucoes)
+    console.log('')
+
+    try {
+      await Progresso.bulkCreate(insercoes)
+    } catch (error) {
+      console.error('Erro bulkCreate')
+      console.error(error)
+      next(error)
+    }
+
+    try {
+      await Progresso.destroy({ where: { idDisciplina: exclucoes, idAluno } })
+    } catch (error) {
+      console.error('Erro destroy')
+      console.error(error)
+      next(error)
+    }
+
+    res.status(204)
+    res.json()
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
 
 module.exports = router
