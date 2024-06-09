@@ -33,4 +33,18 @@ class ProgressoController {
           'Ocorreu um erro ao atualizar o progresso: ${jsonDecode(resposta.body)}');
     }
   }
+
+  Future<void> atualizarHistorico(
+      List<Map<String, dynamic>> atualizacoes, int idAluno) async {
+    final resposta = await http.put(Uri.parse('$_urlBase/historico'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode({'atualizacoes': atualizacoes, 'idAluno': idAluno}));
+
+    if (resposta.statusCode != 204) {
+      throw Exception(
+          'Ocorreu um erro ao atualizar o histórico: ${jsonDecode(resposta.body)}');
+    }
+  }
 }
