@@ -86,11 +86,11 @@ class TabelaGradeState extends State<TabelaGrade> {
     var fimSplit = periodoSplit[1].split(':');
     var verificacaoHorarioInicio =
         (int.parse(inicioSplit[0]) + (int.parse(inicioSplit[1]) / 60)) <=
-            (_currentDay.hour + 2 + (_currentDay.minute / 60));
+            (_currentDay.hour + (_currentDay.minute / 60));
 
     var verificacaoHorarioFim =
         (int.parse(fimSplit[0]) + (int.parse(fimSplit[1]) / 60)) >=
-            (_currentDay.hour + 2 + (_currentDay.minute / 60));
+            (_currentDay.hour + (_currentDay.minute / 60));
     return verificacaoHorarioInicio && verificacaoHorarioFim;
   }
 

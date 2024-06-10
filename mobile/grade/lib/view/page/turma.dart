@@ -71,7 +71,8 @@ class TurmaPageState extends State<TurmaPage> {
                   ? const Center(
                       child: Text('Você não tem turmas cadastradas'),
                     )
-                  : ListView.builder(
+                  : ListView.separated(
+                    separatorBuilder: (context, index) => const SizedBox(height: 5,),
                       itemCount: _turmas.length,
                       itemBuilder: (context, index) {
                         return TurmaListTile(
