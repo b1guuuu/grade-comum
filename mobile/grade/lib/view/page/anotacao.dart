@@ -4,6 +4,7 @@ import 'package:grade/controller/global_controller.dart';
 import 'package:grade/model/disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/page/anotacao_disciplina.dart';
 
@@ -61,9 +62,12 @@ class AnotacaoPageState extends State<AnotacaoPage> {
                     child: Text(
                         'Você não tem turmas cadastradas nem anotações de turmas antigas'),
                   )
-                : ListView.builder(
+                : ListView.separated(
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 5.0,
+                    ),
                     itemCount: _disciplinas.length,
-                    itemBuilder: (context, index) => ListTile(
+                    itemBuilder: (context, index) => MySimpleTile(
                       title: Text(_disciplinas[index].nome!),
                       onTap: () => Navigator.pushNamed(
                           context, AnotacaoDisciplinaPage.rota,

@@ -6,6 +6,7 @@ import 'package:grade/view/component/admin_formulario_turma.dart';
 import 'package:grade/view/component/admin_navegacao.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -128,13 +129,15 @@ class AdminTurmasPageState extends State<AdminTurmasPage> {
       body: ContainerBase(
         child: _carregando
             ? const Carregando()
-            : ListView.builder(
+            : ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 5.0,
+                ),
                 itemCount: _turmasFiltrados.length,
-                itemBuilder: (context, index) => ListTile(
+                itemBuilder: (context, index) => MySimpleTile(
                   title: Text(_turmasFiltrados[index].disciplina!.nome!),
                   subtitle: Text(
                       'Código: ${_turmasFiltrados[index].codigo}\nProfessor(a): ${_turmasFiltrados[index].professor!.nome}'),
-                  enableFeedback: true,
                   trailing: IconButton(
                       onPressed: () =>
                           _deletarTurma(_turmasFiltrados[index], context),

@@ -6,6 +6,7 @@ import 'package:grade/view/component/admin_formulario_disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/admin_navegacao.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -134,12 +135,14 @@ class AdminDisciplinasPageState extends State<AdminDisciplinasPage> {
       body: ContainerBase(
         child: _carregando
             ? const Carregando()
-            : ListView.builder(
+            : ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 5.0,
+                ),
                 itemCount: _disciplinasFiltradas.length,
-                itemBuilder: (context, index) => ListTile(
+                itemBuilder: (context, index) => MySimpleTile(
                   title: Text(_disciplinasFiltradas[index].nome!),
                   subtitle: Text(_disciplinasFiltradas[index].curso!.nome!),
-                  enableFeedback: true,
                   trailing: IconButton(
                       onPressed: () => _deletarDisciplina(
                           _disciplinasFiltradas[index], context),

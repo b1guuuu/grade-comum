@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grade/model/turma.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 
 class TurmaListTile extends StatelessWidget {
   final Turma turma;
@@ -19,7 +20,7 @@ class TurmaListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return MySimpleTile(
       title: Text(
         turma.disciplina!.nome!,
       ),

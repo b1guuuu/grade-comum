@@ -5,6 +5,7 @@ import 'package:grade/model/presenca.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/formulario_presenca_professor.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/page/professores_disciplinas.dart';
 import 'package:grade/view/page/professores_grade.dart';
@@ -133,13 +134,15 @@ class ProfessoresPageState extends State<ProfessoresPage> {
                 ? const Center(
                     child: Text('Não há professores para os filtros definidos'),
                   )
-                : ListView.builder(
+                : ListView.separated(
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 5,
+                    ),
                     itemCount: _presencasFiltradas.length,
-                    itemBuilder: (context, index) => ListTile(
+                    itemBuilder: (context, index) => MySimpleTile(
                       title: Text(_presencasFiltradas[index].professor!.nome),
                       subtitle: Text(
                           'Presente: ${_presencasFiltradas[index].presente ? 'SIM' : 'NÃO'}\nÚltima atualização: ${_presencasFiltradas[index].ultimaAtualizacao.toLocal().toString().substring(0, 11)}\nObservação: ${_presencasFiltradas[index].observacao}'),
-                      enableFeedback: true,
                       onTap: () {
                         _abrirFormulario(context, _presencasFiltradas[index])
                             .then((value) => _buscarPresencas());

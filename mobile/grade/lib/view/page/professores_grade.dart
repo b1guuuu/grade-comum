@@ -3,7 +3,7 @@ import 'package:grade/controller/horario_controller.dart';
 import 'package:grade/model/horario.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
-import 'package:grade/view/component/tabela_grade.dart';
+import 'package:grade/view/component/my_container.dart';
 import 'package:grade/view/page/grade.dart';
 
 class ProfessoresGradePage extends StatefulWidget {
@@ -83,6 +83,13 @@ class ProfessoresGradePageState extends State<ProfessoresGradePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+    var mainContainerHeight = screenHeight > 320 ? 320.0 : screenHeight * 0.9;
+    var mainContainerWidth = screenWidth > 900 ? 900.0 : screenWidth * 0.9;
+
+    var contentContainerWidth = mainContainerWidth * 0.9;
+    var contentContainerHeight = mainContainerHeight * 0.9;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Presença Professor'),
@@ -91,14 +98,22 @@ class ProfessoresGradePageState extends State<ProfessoresGradePage> {
           child: _carregando
               ? const Carregando()
               : _horarios.isNotEmpty
-                  ? InteractiveViewer(
-                      constrained: false,
-                      child: DataTable(
-                          columns: ['Horário', ..._diasSemana]
-                              .map((tituloColuna) =>
-                                  DataColumn(label: Text(tituloColuna)))
-                              .toList(),
-                          rows: _linhas),
+                  ? Center(
+                      child: MyContainer(
+                        mainContainerHeight: mainContainerHeight,
+                        mainContainerWidth: mainContainerWidth,
+                        contentContainerWidth: contentContainerWidth,
+                        contentContainerHeight: contentContainerHeight,
+                        child: InteractiveViewer(
+                          constrained: false,
+                          child: DataTable(
+                              columns: ['Horário', ..._diasSemana]
+                                  .map((tituloColuna) =>
+                                      DataColumn(label: Text(tituloColuna)))
+                                  .toList(),
+                              rows: _linhas),
+                        ),
+                      ),
                     )
                   : const Center(
                       child: Text(

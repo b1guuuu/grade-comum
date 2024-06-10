@@ -6,6 +6,7 @@ import 'package:grade/view/component/admin_formulario_professor.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/admin_navegacao.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -132,11 +133,13 @@ class AdminProfessoresPageState extends State<AdminProfessoresPage> {
       body: ContainerBase(
         child: _carregando
             ? const Carregando()
-            : ListView.builder(
+            : ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 5.0,
+                ),
                 itemCount: _professoresFiltrados.length,
-                itemBuilder: (context, index) => ListTile(
+                itemBuilder: (context, index) => MySimpleTile(
                   title: Text(_professoresFiltrados[index].nome),
-                  enableFeedback: true,
                   onLongPress: () {
                     _abrirFormulario(context, _professoresFiltrados[index])
                         .then((value) => _buscarProfessores());

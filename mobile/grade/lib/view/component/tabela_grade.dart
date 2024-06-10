@@ -118,7 +118,7 @@ class TabelaGradeState extends State<TabelaGrade> {
           var horario = horarioQuery.first;
           var valorCelula =
               '${horario.turma.disciplina!.nome}\n${horario.sala}';
-          Color bgColor = Colors.white;
+          Color bgColor = Colors.transparent;
           if (j == _currentDay.weekday - 1) {
             if (verificaHorarioAtual(periodos[i])) {
               bgColor = Colors.greenAccent;
@@ -148,14 +148,11 @@ class TabelaGradeState extends State<TabelaGrade> {
             ? const Center(
                 child: Text('Sem Horários Inscritos'),
               )
-            : InteractiveViewer(
-                constrained: false,
-                child: DataTable(
-                    columns: ['Horário', ..._diasVisualizacao]
-                        .map((tituloColuna) =>
-                            DataColumn(label: Text(tituloColuna)))
-                        .toList(),
-                    rows: _linhas),
-              );
+            : DataTable(
+                columns: ['Horário', ..._diasVisualizacao]
+                    .map(
+                        (tituloColuna) => DataColumn(label: Text(tituloColuna)))
+                    .toList(),
+                rows: _linhas);
   }
 }

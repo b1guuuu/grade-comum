@@ -6,6 +6,7 @@ import 'package:grade/controller/horario_controller.dart';
 import 'package:grade/model/horario.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
+import 'package:grade/view/component/my_container.dart';
 import 'package:grade/view/component/navegacao.dart';
 import 'package:grade/view/component/tabela_grade.dart';
 
@@ -71,6 +72,13 @@ class GradePageState extends State<GradePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+    var mainContainerHeight = screenHeight > 320 ? 320.0 : screenHeight * 0.9;
+    var mainContainerWidth = screenWidth > 1050 ? 1050.0 : screenWidth * 0.9;
+
+    var contentContainerWidth = mainContainerWidth * 0.9;
+    var contentContainerHeight = mainContainerHeight * 0.9;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Grade'),
@@ -97,8 +105,14 @@ class GradePageState extends State<GradePage> {
                       child: Text('Sem Horários Inscritos'),
                     )
                   : _visualizacaoTabela
-                      ? const TabelaGrade(
-                          visualizacaoSemanal: true,
+                      ? Center(
+                          child: MyContainer(
+                            mainContainerHeight: mainContainerHeight,
+                            mainContainerWidth: mainContainerWidth,
+                            contentContainerWidth: contentContainerWidth,
+                            contentContainerHeight: contentContainerHeight,
+                            child: const TabelaGrade(visualizacaoSemanal: true),
+                          ),
                         )
                       : Accordion(
                           maxOpenSections: 5,

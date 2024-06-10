@@ -3,6 +3,7 @@ import 'package:grade/controller/disciplina_controller.dart';
 import 'package:grade/model/disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:grade/view/page/professores.dart';
 
 class ProfessoresDisciplinasPage extends StatefulWidget {
@@ -49,9 +50,12 @@ class ProfessoresDisciplinasPageState
       body: _carregando
           ? const Carregando()
           : ContainerBase(
-              child: ListView.builder(
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 5.0,
+                      ),
                   itemCount: _disciplinas.length,
-                  itemBuilder: (context, index) => ListTile(
+                  itemBuilder: (context, index) => MySimpleTile(
                         title: Text(_disciplinas[index].nome!),
                         subtitle:
                             Text('${_disciplinas[index].periodo}° período'),

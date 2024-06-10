@@ -6,6 +6,7 @@ import 'package:grade/model/disciplina.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/formulario_anotacao.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 import 'package:grade/view/page/anotacao.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -79,31 +80,32 @@ class AnotacaoDisciplinaPageState extends State<AnotacaoDisciplinaPage> {
                 ? const Center(
                     child: Text('Você não tem anotações cadastradas'),
                   )
-                : ListView.builder(
+                : ListView.separated(
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 5.0,
+                    ),
                     itemCount: _anotacoes.length,
-                    itemBuilder: (context, index) => SizedBox(
-                      width: 400,
-                      child: Row(
-                        children: [
-                          const Icon(Icons.chevron_right),
-                          Expanded(child: Text(_anotacoes[index].conteudo!)),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () =>
-                                      _solicitaConfirmacaoDeletarAnotacao(
-                                          _anotacoes[index], context),
-                                  icon: const Icon(Icons.delete)),
-                              IconButton(
-                                  onPressed: () {
-                                    _apresentarModalNovaAnotacao(
-                                            context, _anotacoes[index])
-                                        .then((value) => _listarAnotacoes());
-                                  },
-                                  icon: const Icon(Icons.edit_outlined)),
-                            ],
-                          )
-                        ],
+                    itemBuilder: (context, index) => MySimpleTile(
+                      leading: const Icon(Icons.chevron_right),
+                      title: Text(_anotacoes[index].conteudo!),
+                      trailing: SizedBox(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            IconButton(
+                                onPressed: () =>
+                                    _solicitaConfirmacaoDeletarAnotacao(
+                                        _anotacoes[index], context),
+                                icon: const Icon(Icons.delete)),
+                            IconButton(
+                                onPressed: () {
+                                  _apresentarModalNovaAnotacao(
+                                          context, _anotacoes[index])
+                                      .then((value) => _listarAnotacoes());
+                                },
+                                icon: const Icon(Icons.edit_outlined)),
+                          ],
+                        ),
                       ),
                     ),
                   ),

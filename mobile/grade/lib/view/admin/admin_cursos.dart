@@ -6,6 +6,7 @@ import 'package:grade/view/component/admin_formulario_curso.dart';
 import 'package:grade/view/component/carregando.dart';
 import 'package:grade/view/component/container_base.dart';
 import 'package:grade/view/component/admin_navegacao.dart';
+import 'package:grade/view/component/my_simple_tile.dart';
 
 class AdminCursosPage extends StatefulWidget {
   static const rota = '${AdminInicioPage.rota}/cursos';
@@ -60,10 +61,12 @@ class AdminCursosPageState extends State<AdminCursosPage> {
       body: _carregando
           ? const Carregando()
           : ContainerBase(
-              child: ListView.builder(
+              child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 5.0,
+              ),
               itemCount: _cursos.length,
-              itemBuilder: (context, index) => ListTile(
-                enableFeedback: true,
+              itemBuilder: (context, index) => MySimpleTile(
                 onTap: () => _abrirFormulario(context, _cursos[index])
                     .then((value) => _buscarCursos()),
                 title: Text(

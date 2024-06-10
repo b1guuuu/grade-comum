@@ -92,7 +92,10 @@ class TurmaInscricaoPageState extends State<TurmaInscricaoPage> {
                   ? const Center(
                       child: Text('Não há turmas para os filtros definidos'),
                     )
-                  : ListView.builder(
+                  : ListView.separated(
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 5.0,
+                      ),
                       itemCount: _turmasFiltradas.length,
                       itemBuilder: (context, index) {
                         return TurmaListTile(
