@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:excel/excel.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:grade/controller/turma_controller.dart';
 import 'package:grade/model/turma.dart';
@@ -103,6 +107,86 @@ class AdminTurmasPageState extends State<AdminTurmasPage> {
     );
   }
 
+  Future<void> _criarTurmasDeArquivo() async {
+    var result = await _selecionarArquivo();
+    if (result != null) {
+      var turmas = await _tratarArquivo(result.files.single.path!);
+      _salvarTurmas(turmas);
+    }
+  }
+
+  Future<void> _salvarTurmas(List<Turma> turmas) async {
+    setState(() {
+      _carregando = true;
+    });
+    for (var turma in turmas) {
+      try {
+        await _turmaController.inserir(turma);
+      } catch (e) {
+        print(e);
+        QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: 'Erro ao salvar turma',
+            text: e.toString(),
+            confirmBtnText: 'Fechar');
+        return;
+      }
+    }
+
+    _buscarTurmas();
+  }
+
+  Future<FilePickerResult?> _selecionarArquivo() {
+    return FilePicker.platform
+        .pickFiles(type: FileType.custom, allowedExtensions: ['xlsx']);
+  }
+
+  Future<List<Turma>> _tratarArquivo(String filePath) async {
+    var bytes = File(filePath).readAsBytesSync();
+    var excel = Excel.decodeBytes(bytes);
+
+    var firstSheet = excel.tables.keys.first;
+    var firstRow = excel.tables[firstSheet]!.rows.first;
+    var columnHeadersIndexes = _getColumnHeadersIndexes(firstRow);
+    List<Turma> turmas = [];
+    for (var i = 1; i < excel.tables[firstSheet]!.rows.length; i++) {
+      var row = excel.tables[firstSheet]!.rows[i];
+
+      var turmaCodigo =
+          int.parse('${row[columnHeadersIndexes["codigo"]!]?.value}');
+      var turmaNumero =
+          int.parse('${row[columnHeadersIndexes["numero"]!]?.value}');
+      var turmaIdDisciplina =
+          int.parse('${row[columnHeadersIndexes["idDisciplina"]!]?.value}');
+      var turmaIdProfessor =
+          int.parse('${row[columnHeadersIndexes["idProfessor"]!]?.value}');
+
+      turmas.add(Turma(
+          id: null,
+          codigo: turmaCodigo,
+          numero: turmaNumero,
+          idDisciplina: turmaIdDisciplina,
+          idProfessor: turmaIdProfessor));
+    }
+    return turmas;
+  }
+
+  Map<String, int> _getColumnHeadersIndexes(List<Data?> firstRow) {
+    Map<String, int> columnHeadersIndexes = {
+      "codigo": -1,
+      "numero": -1,
+      "idDisciplina": -1,
+      "idProfessor": -1
+    };
+
+    for (var cell in firstRow) {
+      columnHeadersIndexes[cell!.value.toString()] = cell.columnIndex;
+    }
+
+    return columnHeadersIndexes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,10 +201,12 @@ class AdminTurmasPageState extends State<AdminTurmasPage> {
             : const Text('Admin: Turmas'),
         actions: [
           IconButton(
+              onPressed: _criarTurmasDeArquivo, icon: const Icon(Icons.upload)),
+          IconButton(
               onPressed: _alternarVisualizacaoFiltro,
               icon: _habilitarFiltro
                   ? const Icon(Icons.cancel)
-                  : const Icon(Icons.search))
+                  : const Icon(Icons.search)),
         ],
       ),
       drawer: const Drawer(
