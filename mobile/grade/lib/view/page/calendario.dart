@@ -52,11 +52,12 @@ class CalendarioPageState extends State<CalendarioPage> {
     });
   }
 
-  Future<void> _abrirAnotacao(BuildContext context, Anotacao anotacao) async {
+  Future<void> _abrirAnotacao(
+      BuildContext context, List<Anotacao> anotacoes) async {
     return showDialog(
         context: context,
         builder: (context) => VisualizacaoAnotacaoCalendario(
-              anotacao: anotacao,
+              anotacoes: anotacoes,
             ));
   }
 
@@ -80,10 +81,13 @@ class CalendarioPageState extends State<CalendarioPage> {
             : MonthView(
                 onCellTap: (events, date) {
                   if (events.isNotEmpty) {
-                    var idAnotacao = int.parse(events.first.description!);
-                    var anotacao =
-                        _anotacoes.firstWhere((a) => a.id == idAnotacao);
-                    _abrirAnotacao(context, anotacao);
+                    List<Anotacao> anotacoes = [];
+                    events.forEach((event) {
+                      var idAnotacao = int.parse(event.description!);
+                      anotacoes.add(
+                          _anotacoes.firstWhere((a) => a.id == idAnotacao));
+                    });
+                    _abrirAnotacao(context, anotacoes);
                   }
                 },
               ),
